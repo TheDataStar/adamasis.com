@@ -8,6 +8,7 @@ period: YYYY – YYYY
 topics: [networking]
 tags: [placeholder]
 order: 3
+draft: false
 ---
 
 ## Challenge

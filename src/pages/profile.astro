@@ -14,7 +14,7 @@ const credentials = (await getCollection('education')).sort(
 const pinned = (await research()).find((r) => r.data.pinned);
 const Story = (Object.values(import.meta.glob('../data/profile.md', { eager: true }))[0] as any)?.Content;
 const portrait = photo(profile.portrait);
-const photos = profile.photos.map((p) => ({ ...p, src: photo(p.file) })).filter((p) => p.src);
+const photos = profile.photos.map((p) => ({ ...p, src: photo(p.file) }));
 const statusLabel = { complete: '', 'in-progress': ' · in progress', coursework: ' · coursework' };
 
 const schema = {
@@ -34,7 +34,11 @@ const schema = {
 <Base title="Profile" description={`${site.name}: ${site.headline}`} schema={schema}>
   <article class="sheet">
     <aside class="rail">
-      {portrait && <img class="portrait" src={portrait} alt={site.name} width="144" height="180" />}
+      {portrait ? (
+        <img class="portrait" src={portrait} alt={site.name} width="144" height="180" />
+      ) : (
+        <div class="portrait photo-placeholder"><span>[Headshot]</span></div>
+      )}
       <dl class="meta">
         <dt>Based in</dt><dd>{profile.based}</dd>
         <dt>Focus</dt><dd>{profile.focus}</dd>
@@ -59,7 +63,12 @@ const schema = {
         <>
           <h2 id="photos">Photos</h2>
           <div class="photos">
-            {photos.map((p) => <figure><img src={p.src} alt={p.caption} loading="lazy" /><figcaption>{p.caption}</figcaption></figure>)}
+            {photos.map((p) => (
+              <figure>
+                {p.src ? <img src={p.src} alt={p.caption} loading="lazy" /> : <div class="photo-placeholder"><span>[Professional photo]</span><small>public/images/profile/{p.file}</small></div>}
+                <figcaption>{p.caption}</figcaption>
+              </figure>
+            ))}
           </div>
         </>
       )}

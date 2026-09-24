@@ -39,14 +39,18 @@ const current = [
 ---
 
 <Base>
-  <section class={`hero wide${portrait ? ' with-portrait' : ''}`}>
+  <section class="hero wide with-portrait">
     <div>
       <p class="eyebrow">Notebook</p>
       <h1>{site.headline}</h1>
       <p class="lede">{site.intro}</p>
       {site.thesis && <p class="thesis">{site.thesis}</p>}
     </div>
-    {portrait && <img class="hero-portrait" src={portrait} alt={site.name} width="220" height="275" />}
+    {portrait ? (
+      <img class="hero-portrait" src={portrait} alt={site.name} width="220" height="275" />
+    ) : (
+      <div class="hero-portrait photo-placeholder"><span>[Professional headshot]</span><small>public/images/profile/portrait.jpg</small></div>
+    )}
   </section>
 
   {current.length > 0 && (

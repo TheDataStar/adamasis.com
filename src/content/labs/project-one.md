@@ -11,6 +11,7 @@ topics: [edge, access]
 tags: [placeholder]
 research: [primary-research]
 order: 1
+draft: false
 ---
 
 ## The problem
@@ -21,7 +22,7 @@ order: 1
 
 [What you built, in plain language. Two or three bullets on what makes it different.]
 
-![Placeholder figure](/images/figure-placeholder.svg "[Caption: what the reader should notice in this figure]")
+![Caption: what the reader should notice in this figure.](/images/labs/project-one/figure.svg)
 
 ## Status
 

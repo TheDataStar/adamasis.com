@@ -1,0 +1,10 @@
+title: '[Course name]'
+format: course
+creator: '[School or platform]'
+url: https://example.com
+note: '[Free or paid, and roughly how many hours.]'
+added: '2026-01-01'
+topics:
+- data
+tags:
+- placeholder

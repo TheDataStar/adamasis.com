@@ -1,0 +1,13 @@
+title: '[Book title]'
+format: book
+creator: '[Author]'
+year: 2020
+url: https://example.com
+note: '[One sentence on why it is here: what it taught you or who should read it.]'
+added: '2026-01-01'
+topics:
+- ai
+tags:
+- placeholder
+research:
+- primary-research

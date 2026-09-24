@@ -248,3 +248,13 @@ pre.cite { white-space: pre-wrap; font-family: var(--mono); font-size: 0.8rem; m
 .photos figure { margin: 0; }
 .photos img { display: block; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border: 1px solid var(--rule); }
 .photos figcaption { margin-top: 0.5rem; color: var(--ink-2); text-transform: none; letter-spacing: 0; }
+
+.photo-placeholder {
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.4rem;
+  aspect-ratio: 4 / 5; padding: 1rem; text-align: center;
+  border: 1px dashed var(--ink-3); background: var(--paper-2); color: var(--ink-2);
+  font-family: var(--mono); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.04em;
+}
+.photo-placeholder small { font-size: 0.65rem; text-transform: none; letter-spacing: 0; color: var(--ink-3); word-break: break-all; }
+.portrait.photo-placeholder { width: 9rem; margin-left: auto; }
+@media (max-width: 1149px) { .portrait.photo-placeholder { margin-left: 0; } }

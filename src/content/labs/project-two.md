@@ -9,6 +9,7 @@ url: https://example.com
 topics: [data]
 tags: [placeholder]
 order: 2
+draft: false
 ---
 
 ## The problem

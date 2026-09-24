@@ -7,6 +7,7 @@ forTheRoom: |
 published: 2026-02-01
 topics: [edge]
 tags: [placeholder]
+draft: false
 ---
 
 [Opening: the claim or product, and why it deserves a closer look.]

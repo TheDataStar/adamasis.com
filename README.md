@@ -21,6 +21,14 @@ npm run placeholders
 
 Start with `src/site.config.ts` (name, contact details, headline and thesis), then `src/data/` (profile, experience, education, library), then the example pages in `src/content/`. Rename or delete the example files as you replace them. If you rename a research file, update the `research:` lists that point to it.
 
+## Admin dashboard
+
+Run `npm run dev` and open http://localhost:4321/keystatic. From there you can create, edit and delete Lectures, Lab Journal entries, Labs, Research topics, Papers and Library items with forms. Changes are saved straight into the files in `src/content/`; commit and push to publish them.
+
+- **Margin notes:** select text in the editor and click the superscript button. The text moves into the margin on the live site.
+- **Figures:** use the image button. Images are saved under `public/images/<section>/<entry>/`, and the image's alt text becomes the numbered caption.
+- New entries start as drafts. Uncheck **Draft** to publish.
+
 ## Write something
 
 ```sh
@@ -43,7 +51,8 @@ Each command creates a Markdown file in `src/content/` with the fields filled in
 | The seven topics | `src/site.config.ts` |
 | Field rules for every content type | `src/content.config.ts` |
 | Lectures, journal, labs, research, papers | `src/content/<section>/` |
-| Library, experience, education | `src/data/*.yaml` |
+| Library items | `src/content/library/*.yaml` |
+| Experience, education | `src/data/*.yaml` |
 | Profile story | `src/data/profile.md` |
 | Profile details: principles, skills, recognition, community, next steps | `src/data/profile.ts` |
 | Portrait (optional, shown on the Profile if present) | `public/images/portrait.jpg` |

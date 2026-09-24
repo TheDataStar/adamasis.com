@@ -7,6 +7,7 @@ setup: '[Hardware, software or course]'
 topics: [edge]
 tags: [placeholder]
 research: [primary-research]
+draft: false
 ---
 
 [What you tried, what happened, and what you will try next. Include what broke; it is often the most useful part.]

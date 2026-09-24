@@ -7,6 +7,7 @@ setup: '[Where you worked on it, e.g. your hardware, a course or a book]'
 topics: [ai]
 tags: [placeholder]
 research: [primary-research]
+draft: false
 ---
 
 [State the idea you have not tested yet, and why you think it might be true.]

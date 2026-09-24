@@ -3,6 +3,10 @@ import { glob, file } from 'astro/loaders';
 import { z } from 'astro/zod';
 import { site, topicIds } from './site.config';
 
+const blank = (v: unknown) => (v === '' || v === null ? undefined : v);
+const opt = <T extends z.ZodType>(schema: T) => z.preprocess(blank, schema.optional());
+const optDate = () => opt(z.coerce.date());
+
 const common = {
   title: z.string(),
   summary: z.string().max(200),
@@ -23,9 +27,9 @@ const lectures = defineCollection({
     format: z.enum(['for-the-room', 'teardown']),
     forTheRoom: z.string(),
     published: z.coerce.date(),
-    revised: z.coerce.date().optional(),
+    revised: optDate(),
     changelog,
-    series: z.string().optional(),
+    series: opt(z.string()),
     shareTo: z.array(z.enum(['linkedin', 'newsletter'])).default(['linkedin', 'newsletter']),
   }),
 });
@@ -36,7 +40,7 @@ const journal = defineCollection({
     ...common,
     date: z.coerce.date(),
     status: z.enum(['hypothesis', 'testing', 'confirmed']),
-    setup: z.string().optional(),
+    setup: opt(z.string()),
     shareTo: z.array(z.enum(['linkedin', 'newsletter'])).default(['newsletter']),
   }),
 });
@@ -49,8 +53,8 @@ const labs = defineCollection({
     status: z.enum(['active', 'shipped', 'paused', 'complete']),
     role: z.string(),
     period: z.string(),
-    repo: z.string().url().optional(),
-    url: z.string().url().optional(),
+    repo: opt(z.string().url()),
+    url: opt(z.string().url()),
     stack: z.array(z.string()).default([]),
     order: z.number().default(100),
   }),
@@ -65,7 +69,7 @@ const research = defineCollection({
     pinned: z.boolean().default(false),
     version: z.string(),
     started: z.coerce.date(),
-    revised: z.coerce.date().optional(),
+    revised: optDate(),
     questions: z.array(z.string()).default([]),
     changelog,
     topics: z.array(z.enum(topicIds)).default([]),
@@ -81,20 +85,20 @@ const papers = defineCollection({
     authors: z.array(z.string()).default([site.name]),
     published: z.coerce.date(),
     version: z.string().default('1.0'),
-    pdf: z.string().optional(),
-    doi: z.string().optional(),
-    venue: z.string().optional(),
+    pdf: opt(z.string()),
+    doi: opt(z.string()),
+    venue: opt(z.string()),
   }),
 });
 
 const library = defineCollection({
-  loader: file('src/data/library.yaml'),
+  loader: glob({ pattern: '**/*.yaml', base: './src/content/library' }),
   schema: z.object({
     title: z.string(),
     format: z.enum(['book', 'paper', 'video', 'tool', 'course']),
     creator: z.string(),
-    year: z.number().optional(),
-    url: z.string().url().optional(),
+    year: opt(z.coerce.number()),
+    url: opt(z.string().url()),
     note: z.string(),
     added: z.coerce.date(),
     topics: z.array(z.enum(topicIds)).default([]),

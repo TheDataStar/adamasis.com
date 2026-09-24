@@ -1,4 +1,4 @@
-// Turns footnotes into margin notes, lone images into numbered figures,
+// Turns footnotes and <Note> tags into margin notes, lone images into numbered figures,
 // and wraps tables so they scroll on small screens.
 
 const isEl = (n, tag) => n?.type === 'element' && (!tag || n.tagName === tag);
@@ -27,7 +27,22 @@ export function notebookMarkdown() {
       }
     });
 
+    const extra = [];
     each(tree, (n, i, parent) => {
+      if (n.type === 'raw' && /^<note>$/i.test(n.value.trim())) {
+        const end = parent.children.findIndex((c, j) => j > i && c.type === 'raw' && /^<\/note>$/i.test(c.value.trim()));
+        if (end === -1) return;
+        const content = parent.children.slice(i + 1, end);
+        const number = String(notes.size + extra.length + 1);
+        extra.push({ number, children: content });
+        parent.children.splice(i, end - i + 1,
+          { type: 'element', tagName: 'sup', properties: {}, children: [
+            { type: 'element', tagName: 'a', properties: { href: `#note-${number}`, id: `note-ref-${number}` }, children: [{ type: 'text', value: number }] }] },
+          { type: 'element', tagName: 'span', properties: { className: ['sidenote'], dataN: number, role: 'note' }, children: content },
+        );
+        return;
+      }
+
       if (isEl(n, 'sup')) {
         const ref = n.children.find((c) => isEl(c, 'a') && c.properties?.dataFootnoteRef !== undefined);
         const target = ref && String(ref.properties.href).slice(1);
@@ -61,5 +76,16 @@ export function notebookMarkdown() {
         parent.children[i] = { type: 'element', tagName: 'div', properties: { className: ['table-wrap'] }, children: [n] };
       }
     });
+
+    if (extra.length) {
+      tree.children.push({
+        type: 'element', tagName: 'section', properties: { className: ['footnotes'] }, children: [
+          { type: 'element', tagName: 'h2', properties: {}, children: [{ type: 'text', value: 'Notes' }] },
+          { type: 'element', tagName: 'ol', properties: { start: Number(extra[0].number) }, children: extra.map((e) => (
+            { type: 'element', tagName: 'li', properties: { id: `note-${e.number}` }, children: e.children }
+          )) },
+        ],
+      });
+    }
   };
 }

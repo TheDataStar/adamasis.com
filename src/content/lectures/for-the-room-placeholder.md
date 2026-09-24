@@ -15,15 +15,16 @@ research: [primary-research]
 changelog:
   - date: 2026-02-01
     note: '[What you corrected or added in the revision]'
+draft: false
 ---
 
 [Opening paragraph: start with a situation the reader recognizes, then name the idea.]
 
 ## [Section heading: the first idea]
 
-[Explain the idea. Add a margin note for a side detail like this.[^1]]
+[Explain the idea. Add a margin note for a side detail like this.]<Note>[Margin notes appear beside the text on wide screens and as numbered notes at the end on phones and in print.]</Note>
 
-![Placeholder figure](/images/figure-placeholder.svg "[Caption: one sentence the reader should take away from this figure]")
+![Caption: one sentence the reader should take away from this figure.](/images/lectures/for-the-room-placeholder/figure.svg)
 
 ## [Section heading: the comparison or framework]
 
@@ -38,4 +39,3 @@ changelog:
 
 > Tip: For the Room lectures are written for executives and decision-makers. Aim for 1,000 to 1,500 words, and make the summary box above stand on its own.
 
-[^1]: [Margin notes appear beside the text on wide screens and as footnotes on phones and in print.]
