@@ -2,7 +2,6 @@
 import { existsSync } from 'node:fs';
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
-import { Content as Story } from '../data/profile.md';
 import { profile } from '../data/profile';
 import { site, topics } from '../site.config';
 import { research } from '../lib/content';
@@ -13,6 +12,7 @@ const credentials = (await getCollection('education')).sort(
   (a, b) => Number(b.data.kind === 'degree') - Number(a.data.kind === 'degree') || b.data.year.localeCompare(a.data.year),
 );
 const pinned = (await research()).find((r) => r.data.pinned);
+const Story = (Object.values(import.meta.glob('../data/profile.md', { eager: true }))[0] as any)?.Content;
 const portrait = existsSync('public/images/portrait.jpg') ? '/images/portrait.jpg' : null;
 const statusLabel = { complete: '', 'in-progress': ' · in progress', coursework: ' · coursework' };
 
@@ -47,8 +47,12 @@ const schema = {
       <h1>{site.name}</h1>
       <p class="lede">{site.headline}</p>
 
-      <h2 id="story">My story</h2>
-      <div class="prose"><Story /></div>
+      {Story && (
+        <>
+          <h2 id="story">My story</h2>
+          <div class="prose"><Story /></div>
+        </>
+      )}
 
       <h2 id="principles">What I believe</h2>
       <ol class="index">

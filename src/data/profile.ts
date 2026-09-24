@@ -1,6 +1,6 @@
 export const profile = {
-  based: '[City, State]',
-  focus: '[Your two or three focus areas]',
+  based: 'Portland, Oregon Metro Area',
+  focus: 'AI, Edge Compute, Robotics and Mobile Networking',
   principles: [
     { title: '[Principle 1, in three or four words]', text: '[One sentence on what it means in practice.]' },
     { title: '[Principle 2]', text: '[One sentence. Principles should explain how you work, not just what you value.]' },
