@@ -1,25 +1,22 @@
 export const site = {
-  name: 'Your Name',
-  role: '[Your professional title, e.g. Engineer and Researcher]',
-  headline: '[One line on who you are and what you work on. Keep it under 15 words.]',
-  description: '[One or two sentences describing the site. This is what search engines show under your name.]',
+  name: 'Adam J. Asis',
+  headline: 'I study, build and write about AI, edge computing and robotics.',
+  description: 'Lectures, notes, research and development on AI, edge computing, robotics and all things technology.',
   url: 'https://adamasis.com',
-  email: 'you@yourdomain.com',
-  phone: '999.999.9999',
-  bookingUrl: 'https://cal.example.com/your-link',
+  email: 'hello@adamasis.com',
+  phone: '',
+  bookingUrl: '',
   links: {
-    linkedin: 'https://www.linkedin.com/in/your-handle',
-    github: 'https://github.com/your-handle',
+    linkedin: 'https://www.linkedin.com/in/adamasis',
+    github: 'https://github.com/TheDataStar',
   },
-  thesis: '[Your thesis: the one belief that ties all of your work together, in a single sentence.]',
+  thesis: '',
   currently: {
-    studying: '[The course, degree or subject you are studying now]',
-    reading: '[The book or paper you are reading now]',
-    building: '[The project you are building now]',
+    studying: '',
+    reading: '',
+    building: '',
   },
-  upcoming: [
-    { date: 'Month DD', title: '[A talk, office hours, workshop or publication date]', url: '/contact' },
-  ] as { date: string; title: string; url?: string }[],
+  upcoming: [] as { date: string; title: string; url?: string }[],
 };
 
 export const topics = {

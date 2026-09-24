@@ -34,7 +34,6 @@ const person = {
   '@type': 'Person',
   name: site.name,
   url: site.url,
-  jobTitle: site.role,
   sameAs: Object.values(site.links),
 };
 ---
@@ -94,7 +93,7 @@ const person = {
       <footer class="site">
         <div>
           <strong>{site.name}</strong>
-          <p class="muted" style="margin:0.5rem 0 0">{site.thesis}</p>
+          <p class="muted" style="margin:0.5rem 0 0">{site.thesis || site.description}</p>
         </div>
         <div>
           <span class="label">Reference</span>

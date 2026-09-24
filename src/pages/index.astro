@@ -7,22 +7,27 @@ const latestLectures = (await lectures()).slice(0, 3);
 const latestEntries = (await journal()).slice(0, 5);
 const featuredLabs = (await labs()).slice(0, 3);
 const pinned = (await research()).find((r) => r.data.pinned);
+const current = [
+  ['Studying', site.currently.studying],
+  ['Reading', site.currently.reading],
+  ['Building', site.currently.building],
+].filter(([, value]) => value);
 ---
 
 <Base>
   <section class="wide">
     <p class="eyebrow">Notebook</p>
     <h1>{site.headline}</h1>
-    <p class="thesis">{site.thesis}</p>
+    {site.thesis && <p class="thesis">{site.thesis}</p>}
   </section>
 
-  <section class="wide" style="margin-top:3rem">
-    <div class="cards">
-      <div class="panel"><span class="label meta">Studying</span><p>{site.currently.studying}</p></div>
-      <div class="panel"><span class="label meta">Reading</span><p>{site.currently.reading}</p></div>
-      <div class="panel"><span class="label meta">Building</span><p>{site.currently.building}</p></div>
-    </div>
-  </section>
+  {current.length > 0 && (
+    <section class="wide" style="margin-top:3rem">
+      <div class="cards">
+        {current.map(([label, value]) => <div class="panel"><span class="label meta">{label}</span><p>{value}</p></div>)}
+      </div>
+    </section>
+  )}
 
   {pinned && (
     <section class="wide">

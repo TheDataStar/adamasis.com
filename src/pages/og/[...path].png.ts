@@ -13,7 +13,7 @@ const fonts = [
 export async function getStaticPaths() {
   const entries = await everything();
   return [
-    { params: { path: 'default' }, props: { eyebrow: 'Notebook', title: site.thesis } },
+    { params: { path: 'default' }, props: { eyebrow: 'Notebook', title: site.thesis || site.headline } },
     ...entries.map((e) => ({
       params: { path: `${e.collection}/${e.id}` },
       props: { eyebrow: sectionName[e.collection], title: e.data.title },
