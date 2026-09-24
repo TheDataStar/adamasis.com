@@ -229,3 +229,22 @@ pre.cite { white-space: pre-wrap; font-family: var(--mono); font-size: 0.8rem; m
 .portrait { display: block; width: 9rem; height: auto; margin: 0 0 1rem auto; border: 1px solid var(--rule); filter: grayscale(0.2); }
 @media (max-width: 1149px) { .portrait { margin: 0 0 1rem; } }
 .main .index .title { font-size: 1.05rem; }
+
+.hero { display: grid; gap: 2rem; align-items: start; }
+.hero .lede { max-width: 38rem; margin-bottom: 0; }
+.hero .thesis { margin-top: 1.5rem; }
+@media (min-width: 820px) { .hero.with-portrait { grid-template-columns: 1fr 13rem; } }
+.hero-portrait { width: 13rem; max-width: 100%; height: auto; border: 1px solid var(--rule); }
+
+.guide { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr)); }
+.guide-card { display: flex; flex-direction: column; color: inherit; text-decoration: none; }
+.guide-card:hover { border-color: var(--accent); }
+.guide-card h3 { margin: 0.35rem 0 0.4rem; font-size: 1.25rem; }
+.guide-card .blurb { margin: 0; font-style: italic; color: var(--ink-2); font-size: 1rem; line-height: 1.5; }
+.guide-foot { margin: auto 0 0; padding-top: 1rem; text-transform: none; letter-spacing: 0; line-height: 1.5; }
+.guide-foot .latest { color: var(--ink); }
+
+.photos { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr)); }
+.photos figure { margin: 0; }
+.photos img { display: block; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border: 1px solid var(--rule); }
+.photos figcaption { margin-top: 0.5rem; color: var(--ink-2); text-transform: none; letter-spacing: 0; }

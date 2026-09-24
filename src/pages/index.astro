@@ -1,12 +1,36 @@
 ---
+import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
-import { site } from '../site.config';
-import { lectures, journal, labs, research, formatDate, formatLabel } from '../lib/content';
+import { site, sections } from '../site.config';
+import { profile } from '../data/profile';
+import { photo } from '../lib/photos';
+import { lectures, journal, labs, research, papers, formatDate } from '../lib/content';
 
-const latestLectures = (await lectures()).slice(0, 3);
-const latestEntries = (await journal()).slice(0, 5);
-const featuredLabs = (await labs()).slice(0, 3);
-const pinned = (await research()).find((r) => r.data.pinned);
+const [allLectures, allEntries, allLabs, allResearch, allPapers, library] = await Promise.all([
+  lectures(), journal(), labs(), research(), papers(), getCollection('library'),
+]);
+const plural = (n: number, word: string) => `${n} ${word}${n === 1 ? '' : 's'}`;
+const pinned = allResearch.find((r) => r.data.pinned);
+const projects = allLabs.filter((l) => l.data.kind === 'project').length;
+const cases = allLabs.length - projects;
+
+const details: Record<string, { count?: string; latest?: { title: string; href: string; date?: Date } }> = {
+  '/lectures': {
+    count: plural(allLectures.length, 'lecture'),
+    latest: allLectures[0] && { title: allLectures[0].data.title, href: `/lectures/${allLectures[0].id}`, date: allLectures[0].data.published },
+  },
+  '/journal': {
+    count: plural(allEntries.length, 'entry').replace('entrys', 'entries'),
+    latest: allEntries[0] && { title: allEntries[0].data.title, href: `/journal/${allEntries[0].id}`, date: allEntries[0].data.date },
+  },
+  '/labs': { count: `${plural(projects, 'project')} · ${plural(cases, 'case study').replace('studys', 'studies')}` },
+  '/research': {
+    count: `${plural(allResearch.length, 'topic')}${allPapers.length ? ` · ${plural(allPapers.length, 'paper')}` : ''}`,
+    latest: pinned && { title: pinned.data.title, href: `/research/${pinned.id}` },
+  },
+  '/library': { count: plural(library.length, 'item') },
+};
+const portrait = photo(profile.portrait);
 const current = [
   ['Studying', site.currently.studying],
   ['Reading', site.currently.reading],
@@ -15,72 +39,43 @@ const current = [
 ---
 
 <Base>
-  <section class="wide">
-    <p class="eyebrow">Notebook</p>
-    <h1>{site.headline}</h1>
-    {site.thesis && <p class="thesis">{site.thesis}</p>}
+  <section class={`hero wide${portrait ? ' with-portrait' : ''}`}>
+    <div>
+      <p class="eyebrow">Notebook</p>
+      <h1>{site.headline}</h1>
+      <p class="lede">{site.intro}</p>
+      {site.thesis && <p class="thesis">{site.thesis}</p>}
+    </div>
+    {portrait && <img class="hero-portrait" src={portrait} alt={site.name} width="220" height="275" />}
   </section>
 
   {current.length > 0 && (
-    <section class="wide" style="margin-top:3rem">
+    <section class="wide" style="margin-top:2rem">
       <div class="cards">
         {current.map(([label, value]) => <div class="panel"><span class="label meta">{label}</span><p>{value}</p></div>)}
       </div>
     </section>
   )}
 
-  {pinned && (
-    <section class="wide">
-      <div class="section-head"><h2>Primary research</h2><a href="/research">All research</a></div>
-      <a class="panel" href={`/research/${pinned.id}`} style="display:block;color:inherit;text-decoration:none">
-        <span class="meta">v{pinned.data.version} · <span class={`status ${pinned.data.status}`}>{pinned.data.status}</span></span>
-        <h3 style="margin:0.4rem 0">{pinned.data.title}</h3>
-        <p class="muted" style="margin:0">{pinned.data.summary}</p>
-      </a>
-    </section>
-  )}
-
-  {latestLectures.length > 0 && (
-    <section class="wide">
-      <div class="section-head"><h2>Lectures</h2><a href="/lectures">All lectures</a></div>
-      <ul class="index">
-        {latestLectures.map((l) => (
-          <li>
-            <span class="meta">{formatLabel[l.data.format]}<br />{formatDate(l.data.published, 'short')}</span>
-            <div><a class="title" href={`/lectures/${l.id}`}>{l.data.title}</a><p>{l.data.summary}</p></div>
-          </li>
-        ))}
-      </ul>
-    </section>
-  )}
-
-  {latestEntries.length > 0 && (
-    <section class="wide">
-      <div class="section-head"><h2>Lab Journal</h2><a href="/journal">All entries</a></div>
-      <ul class="index">
-        {latestEntries.map((e) => (
-          <li>
-            <span class="meta">Entry {e.number}<br />{formatDate(e.data.date, 'short')}</span>
-            <div>
-              <a class="title" href={`/journal/${e.id}`}>{e.data.title}</a>
-              <p><span class={`status meta ${e.data.status}`}>{e.data.status}</span> · {e.data.summary}</p>
-            </div>
-          </li>
-        ))}
-      </ul>
-    </section>
-  )}
-
   <section class="wide">
-    <div class="section-head"><h2>Labs</h2><a href="/labs">All labs</a></div>
-    <div class="cards">
-      {featuredLabs.map((lab) => (
-        <a class="panel" href={`/labs/${lab.id}`}>
-          <span class="meta">{lab.data.kind === 'project' ? 'Project' : 'Case study'}</span>
-          <h3>{lab.data.title}</h3>
-          <p>{lab.data.summary}</p>
-        </a>
-      ))}
+    <div class="section-head"><h2>How this notebook is organized</h2></div>
+    <div class="guide">
+      {sections.filter((s) => s.href !== '/contact').map((s, i) => {
+        const d = details[s.href];
+        return (
+          <a class="panel guide-card" href={s.href}>
+            <span class="meta">{String(i + 1).padStart(2, '0')} · {s.plain}</span>
+            <h3>{s.name}</h3>
+            <p class="blurb">{s.blurb}</p>
+            {d && (
+              <p class="meta guide-foot">
+                {d.count}
+                {d.latest && <><br />Latest: <span class="latest">{d.latest.title}</span>{d.latest.date && ` · ${formatDate(d.latest.date, 'short')}`}</>}
+              </p>
+            )}
+          </a>
+        );
+      })}
     </div>
   </section>
 

@@ -1,6 +1,11 @@
 export const profile = {
   based: 'Portland, Oregon Metro Area',
   focus: 'AI, Edge Compute, Robotics and Mobile Networking',
+  portrait: 'portrait.jpg',
+  photos: [
+    { file: 'photo-1.jpg', caption: '[Where and when this was taken, e.g. Speaking at a conference, 2025]' },
+    { file: 'photo-2.jpg', caption: '[Caption]' },
+  ],
   principles: [
     { title: '[Principle 1, in three or four words]', text: '[One sentence on what it means in practice.]' },
     { title: '[Principle 2]', text: '[One sentence. Principles should explain how you work, not just what you value.]' },

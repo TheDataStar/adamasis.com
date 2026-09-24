@@ -1,10 +1,10 @@
 ---
-import { existsSync } from 'node:fs';
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import { profile } from '../data/profile';
 import { site, topics } from '../site.config';
 import { research } from '../lib/content';
+import { photo } from '../lib/photos';
 
 const started = (s: string) => new Date(`1 ${s}`).getTime();
 const roles = (await getCollection('experience')).sort((a, b) => started(b.data.start) - started(a.data.start));
@@ -13,7 +13,8 @@ const credentials = (await getCollection('education')).sort(
 );
 const pinned = (await research()).find((r) => r.data.pinned);
 const Story = (Object.values(import.meta.glob('../data/profile.md', { eager: true }))[0] as any)?.Content;
-const portrait = existsSync('public/images/portrait.jpg') ? '/images/portrait.jpg' : null;
+const portrait = photo(profile.portrait);
+const photos = profile.photos.map((p) => ({ ...p, src: photo(p.file) })).filter((p) => p.src);
 const statusLabel = { complete: '', 'in-progress': ' · in progress', coursework: ' · coursework' };
 
 const schema = {
@@ -51,6 +52,15 @@ const schema = {
         <>
           <h2 id="story">My story</h2>
           <div class="prose"><Story /></div>
+        </>
+      )}
+
+      {photos.length > 0 && (
+        <>
+          <h2 id="photos">Photos</h2>
+          <div class="photos">
+            {photos.map((p) => <figure><img src={p.src} alt={p.caption} loading="lazy" /><figcaption>{p.caption}</figcaption></figure>)}
+          </div>
         </>
       )}
 
