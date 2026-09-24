@@ -1,0 +1,36 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { everything, urlOf, sectionName, dateOf, formatDate, slugify } from '../../lib/content';
+
+export async function getStaticPaths() {
+  const all = [...(await everything()), ...(await getCollection('library'))];
+  const tags = new Map<string, string>();
+  all.forEach((e) => e.data.tags.forEach((t: string) => tags.set(slugify(t), t)));
+  return [...tags].map(([tag, name]) => ({ params: { tag }, props: { name } }));
+}
+
+const { name } = Astro.props;
+const tag = Astro.params.tag;
+const match = (tags: string[]) => tags.some((t) => slugify(t) === tag);
+const items = (await everything()).filter((e) => match(e.data.tags)).sort((a, b) => dateOf(b).getTime() - dateOf(a).getTime());
+const reading = (await getCollection('library')).filter((l) => match(l.data.tags));
+---
+
+<Base title={`#${name}`} description={`Everything tagged ${name}.`}>
+  <div class="wide">
+    <p class="eyebrow">Tag</p>
+    <h1>#{name}</h1>
+    <ul class="index">
+      {items.map((e) => (
+        <li>
+          <span class="meta">{sectionName[e.collection]}<br />{formatDate(dateOf(e), 'short')}</span>
+          <div><a class="title" href={urlOf(e)}>{e.data.title}</a><p>{e.data.summary}</p></div>
+        </li>
+      ))}
+      {reading.map((r) => (
+        <li><span class="meta">Library</span><div>{r.data.url ? <a class="title" href={r.data.url}>{r.data.title}</a> : <span class="title">{r.data.title}</span>}<p>{r.data.note}</p></div></li>
+      ))}
+    </ul>
+  </div>
+</Base>

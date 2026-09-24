@@ -1,0 +1,92 @@
+---
+import Base from '../layouts/Base.astro';
+import { site } from '../site.config';
+import { lectures, journal, labs, research, formatDate, formatLabel } from '../lib/content';
+
+const latestLectures = (await lectures()).slice(0, 3);
+const latestEntries = (await journal()).slice(0, 5);
+const featuredLabs = (await labs()).slice(0, 3);
+const pinned = (await research()).find((r) => r.data.pinned);
+---
+
+<Base>
+  <section class="wide">
+    <p class="eyebrow">Notebook</p>
+    <h1>{site.headline}</h1>
+    <p class="thesis">{site.thesis}</p>
+  </section>
+
+  <section class="wide" style="margin-top:3rem">
+    <div class="cards">
+      <div class="panel"><span class="label meta">Studying</span><p>{site.currently.studying}</p></div>
+      <div class="panel"><span class="label meta">Reading</span><p>{site.currently.reading}</p></div>
+      <div class="panel"><span class="label meta">Building</span><p>{site.currently.building}</p></div>
+    </div>
+  </section>
+
+  {pinned && (
+    <section class="wide">
+      <div class="section-head"><h2>Primary research</h2><a href="/research">All research</a></div>
+      <a class="panel" href={`/research/${pinned.id}`} style="display:block;color:inherit;text-decoration:none">
+        <span class="meta">v{pinned.data.version} · <span class={`status ${pinned.data.status}`}>{pinned.data.status}</span></span>
+        <h3 style="margin:0.4rem 0">{pinned.data.title}</h3>
+        <p class="muted" style="margin:0">{pinned.data.summary}</p>
+      </a>
+    </section>
+  )}
+
+  {latestLectures.length > 0 && (
+    <section class="wide">
+      <div class="section-head"><h2>Lectures</h2><a href="/lectures">All lectures</a></div>
+      <ul class="index">
+        {latestLectures.map((l) => (
+          <li>
+            <span class="meta">{formatLabel[l.data.format]}<br />{formatDate(l.data.published, 'short')}</span>
+            <div><a class="title" href={`/lectures/${l.id}`}>{l.data.title}</a><p>{l.data.summary}</p></div>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  {latestEntries.length > 0 && (
+    <section class="wide">
+      <div class="section-head"><h2>Lab Journal</h2><a href="/journal">All entries</a></div>
+      <ul class="index">
+        {latestEntries.map((e) => (
+          <li>
+            <span class="meta">Entry {e.number}<br />{formatDate(e.data.date, 'short')}</span>
+            <div>
+              <a class="title" href={`/journal/${e.id}`}>{e.data.title}</a>
+              <p><span class={`status meta ${e.data.status}`}>{e.data.status}</span> · {e.data.summary}</p>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  <section class="wide">
+    <div class="section-head"><h2>Labs</h2><a href="/labs">All labs</a></div>
+    <div class="cards">
+      {featuredLabs.map((lab) => (
+        <a class="panel" href={`/labs/${lab.id}`}>
+          <span class="meta">{lab.data.kind === 'project' ? 'Project' : 'Case study'}</span>
+          <h3>{lab.data.title}</h3>
+          <p>{lab.data.summary}</p>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  {site.upcoming.length > 0 && (
+    <section class="wide">
+      <div class="section-head"><h2>Upcoming</h2></div>
+      <ul class="index">
+        {site.upcoming.map((u) => (
+          <li><span class="meta">{u.date}</span>{u.url ? <a href={u.url}>{u.title}</a> : <span>{u.title}</span>}</li>
+        ))}
+      </ul>
+    </section>
+  )}
+</Base>

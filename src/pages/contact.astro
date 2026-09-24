@@ -1,0 +1,31 @@
+---
+import Base from '../layouts/Base.astro';
+import { site } from '../site.config';
+---
+
+<Base title="Contact" description={`Get in touch with ${site.name}.`}>
+  <article class="sheet">
+    <aside class="rail"><span class="meta">Contact</span></aside>
+    <div class="main">
+      <h1>Contact</h1>
+      <p class="lede">[One or two welcoming sentences. Say who you would most like to hear from.]</p>
+      <div class="prose">
+        <p>Good reasons to write:</p>
+        <ul>
+          <li>[Speaking or teaching: the subjects you will talk about]</li>
+          <li>[Advising: the kinds of teams or decisions you can help with]</li>
+          <li>[Collaboration: the research or projects you want partners on]</li>
+          <li>[Mentoring: who you are glad to help, and how]</li>
+        </ul>
+        <blockquote>Tip: Specific reasons get better messages. "Teams deciding whether to run AI on their own hardware" beats "AI consulting".</blockquote>
+      </div>
+      <div class="cards" style="margin-top:2rem">
+        <a class="panel" href={`mailto:${site.email}`}><span class="meta">Email</span><h3>{site.email}</h3><p>The best way to reach me.</p></a>
+        {site.phone && <a class="panel" href={`tel:${site.phone.replace(/[^0-9+]/g, '')}`}><span class="meta">Phone</span><h3>{site.phone}</h3><p>[When you are reachable, e.g. weekdays 9–5 Pacific]</p></a>}
+        {site.bookingUrl && <a class="panel" href={site.bookingUrl}><span class="meta">Calendar</span><h3>Book a time</h3><p>Pick a slot that works for you.</p></a>}
+        <a class="panel" href={site.links.linkedin}><span class="meta">LinkedIn</span><h3>Connect</h3><p>Where I share new lectures.</p></a>
+        <a class="panel" href={site.links.github}><span class="meta">GitHub</span><h3>Source</h3><p>Code behind the labs.</p></a>
+      </div>
+    </div>
+  </article>
+</Base>

@@ -1,0 +1,102 @@
+---
+import { render, getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Tags from '../../components/Tags.astro';
+import Cite from '../../components/Cite.astro';
+import Revisions from '../../components/Revisions.astro';
+import { site } from '../../site.config';
+import { research, papers, backlinks, urlOf, sectionName, formatDate, isoDate } from '../../lib/content';
+
+export async function getStaticPaths() {
+  return (await research()).map((entry) => ({ params: { id: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const d = entry.data;
+const evidence = (await backlinks(entry)).filter((e) => e.collection !== 'papers');
+const ownPapers = (await papers()).filter((p) => p.data.research.some((r) => r.id === entry.id));
+const reading = (await getCollection('library')).filter((l) => l.data.research.some((r) => r.id === entry.id));
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'ScholarlyArticle',
+  headline: d.title,
+  abstract: d.summary,
+  version: d.version,
+  datePublished: isoDate(d.started),
+  dateModified: isoDate(d.revised ?? d.started),
+  author: { '@type': 'Person', name: site.name, url: site.url },
+};
+---
+
+<Base title={d.title} description={d.summary} type="article" image={`/og/research/${entry.id}.png`} schema={schema}>
+  <article class="sheet">
+    <aside class="rail">
+      <dl class="meta">
+        <dt>Research</dt><dd><span class={`status ${d.status}`}>{d.status}</span>{d.pinned && ' · primary'}</dd>
+        <dt>Version</dt><dd>v{d.version}</dd>
+        <dt>Started</dt><dd>{formatDate(d.started, 'short')}</dd>
+        {d.revised && <><dt>Revised</dt><dd>{formatDate(d.revised, 'short')}</dd></>}
+        <dt>Evidence</dt><dd>{evidence.length} item{evidence.length === 1 ? '' : 's'}</dd>
+      </dl>
+    </aside>
+    <div class="main">
+      <h1>{d.title}</h1>
+      <p class="lede">{d.summary}</p>
+
+      <h2 class="label" style="font-size:0.8rem;margin-top:0">Abstract</h2>
+      <div class="prose"><Content /></div>
+
+      {d.questions.length > 0 && (
+        <>
+          <h2>Research questions</h2>
+          <ol class="index">
+            {d.questions.map((q, i) => (
+              <li id={`rq${i + 1}`}><span class="meta">RQ{i + 1}</span><span>{q}</span></li>
+            ))}
+          </ol>
+        </>
+      )}
+
+      <h2>Evidence log</h2>
+      {evidence.length === 0 ? (
+        <p class="muted">Nothing logged yet. Lectures, journal entries and labs that support this topic appear here automatically.</p>
+      ) : (
+        <ul class="index">
+          {evidence.map((e) => (
+            <li><span class="meta">{sectionName[e.collection]}</span><a href={urlOf(e)}>{e.data.title}</a></li>
+          ))}
+        </ul>
+      )}
+
+      {ownPapers.length > 0 && (
+        <>
+          <h2>Papers</h2>
+          <ul class="index">
+            {ownPapers.map((p) => (
+              <li><span class="meta">{formatDate(p.data.published, 'short')}</span><a href={`/research/papers/${p.id}`}>{p.data.title}</a></li>
+            ))}
+          </ul>
+        </>
+      )}
+
+      {reading.length > 0 && (
+        <>
+          <h2>Reading for this topic</h2>
+          <ul class="index">
+            {reading.map((r) => (
+              <li><span class="meta">{r.data.format}</span><span>{r.data.url ? <a href={r.data.url}>{r.data.title}</a> : r.data.title} <span class="muted">· {r.data.creator}</span></span></li>
+            ))}
+          </ul>
+        </>
+      )}
+
+      <div class="after">
+        <Tags topics={d.topics} tags={d.tags} />
+        <div style="height:1.5rem"></div>
+        <Revisions changelog={d.changelog} />
+        <Cite title={d.title} date={d.revised ?? d.started} path={`/research/${entry.id}`} kind={`Research statement, v${d.version}`} />
+      </div>
+    </div>
+  </article>
+</Base>

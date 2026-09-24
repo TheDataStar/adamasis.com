@@ -1,0 +1,13 @@
+---
+import { getEntry } from 'astro:content';
+
+const { refs = [] } = Astro.props as { refs?: { collection: 'research'; id: string }[] };
+const items = (await Promise.all(refs.map((r) => getEntry(r)))).filter(Boolean);
+---
+
+{items.length > 0 && (
+  <>
+    <dt>Supports</dt>
+    {items.map((r) => <dd><a href={`/research/${r!.id}`}>{r!.data.title}</a></dd>)}
+  </>
+)}

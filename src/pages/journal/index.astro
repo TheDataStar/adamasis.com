@@ -1,0 +1,31 @@
+---
+import Base from '../../layouts/Base.astro';
+import { journal, formatDate } from '../../lib/content';
+
+const all = await journal();
+---
+
+<Base title="Lab Journal" description="Short, dated, numbered entries from the bench: what I tried, what broke and what I learned.">
+  <div class="wide">
+    <p class="eyebrow">Lab Journal</p>
+    <h1>Lab Journal</h1>
+    <p class="lede">
+      Short, dated entries from whatever I am studying or building. Each one is marked by how sure I am:
+      <span class="status meta hypothesis">hypothesis</span>, <span class="status meta testing">testing</span> or
+      <span class="status meta confirmed">confirmed</span>.
+    </p>
+    {all.length === 0 ? <p class="muted">Entry 001 is coming soon.</p> : (
+      <ul class="index">
+        {all.map((e) => (
+          <li>
+            <span class="meta">Entry {e.number}<br />{formatDate(e.data.date, 'short')}</span>
+            <div>
+              <a class="title" href={`/journal/${e.id}`}>{e.data.title}</a>
+              <p><span class={`status meta ${e.data.status}`}>{e.data.status}</span> · {e.data.summary}</p>
+            </div>
+          </li>
+        ))}
+      </ul>
+    )}
+  </div>
+</Base>

@@ -1,0 +1,29 @@
+- id: role-current
+  role: '[Most recent job title]'
+  organization: '[Company name]'
+  location: '[City, State or Remote]'
+  start: Jan 2024
+  end: Present
+  highlights:
+    - '[Your biggest result in this role. Start with a strong verb and include a number if you can.]'
+    - '[A project you led, described by its outcome rather than its tasks.]'
+    - '[A leadership, teaching or community contribution.]'
+    - '[Tip: three to five bullets per role. Leave client names and confidential figures out.]'
+  caseStudies: [case-study-one, case-study-two]
+- id: role-previous
+  role: '[Previous job title]'
+  organization: '[Company name]'
+  location: '[City, State]'
+  start: Jan 2021
+  end: Dec 2023
+  highlights:
+    - '[Your biggest result in this role]'
+    - '[A promotion, recognition or scope increase]'
+- id: role-earlier
+  role: '[Earlier job title]'
+  organization: '[Company name]'
+  location: '[City, State]'
+  start: Jan 2018
+  end: Dec 2020
+  highlights:
+    - '[One or two lines are enough for older roles]'

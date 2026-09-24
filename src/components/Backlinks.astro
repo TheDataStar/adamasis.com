@@ -1,0 +1,20 @@
+---
+import { backlinks, urlOf, sectionName } from '../lib/content';
+
+const { entry } = Astro.props as { entry: { collection: string; id: string } };
+const links = await backlinks(entry);
+---
+
+{links.length > 0 && (
+  <details open>
+    <summary>Referenced by ({links.length})</summary>
+    <ul class="index">
+      {links.map((e) => (
+        <li>
+          <span class="meta">{sectionName[e.collection]}</span>
+          <a href={urlOf(e)}>{e.data.title}</a>
+        </li>
+      ))}
+    </ul>
+  </details>
+)}

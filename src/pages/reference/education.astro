@@ -1,0 +1,37 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+
+const all = (await getCollection('education')).sort((a, b) => b.data.year.localeCompare(a.data.year));
+const groups = [
+  ['degree', 'Education'],
+  ['certificate', 'Certificates'],
+  ['certification', 'Certifications'],
+] as const;
+const statusLabel = { complete: '', 'in-progress': 'In progress', coursework: 'Coursework' };
+---
+
+<Base title="Education & Credentials" description="Degrees, certificates and industry certifications.">
+  <article class="sheet">
+    <aside class="rail"><span class="meta">Reference</span></aside>
+    <div class="main">
+      <h1>Education &amp; Credentials</h1>
+      {groups.map(([kind, label]) => {
+        const items = all.filter((e) => e.data.kind === kind);
+        return items.length > 0 && (
+          <section>
+            <div class="section-head"><h2>{label}</h2></div>
+            <ul class="index">
+              {items.map((e) => (
+                <li>
+                  <span class="meta">{e.data.year}{statusLabel[e.data.status] && <><br />{statusLabel[e.data.status]}</>}</span>
+                  <div><span class="title">{e.data.title}</span><p>{e.data.issuer}{e.data.note && ` · ${e.data.note}`}</p></div>
+                </li>
+              ))}
+            </ul>
+          </section>
+        );
+      })}
+    </div>
+  </article>
+</Base>

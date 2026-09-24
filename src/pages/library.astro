@@ -1,0 +1,49 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Tags from '../components/Tags.astro';
+
+const items = (await getCollection('library')).sort((a, b) => b.data.added.getTime() - a.data.added.getTime());
+const shelves = [
+  ['book', 'Books'],
+  ['paper', 'Papers'],
+  ['video', 'Videos'],
+  ['course', 'Courses'],
+  ['tool', 'Tools'],
+] as const;
+---
+
+<Base title="Library" description="Books, papers, videos, courses and tools that shape how I think about AI, edge computing and robotics.">
+  <div class="wide">
+    <p class="eyebrow">Library</p>
+    <h1>Library</h1>
+    <p class="lede">The books, papers, videos, courses and tools behind my thinking, each with a note on why it is here.</p>
+    <p class="meta">
+      {shelves.filter(([f]) => items.some((i) => i.data.format === f)).map(([f, label], i) => (
+        <>{i > 0 && ' · '}<a href={`#${f}`}>{label}</a></>
+      ))}
+    </p>
+
+    {shelves.map(([format, label]) => {
+      const shelf = items.filter((i) => i.data.format === format);
+      return shelf.length > 0 && (
+        <section id={format}>
+          <div class="section-head"><h2>{label}</h2></div>
+          <ul class="index">
+            {shelf.map((i) => (
+              <li>
+                <span class="meta">{i.data.year ?? ''}</span>
+                <div>
+                  {i.data.url ? <a class="title" href={i.data.url}>{i.data.title}</a> : <span class="title">{i.data.title}</span>}
+                  <span class="muted"> · {i.data.creator}</span>
+                  <p>{i.data.note}</p>
+                  <div style="margin-top:0.5rem"><Tags topics={i.data.topics} tags={i.data.tags} /></div>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </section>
+      );
+    })}
+  </div>
+</Base>

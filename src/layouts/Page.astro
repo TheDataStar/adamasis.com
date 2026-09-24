@@ -1,0 +1,17 @@
+---
+import Base from './Base.astro';
+
+const { frontmatter } = Astro.props;
+const { title, description, eyebrow = 'Reference' } = frontmatter;
+---
+
+<Base title={title} description={description}>
+  <article class="sheet">
+    <aside class="rail"><span class="meta">{eyebrow}</span></aside>
+    <div class="main">
+      <h1>{title}</h1>
+      {description && <p class="lede">{description}</p>}
+      <div class="prose"><slot /></div>
+    </div>
+  </article>
+</Base>

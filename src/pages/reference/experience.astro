@@ -1,0 +1,42 @@
+---
+import { existsSync } from 'node:fs';
+import { getCollection, getEntries } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+
+const started = (s: string) => new Date(`1 ${s}`).getTime();
+const roles = (await getCollection('experience')).sort((a, b) => started(b.data.start) - started(a.data.start));
+const withCases = await Promise.all(roles.map(async (r) => ({ ...r, cases: await getEntries(r.data.caseStudies) })));
+---
+
+<Base title="Experience" description="Fifteen years across technology, enterprise solutions engineering and consulting.">
+  <article class="sheet">
+    <aside class="rail"><span class="meta">Reference</span></aside>
+    <div class="main">
+      <h1>Experience</h1>
+      <p class="lede">
+        Fifteen years across technology, enterprise solutions engineering and consulting, serving Fortune 500
+        companies and major institutions in healthcare, manufacturing, financial services and higher education.
+      </p>
+      {existsSync('public/cv.pdf') && <p class="meta"><a href="/cv.pdf">Download CV</a></p>}
+      <ol class="index">
+        {withCases.map((r) => (
+          <li>
+            <span class="meta">{r.data.start} –<br />{r.data.end}</span>
+            <div>
+              <span class="title">{r.data.role}</span>
+              <p>{r.data.organization}{r.data.location && ` · ${r.data.location}`}</p>
+              <ul class="prose" style="margin:0.6rem 0 0;padding-left:1.1rem;font-size:1rem">
+                {r.data.highlights.map((h) => <li>{h}</li>)}
+              </ul>
+              {r.cases.length > 0 && (
+                <p style="margin-top:0.6rem;font-size:0.95rem">
+                  <span class="meta">Case studies</span>&nbsp; {r.cases.map((c, i) => <>{i > 0 && ' · '}<a href={`/labs/${c.id}`}>{c.data.title}</a></>)}
+                </p>
+              )}
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </article>
+</Base>

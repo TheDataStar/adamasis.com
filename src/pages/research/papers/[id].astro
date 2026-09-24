@@ -1,0 +1,62 @@
+---
+import { render } from 'astro:content';
+import Base from '../../../layouts/Base.astro';
+import Tags from '../../../components/Tags.astro';
+import Cite from '../../../components/Cite.astro';
+import Supports from '../../../components/Supports.astro';
+import { site } from '../../../site.config';
+import { papers, formatDate, isoDate } from '../../../lib/content';
+
+export async function getStaticPaths() {
+  return (await papers()).map((entry) => ({ params: { id: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const d = entry.data;
+const pdf = d.pdf ? new URL(d.pdf, site.url).href : undefined;
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'ScholarlyArticle',
+  headline: d.title,
+  abstract: d.summary,
+  datePublished: isoDate(d.published),
+  version: d.version,
+  author: d.authors.map((name) => ({ '@type': 'Person', name })),
+  ...(d.doi && { identifier: `https://doi.org/${d.doi}` }),
+};
+---
+
+<Base title={d.title} description={d.summary} type="article" image={`/og/papers/${entry.id}.png`} schema={schema}>
+  <Fragment slot="head">
+    <meta name="citation_title" content={d.title} />
+    {d.authors.map((a) => <meta name="citation_author" content={a} />)}
+    <meta name="citation_publication_date" content={isoDate(d.published).replaceAll('-', '/')} />
+    {pdf && <meta name="citation_pdf_url" content={pdf} />}
+    {d.doi && <meta name="citation_doi" content={d.doi} />}
+    {d.venue && <meta name="citation_journal_title" content={d.venue} />}
+  </Fragment>
+  <article class="sheet">
+    <aside class="rail">
+      <dl class="meta">
+        <dt>Paper</dt><dd>v{d.version}</dd>
+        <dt>Published</dt><dd>{formatDate(d.published, 'short')}</dd>
+        {d.venue && <><dt>Venue</dt><dd>{d.venue}</dd></>}
+        {pdf && <><dt>PDF</dt><dd><a href={pdf}>Download</a></dd></>}
+        {d.doi && <><dt>DOI</dt><dd><a href={`https://doi.org/${d.doi}`}>{d.doi}</a></dd></>}
+        <Supports refs={d.research} />
+      </dl>
+    </aside>
+    <div class="main">
+      <h1>{d.title}</h1>
+      <p class="meta">{d.authors.join(', ')}</p>
+      <p class="lede">{d.summary}</p>
+      <div class="prose"><Content /></div>
+      <div class="after">
+        <Tags topics={d.topics} tags={d.tags} />
+        <div style="height:1.5rem"></div>
+        <Cite title={d.title} date={d.published} path={`/research/papers/${entry.id}`} kind="Paper" />
+      </div>
+    </div>
+  </article>
+</Base>

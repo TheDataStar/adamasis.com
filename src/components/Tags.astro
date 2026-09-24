@@ -1,0 +1,13 @@
+---
+import { topics, type TopicId } from '../site.config';
+import { slugify } from '../lib/content';
+
+const { topics: t = [], tags = [] } = Astro.props as { topics?: TopicId[]; tags?: string[] };
+---
+
+{(t.length > 0 || tags.length > 0) && (
+  <ul class="tags">
+    {t.map((id) => <li><a class="tag" href={`/topics/${id}`}>{topics[id].name}</a></li>)}
+    {tags.map((tag) => <li><a class="tag" href={`/tags/${slugify(tag)}`}>#{tag}</a></li>)}
+  </ul>
+)}

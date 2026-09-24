@@ -1,0 +1,49 @@
+---
+import Base from '../../layouts/Base.astro';
+import { research, formatDate } from '../../lib/content';
+
+const all = await research();
+const pinned = all.find((r) => r.data.pinned);
+const rest = all.filter((r) => r !== pinned);
+const groups = [
+  { title: 'Active', items: rest.filter((r) => r.data.status === 'active') },
+  { title: 'Exploratory', items: rest.filter((r) => r.data.status === 'exploratory') },
+  { title: 'Concluded', items: rest.filter((r) => r.data.status === 'concluded') },
+];
+---
+
+<Base title="Research" description="Long-running research topics, each with its own questions, evidence log and revision history.">
+  <div class="wide">
+    <p class="eyebrow">Research</p>
+    <h1>Research</h1>
+    <p class="lede">
+      Questions I intend to work on for years. Each topic keeps its research questions, an evidence log of everything
+      I have written or built that bears on them, and a record of how my thinking has changed.
+    </p>
+
+    {pinned && (
+      <section>
+        <div class="section-head"><h2>Primary research</h2></div>
+        <a class="panel" href={`/research/${pinned.id}`} style="display:block;color:inherit;text-decoration:none">
+          <span class="meta">v{pinned.data.version} · <span class={`status ${pinned.data.status}`}>{pinned.data.status}</span> · since {formatDate(pinned.data.started, 'short')}</span>
+          <h3 style="margin:0.4rem 0">{pinned.data.title}</h3>
+          <p class="muted" style="margin:0">{pinned.data.summary}</p>
+        </a>
+      </section>
+    )}
+
+    {groups.map((g) => g.items.length > 0 && (
+      <section>
+        <div class="section-head"><h2>{g.title}</h2></div>
+        <ul class="index">
+          {g.items.map((r) => (
+            <li>
+              <span class="meta">v{r.data.version}<br />since {formatDate(r.data.started, 'short')}</span>
+              <div><a class="title" href={`/research/${r.id}`}>{r.data.title}</a><p>{r.data.summary}</p></div>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))}
+  </div>
+</Base>

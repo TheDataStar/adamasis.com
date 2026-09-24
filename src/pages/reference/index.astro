@@ -1,0 +1,22 @@
+---
+import { existsSync } from 'node:fs';
+import Base from '../../layouts/Base.astro';
+
+const pages = [
+  ['Profile', '/profile', 'Who I am, how I got here and where I am going.'],
+  ['Experience', '/reference/experience', 'Roles, responsibilities and results.'],
+  ['Education & Credentials', '/reference/education', 'Degrees, certificates and certifications.'],
+  ...(existsSync('public/cv.pdf') ? [['CV', '/cv.pdf', 'A printable summary.']] : []),
+  ['Colophon', '/reference/colophon', 'How this site is built.'],
+];
+---
+
+<Base title="Reference" description="About, experience, education and credentials.">
+  <div class="wide">
+    <p class="eyebrow">Reference</p>
+    <h1>Reference</h1>
+    <div class="cards" style="margin-top:2rem">
+      {pages.map(([t, href, p]) => <a class="panel" href={href}><h3>{t}</h3><p>{p}</p></a>)}
+    </div>
+  </div>
+</Base>

@@ -1,0 +1,23 @@
+- id: degree
+  kind: degree
+  title: '[Degree, Major (Concentration)]'
+  issuer: '[School name]'
+  year: YYYY – YYYY
+  status: in-progress
+  note: '[Honors, societies or relevant coursework]'
+- id: certificate
+  kind: certificate
+  title: '[Certificate program name]'
+  issuer: '[Issuing school or organization]'
+  year: 'YYYY'
+- id: certification-complete
+  kind: certification
+  title: '[Industry certification name]'
+  issuer: '[Vendor, e.g. a cloud or hardware provider]'
+  year: 'YYYY'
+- id: certification-progress
+  kind: certification
+  title: '[Certification you are working toward]'
+  issuer: '[Vendor]'
+  year: 'YYYY'
+  status: in-progress

@@ -1,0 +1,139 @@
+---
+import '../styles/global.css';
+import { site } from '../site.config';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  type?: 'website' | 'article';
+  schema?: Record<string, unknown>;
+  noindex?: boolean;
+}
+
+const { title, description = site.description, image, type = 'website', schema, noindex = false } = Astro.props;
+const fullTitle = title ? `${title} · ${site.name}` : `${site.name} · Notebook`;
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const ogImage = new URL(image ?? '/og/default.png', Astro.site).href;
+const path = Astro.url.pathname;
+
+const nav = [
+  ['Notebook', '/'],
+  ['Profile', '/profile'],
+  ['Lectures', '/lectures'],
+  ['Journal', '/journal'],
+  ['Labs', '/labs'],
+  ['Research', '/research'],
+  ['Library', '/library'],
+  ['Contact', '/contact'],
+];
+const current = (href: string) => (href === '/' ? path === '/' : path.startsWith(href));
+
+const person = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: site.name,
+  url: site.url,
+  jobTitle: site.role,
+  sameAs: Object.values(site.links),
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex" />}
+    <meta name="author" content={site.name} />
+    <meta name="theme-color" content="#f7f4ec" />
+    <script is:inline>
+      try {
+        if (localStorage.getItem('theme') === 'dark') document.documentElement.dataset.theme = 'dark';
+      } catch {}
+    </script>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="alternate" type="application/rss+xml" title={`${site.name}: everything`} href="/rss.xml" />
+    <link rel="alternate" type="application/rss+xml" title={`${site.name}: Lectures`} href="/lectures/rss.xml" />
+    <link rel="alternate" type="application/rss+xml" title={`${site.name}: Lab Journal`} href="/journal/rss.xml" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:type" content={type} />
+    <meta property="og:title" content={title ?? site.name} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <script type="application/ld+json" set:html={JSON.stringify(schema ?? person)} />
+    <slot name="head" />
+  </head>
+  <body>
+    <a class="skip" href="#content">Skip to content</a>
+    <div class="frame">
+      <header class="site">
+        <a class="name" href="/">{site.name}</a>
+        <nav class="site" aria-label="Main">
+          <ul>
+            {nav.map(([label, href]) => (
+              <li><a href={href} aria-current={current(href) ? 'page' : undefined}>{label}</a></li>
+            ))}
+          </ul>
+        </nav>
+      </header>
+
+      <main id="content">
+        <slot />
+      </main>
+
+      <footer class="site">
+        <div>
+          <strong>{site.name}</strong>
+          <p class="muted" style="margin:0.5rem 0 0">{site.thesis}</p>
+        </div>
+        <div>
+          <span class="label">Reference</span>
+          <ul>
+            <li><a href="/profile">Profile</a></li>
+            <li><a href="/reference/experience">Experience</a></li>
+            <li><a href="/reference/education">Education &amp; Credentials</a></li>
+            <li><a href="/reference/colophon">Colophon</a></li>
+          </ul>
+        </div>
+        <div>
+          <span class="label">Follow</span>
+          <ul>
+            <li><a href="/rss.xml">RSS</a></li>
+            <li><a href={site.links.linkedin}>LinkedIn</a></li>
+            <li><a href={site.links.github}>GitHub</a></li>
+          </ul>
+        </div>
+        <div class="meta">
+          © {new Date().getFullYear()} {site.name}<br />
+          Rev. {new Date().toISOString().slice(0, 10)}
+          <p><button class="theme" type="button" id="theme-toggle">Night mode</button></p>
+        </div>
+      </footer>
+    </div>
+    <script is:inline>
+      const toggle = document.getElementById('theme-toggle');
+      const label = () => (toggle.textContent = document.documentElement.dataset.theme === 'dark' ? 'Paper mode' : 'Night mode');
+      label();
+      toggle.addEventListener('click', () => {
+        const dark = document.documentElement.dataset.theme !== 'dark';
+        if (dark) document.documentElement.dataset.theme = 'dark';
+        else delete document.documentElement.dataset.theme;
+        try { localStorage.setItem('theme', dark ? 'dark' : 'paper'); } catch {}
+        label();
+      });
+      if ('serviceWorker' in navigator && !['localhost', '127.0.0.1'].includes(location.hostname)) {
+        navigator.serviceWorker.register('/sw.js');
+      }
+    </script>
+  </body>
+</html>

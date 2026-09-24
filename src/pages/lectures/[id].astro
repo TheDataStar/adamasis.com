@@ -1,0 +1,65 @@
+---
+import { render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Tags from '../../components/Tags.astro';
+import Cite from '../../components/Cite.astro';
+import Revisions from '../../components/Revisions.astro';
+import Backlinks from '../../components/Backlinks.astro';
+import Supports from '../../components/Supports.astro';
+import { site } from '../../site.config';
+import { lectures, formatDate, formatLabel, isoDate } from '../../lib/content';
+
+export async function getStaticPaths() {
+  return (await lectures()).map((entry) => ({ params: { id: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const d = entry.data;
+const revision = d.changelog.length + 1;
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: d.title,
+  description: d.summary,
+  datePublished: isoDate(d.published),
+  dateModified: isoDate(d.revised ?? d.published),
+  author: { '@type': 'Person', name: site.name, url: site.url },
+  keywords: d.tags.join(', '),
+  image: new URL(`/og/lectures/${entry.id}.png`, site.url).href,
+};
+---
+
+<Base title={d.title} description={d.summary} type="article" image={`/og/lectures/${entry.id}.png`} schema={schema}>
+  <article class="sheet">
+    <aside class="rail">
+      <dl class="meta">
+        <dt>Lecture</dt><dd>{formatLabel[d.format]}</dd>
+        {d.series && <><dt>Series</dt><dd>{d.series}</dd></>}
+        <dt>Published</dt><dd><time datetime={isoDate(d.published)}>{formatDate(d.published, 'short')}</time></dd>
+        <dt>Revision</dt><dd>Rev. {revision}{d.revised && ` · ${formatDate(d.revised, 'short')}`}</dd>
+        <Supports refs={d.research} />
+      </dl>
+    </aside>
+    <div class="main">
+      <h1>{d.title}</h1>
+      <p class="lede">{d.summary}</p>
+
+      <section class="room panel" aria-label="For the Room">
+        <p class="label">For the Room</p>
+        {d.forTheRoom.split(/\n\s*\n/).map((p) => <p>{p}</p>)}
+        <a class="jump" href="#lecture">Read the full lecture ↓</a>
+      </section>
+
+      <div class="prose" id="lecture"><Content /></div>
+
+      <div class="after">
+        <Tags topics={d.topics} tags={d.tags} />
+        <div style="height:1.5rem"></div>
+        <Backlinks entry={entry} />
+        <Revisions changelog={d.changelog} />
+        <Cite title={d.title} date={d.published} path={`/lectures/${entry.id}`} />
+      </div>
+    </div>
+  </article>
+</Base>

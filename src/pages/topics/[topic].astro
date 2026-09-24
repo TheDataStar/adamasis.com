@@ -1,0 +1,43 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { site, topics, topicIds, type TopicId } from '../../site.config';
+import { everything, urlOf, sectionName, dateOf, formatDate } from '../../lib/content';
+
+export function getStaticPaths() {
+  return topicIds.map((topic) => ({ params: { topic } }));
+}
+
+const id = Astro.params.topic as TopicId;
+const t = topics[id];
+const items = (await everything())
+  .filter((e) => (e.data.topics as string[]).includes(id))
+  .sort((a, b) => dateOf(b).getTime() - dateOf(a).getTime());
+const reading = (await getCollection('library')).filter((l) => l.data.topics.includes(id));
+---
+
+<Base title={t.name} description={`${t.blurb} Lectures, journal entries, labs and research by ${site.name}.`}>
+  <div class="wide">
+    <p class="eyebrow">Topic</p>
+    <h1>{t.name}</h1>
+    <p class="lede">{t.blurb}</p>
+    {items.length === 0 ? <p class="muted">Nothing here yet.</p> : (
+      <ul class="index">
+        {items.map((e) => (
+          <li>
+            <span class="meta">{sectionName[e.collection]}<br />{formatDate(dateOf(e), 'short')}</span>
+            <div><a class="title" href={urlOf(e)}>{e.data.title}</a><p>{e.data.summary}</p></div>
+          </li>
+        ))}
+      </ul>
+    )}
+    {reading.length > 0 && (
+      <>
+        <div class="section-head"><h2>From the Library</h2><a href="/library">Full library</a></div>
+        <ul class="index">
+          {reading.map((r) => <li><span class="meta">{r.data.format}</span><span>{r.data.url ? <a href={r.data.url}>{r.data.title}</a> : r.data.title} <span class="muted">· {r.data.creator}</span></span></li>)}
+        </ul>
+      </>
+    )}
+  </div>
+</Base>

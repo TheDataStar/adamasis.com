@@ -1,0 +1,28 @@
+---
+import Base from '../../layouts/Base.astro';
+import { lectures, formatDate, formatLabel } from '../../lib/content';
+
+const all = await lectures();
+---
+
+<Base title="Lectures" description="Long-form writing on AI, edge computing and robotics, for decision-makers and engineers alike.">
+  <div class="wide">
+    <p class="eyebrow">Lectures</p>
+    <h1>Lectures</h1>
+    <p class="lede">
+      Two kinds of long-form writing. <strong>For the Room</strong> explains one development for the people who have
+      to decide what to do about it. <strong>Teardowns</strong> take a system, a product or a claim apart to see how it
+      really works.
+    </p>
+    {all.length === 0 ? <p class="muted">The first lecture is in progress.</p> : (
+      <ul class="index">
+        {all.map((l) => (
+          <li>
+            <span class="meta">{formatLabel[l.data.format]}<br />{formatDate(l.data.published, 'short')}</span>
+            <div><a class="title" href={`/lectures/${l.id}`}>{l.data.title}</a><p>{l.data.summary}</p></div>
+          </li>
+        ))}
+      </ul>
+    )}
+  </div>
+</Base>

@@ -1,0 +1,33 @@
+---
+import Base from '../../layouts/Base.astro';
+import { labs } from '../../lib/content';
+
+const all = await labs();
+const shelves = [
+  { title: 'Projects', blurb: 'Independent work I own, from file formats to full platforms.', items: all.filter((l) => l.data.kind === 'project') },
+  { title: 'Case Studies', blurb: 'Selected work from my career, described without client names or confidential details.', items: all.filter((l) => l.data.kind === 'case-study') },
+];
+---
+
+<Base title="Labs" description="Projects I build and own, and case studies from a career in solutions engineering.">
+  <div class="wide">
+    <p class="eyebrow">Labs</p>
+    <h1>Labs</h1>
+    <p class="lede">Where the ideas get tested. Independent projects on one shelf, career work on the other.</p>
+    {shelves.map((s) => s.items.length > 0 && (
+      <section>
+        <div class="section-head"><h2>{s.title}</h2></div>
+        <p class="muted" style="margin-top:0">{s.blurb}</p>
+        <div class="cards">
+          {s.items.map((lab) => (
+            <a class="panel" href={`/labs/${lab.id}`}>
+              <span class="meta"><span class={`status ${lab.data.status}`}>{lab.data.status}</span> · {lab.data.period}</span>
+              <h3>{lab.data.title}</h3>
+              <p>{lab.data.summary}</p>
+            </a>
+          ))}
+        </div>
+      </section>
+    ))}
+  </div>
+</Base>

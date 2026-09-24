@@ -1,0 +1,59 @@
+---
+import { render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Tags from '../../components/Tags.astro';
+import Cite from '../../components/Cite.astro';
+import Backlinks from '../../components/Backlinks.astro';
+import Supports from '../../components/Supports.astro';
+import { site } from '../../site.config';
+import { journal, formatDate, isoDate } from '../../lib/content';
+
+export async function getStaticPaths() {
+  const all = await journal();
+  return all.map((entry, i) => ({
+    params: { id: entry.id },
+    props: { entry, newer: all[i - 1], older: all[i + 1] },
+  }));
+}
+
+const { entry, newer, older } = Astro.props;
+const { Content } = await render(entry);
+const d = entry.data;
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: `Entry ${entry.number}: ${d.title}`,
+  description: d.summary,
+  datePublished: isoDate(d.date),
+  author: { '@type': 'Person', name: site.name, url: site.url },
+  keywords: d.tags.join(', '),
+};
+---
+
+<Base title={`Entry ${entry.number}: ${d.title}`} description={d.summary} type="article" image={`/og/journal/${entry.id}.png`} schema={schema}>
+  <article class="sheet">
+    <aside class="rail">
+      <dl class="meta">
+        <dt>Entry</dt><dd>{entry.number}</dd>
+        <dt>Date</dt><dd><time datetime={isoDate(d.date)}>{formatDate(d.date, 'short')}</time></dd>
+        <dt>Status</dt><dd><span class={`status ${d.status}`}>{d.status}</span></dd>
+        {d.setup && <><dt>Setup</dt><dd>{d.setup}</dd></>}
+        <Supports refs={d.research} />
+      </dl>
+    </aside>
+    <div class="main">
+      <h1>{d.title}</h1>
+      <div class="prose"><Content /></div>
+      <div class="after">
+        <Tags topics={d.topics} tags={d.tags} />
+        <div style="height:1.5rem"></div>
+        <Backlinks entry={entry} />
+        <Cite title={`Entry ${entry.number}: ${d.title}`} date={d.date} path={`/journal/${entry.id}`} kind="Lab journal entry" />
+        <nav class="section-head no-print" aria-label="More entries">
+          {older ? <a href={`/journal/${older.id}`}>← Entry {older.number}</a> : <span></span>}
+          {newer ? <a href={`/journal/${newer.id}`}>Entry {newer.number} →</a> : <span></span>}
+        </nav>
+      </div>
+    </div>
+  </article>
+</Base>

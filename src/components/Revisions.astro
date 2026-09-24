@@ -1,0 +1,17 @@
+---
+import { formatDate } from '../lib/content';
+
+const { changelog = [] } = Astro.props as { changelog?: { date: Date; note: string }[] };
+const entries = [...changelog].sort((a, b) => b.date.getTime() - a.date.getTime());
+---
+
+{entries.length > 0 && (
+  <details>
+    <summary>Revision history ({entries.length})</summary>
+    <ol class="index" reversed>
+      {entries.map((c) => (
+        <li><span class="meta">{formatDate(c.date, 'short')}</span><span>{c.note}</span></li>
+      ))}
+    </ol>
+  </details>
+)}

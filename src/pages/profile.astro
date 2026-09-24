@@ -1,0 +1,124 @@
+---
+import { existsSync } from 'node:fs';
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import { Content as Story } from '../data/profile.md';
+import { profile } from '../data/profile';
+import { site, topics } from '../site.config';
+import { research } from '../lib/content';
+
+const started = (s: string) => new Date(`1 ${s}`).getTime();
+const roles = (await getCollection('experience')).sort((a, b) => started(b.data.start) - started(a.data.start));
+const credentials = (await getCollection('education')).sort(
+  (a, b) => Number(b.data.kind === 'degree') - Number(a.data.kind === 'degree') || b.data.year.localeCompare(a.data.year),
+);
+const pinned = (await research()).find((r) => r.data.pinned);
+const portrait = existsSync('public/images/portrait.jpg') ? '/images/portrait.jpg' : null;
+const statusLabel = { complete: '', 'in-progress': ' · in progress', coursework: ' · coursework' };
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfilePage',
+  mainEntity: {
+    '@type': 'Person',
+    name: site.name,
+    url: site.url,
+    jobTitle: site.role,
+    homeLocation: profile.based,
+    knowsAbout: Object.values(topics).map((t) => t.name),
+    sameAs: Object.values(site.links),
+  },
+};
+---
+
+<Base title="Profile" description={`${site.name}: ${site.headline}`} schema={schema}>
+  <article class="sheet">
+    <aside class="rail">
+      {portrait && <img class="portrait" src={portrait} alt={site.name} width="144" height="180" />}
+      <dl class="meta">
+        <dt>Based in</dt><dd>{profile.based}</dd>
+        <dt>Focus</dt><dd>{profile.focus}</dd>
+        <dt>Studying</dt><dd>{site.currently.studying}</dd>
+        <dt>Contact</dt><dd><a href="/contact">Get in touch</a></dd>
+      </dl>
+    </aside>
+
+    <div class="main">
+      <p class="eyebrow">Profile</p>
+      <h1>{site.name}</h1>
+      <p class="lede">{site.headline}</p>
+
+      <h2 id="story">My story</h2>
+      <div class="prose"><Story /></div>
+
+      <h2 id="principles">What I believe</h2>
+      <ol class="index">
+        {profile.principles.map((p, i) => (
+          <li><span class="meta">{String(i + 1).padStart(2, '0')}</span><div><span class="title">{p.title}</span><p>{p.text}</p></div></li>
+        ))}
+      </ol>
+
+      <h2 id="work">What I work on</h2>
+      {pinned && (
+        <p>
+          My primary research is <a href={`/research/${pinned.id}`}>{pinned.data.title}</a>. {pinned.data.summary}
+        </p>
+      )}
+      <ul class="tags">
+        {Object.entries(topics).map(([id, t]) => <li><a class="tag" href={`/topics/${id}`}>{t.name}</a></li>)}
+      </ul>
+
+      <div class="section-head"><h2 id="experience">Experience</h2><a href="/reference/experience">Full experience</a></div>
+      <ol class="index">
+        {roles.map((r) => (
+          <li>
+            <span class="meta">{r.data.start} –<br />{r.data.end}</span>
+            <div><span class="title">{r.data.role}</span><p>{r.data.organization}</p></div>
+          </li>
+        ))}
+      </ol>
+
+      <h2 id="skills">Skills</h2>
+      <ul class="index">
+        {profile.skills.map((s) => (
+          <li><span class="meta">{s.area}</span><span>{s.items.join(' · ')}</span></li>
+        ))}
+      </ul>
+
+      <div class="section-head"><h2 id="education">Education &amp; credentials</h2><a href="/reference/education">Details</a></div>
+      <ul class="index">
+        {credentials.map((c) => (
+          <li>
+            <span class="meta">{c.data.year}{statusLabel[c.data.status]}</span>
+            <div><span class="title">{c.data.title}</span><p>{c.data.issuer}</p></div>
+          </li>
+        ))}
+      </ul>
+
+      <h2 id="recognition">Recognition</h2>
+      <ul class="index">
+        {profile.recognition.map((r) => (
+          <li><span class="meta">{r.year}</span><div><span class="title">{r.title}</span><p>{r.detail}</p></div></li>
+        ))}
+      </ul>
+
+      <h2 id="community">Leadership &amp; community</h2>
+      <ul class="index">
+        {profile.community.map((c) => (
+          <li><span class="meta">Role</span><div><span class="title">{c.title}</span><p>{c.detail}</p></div></li>
+        ))}
+      </ul>
+
+      <h2 id="next">What's next</h2>
+      <ol class="index">
+        {profile.next.map((n, i) => <li><span class="meta">Step {i + 1}</span><span>{n}</span></li>)}
+      </ol>
+
+      <div class="panel" style="margin-top:3rem">
+        <p style="margin:0">
+          Working on similar questions, or want me to speak, teach or advise? <a href="/contact">Get in touch</a>.
+        </p>
+      </div>
+    </div>
+  </article>
+</Base>

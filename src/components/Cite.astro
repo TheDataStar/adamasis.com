@@ -1,0 +1,34 @@
+---
+import { site } from '../site.config';
+
+interface Props { title: string; date: Date; path: string; kind?: string }
+const { title, date, path, kind = 'Blog post' } = Astro.props;
+const year = date.getUTCFullYear();
+const url = new URL(path, site.url).href;
+const [first, ...rest] = site.name.split(' ');
+const last = rest.at(-1);
+const key = `${last?.toLowerCase()}${year}${title.split(/\s+/)[0].toLowerCase().replace(/[^a-z0-9]/g, '')}`;
+
+const plain = `${last}, ${first[0]}. (${year}). ${title} [${kind}]. ${url}`;
+const bibtex = `@misc{${key},
+  author = {${site.name}},
+  title = {${title}},
+  year = {${year}},
+  url = {${url}}
+}`;
+---
+
+<details>
+  <summary>Cite this</summary>
+  <pre class="cite">{plain}</pre>
+  <pre class="cite">{bibtex}</pre>
+  <button class="copy" data-copy={bibtex}>Copy BibTeX</button>
+</details>
+<script>
+  document.querySelectorAll<HTMLButtonElement>('button.copy').forEach((b) =>
+    b.addEventListener('click', async () => {
+      await navigator.clipboard.writeText(b.dataset.copy ?? '');
+      b.textContent = 'Copied';
+    }),
+  );
+</script>
