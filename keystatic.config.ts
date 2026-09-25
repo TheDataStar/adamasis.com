@@ -261,6 +261,12 @@ export default config({
         year: fields.integer({ label: 'Year' }),
         url: fields.url({ label: 'Link' }),
         note: fields.text({ label: 'Why it is here', multiline: true, validation: { length: { min: 1 } } }),
+        cover: fields.image({
+          label: 'Cover or thumbnail',
+          description: 'Optional: a book cover, video still or tool logo.',
+          directory: 'public/images/library',
+          publicPath: '/images/library/',
+        }),
         added: fields.date({ label: 'Added', defaultValue: { kind: 'today' }, validation: { isRequired: true } }),
         topics: topicField,
         tags: tagsField,

@@ -100,6 +100,7 @@ const library = defineCollection({
     year: opt(z.coerce.number()),
     url: opt(z.string().url()),
     note: z.string(),
+    cover: opt(z.string()),
     added: z.coerce.date(),
     topics: z.array(z.enum(topicIds)).default([]),
     tags: z.array(z.string()).max(5).default([]),

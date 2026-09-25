@@ -258,3 +258,17 @@ pre.cite { white-space: pre-wrap; font-family: var(--mono); font-size: 0.8rem; m
 .photo-placeholder small { font-size: 0.65rem; text-transform: none; letter-spacing: 0; color: var(--ink-3); word-break: break-all; }
 .portrait.photo-placeholder { width: 9rem; margin-left: auto; }
 @media (max-width: 1149px) { .portrait.photo-placeholder { margin-left: 0; } }
+
+.code-bar {
+  display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem;
+  padding: 0.35rem 0.75rem; border: 1px solid var(--rule); border-bottom: 0; border-radius: 4px 4px 0 0;
+  background: var(--paper-2); font-family: var(--mono); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--ink-3);
+}
+.code-bar button { font: inherit; background: none; border: 0; color: var(--link); cursor: pointer; padding: 0; }
+.code-bar + pre { margin-top: 0; border-radius: 0 0 4px 4px; }
+.prose pre { background: var(--paper) !important; }
+:root[data-theme='dark'] .prose pre, :root[data-theme='dark'] .prose pre span { color: var(--shiki-dark) !important; background-color: var(--paper) !important; }
+
+.index > li.with-cover { grid-template-columns: 5rem 1fr; }
+.index .cover { width: 5rem; height: auto; border: 1px solid var(--rule); align-self: start; }
+@media print { .code-bar { display: none; } }

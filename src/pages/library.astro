@@ -31,9 +31,10 @@ const shelves = [
           <div class="section-head"><h2>{label}</h2></div>
           <ul class="index">
             {shelf.map((i) => (
-              <li>
-                <span class="meta">{i.data.year ?? ''}</span>
+              <li class={i.data.cover ? 'with-cover' : undefined}>
+                {i.data.cover ? <img class="cover" src={i.data.cover} alt="" loading="lazy" /> : <span class="meta">{i.data.year ?? ''}</span>}
                 <div>
+                  {i.data.cover && i.data.year && <span class="meta">{i.data.year}</span>}
                   {i.data.url ? <a class="title" href={i.data.url}>{i.data.title}</a> : <span class="title">{i.data.title}</span>}
                   <span class="muted"> · {i.data.creator}</span>
                   <p>{i.data.note}</p>

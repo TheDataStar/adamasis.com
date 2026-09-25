@@ -18,7 +18,13 @@ draft: false
 
 ## [How it actually works]
 
-[Walk through the real mechanism. Diagrams help here.]
+[Walk through the real mechanism. Diagrams and code help here. Use the code button in the dashboard, or a fenced block with the language named after the backticks:]
+
+```python
+# [Replace with a short, runnable example]
+import platform
+print(platform.machine())
+```
 
 ## [What holds up and what does not]
 

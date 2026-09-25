@@ -130,6 +130,18 @@ const person = {
         try { localStorage.setItem('theme', dark ? 'dark' : 'paper'); } catch {}
         label();
       });
+      document.querySelectorAll('.prose pre').forEach((pre) => {
+        const lang = pre.dataset.language;
+        const bar = document.createElement('div');
+        bar.className = 'code-bar';
+        bar.innerHTML = `<span>${lang && lang !== 'plaintext' ? lang : 'code'}</span><button type="button">Copy</button>`;
+        bar.querySelector('button').addEventListener('click', async (e) => {
+          await navigator.clipboard.writeText(pre.innerText);
+          e.target.textContent = 'Copied';
+          setTimeout(() => (e.target.textContent = 'Copy'), 1500);
+        });
+        pre.before(bar);
+      });
       if ('serviceWorker' in navigator && !['localhost', '127.0.0.1'].includes(location.hostname)) {
         navigator.serviceWorker.register('/sw.js');
       }
