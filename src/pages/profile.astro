@@ -1,5 +1,5 @@
 ---
-import { getCollection } from 'astro:content';
+import { getCollection, getEntries } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import { profile } from '../data/profile';
 import { site, topics } from '../site.config';
@@ -7,7 +7,11 @@ import { research } from '../lib/content';
 import { photo } from '../lib/photos';
 
 const started = (s: string) => new Date(`1 ${s}`).getTime();
-const roles = (await getCollection('experience')).sort((a, b) => started(b.data.start) - started(a.data.start));
+const roles = await Promise.all(
+  (await getCollection('experience'))
+    .sort((a, b) => started(b.data.start) - started(a.data.start))
+    .map(async (r) => ({ ...r, cases: await getEntries(r.data.caseStudies) })),
+);
 const credentials = (await getCollection('education')).sort(
   (a, b) => Number(b.data.kind === 'degree') - Number(a.data.kind === 'degree') || b.data.year.localeCompare(a.data.year),
 );
@@ -95,7 +99,12 @@ const schema = {
         {roles.map((r) => (
           <li>
             <span class="meta">{r.data.start} –<br />{r.data.end}</span>
-            <div><span class="title">{r.data.role}</span><p>{r.data.organization}</p></div>
+            <div>
+              <span class="title">{r.data.role}</span><p>{r.data.organization}</p>
+              {r.cases.length > 0 && (
+                <p style="font-size:0.95rem"><span class="meta">Case studies</span>&nbsp; {r.cases.map((c, i) => <>{i > 0 && ' · '}<a href={`/lectures/${c.id}`}>{c.data.title}</a></>)}</p>
+              )}
+            </div>
           </li>
         ))}
       </ol>

@@ -10,7 +10,7 @@ export async function feed(context: { site?: URL }, which: 'all' | 'lectures' | 
     .filter((e) => !e.data.draft)
     .sort((a, b) => dateOf(b).getTime() - dateOf(a).getTime());
 
-  const label = { all: 'Notebook', lectures: 'Lectures', journal: 'Lab Journal' }[which];
+  const label = { all: 'Everything', lectures: 'Lectures', journal: 'Journal' }[which];
   return rss({
     title: `${site.name}: ${label}`,
     description: site.description,

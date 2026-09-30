@@ -48,7 +48,7 @@ export const urlOf = (e: { collection: string; id: string }) =>
 
 export const sectionName: Record<string, string> = {
   lectures: 'Lecture',
-  journal: 'Lab Journal',
+  journal: 'Journal',
   labs: 'Lab',
   research: 'Research',
   papers: 'Paper',
@@ -81,6 +81,8 @@ export const slugify = (s: string) =>
   s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
 
 export const formatLabel: Record<string, string> = {
-  'for-the-room': 'For the Room',
+  'for-the-room': 'For the Board Room',
+  classroom: 'In the Classroom',
+  'case-study': 'Case Study',
   teardown: 'Teardown',
 };

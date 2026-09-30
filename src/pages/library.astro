@@ -6,18 +6,19 @@ import Tags from '../components/Tags.astro';
 const items = (await getCollection('library')).sort((a, b) => b.data.added.getTime() - a.data.added.getTime());
 const shelves = [
   ['book', 'Books'],
-  ['paper', 'Papers'],
-  ['video', 'Videos'],
-  ['course', 'Courses'],
+  ['video', 'Streaming Content'],
+  ['website', 'Websites'],
   ['tool', 'Tools'],
+  ['course', 'Courses'],
+  ['paper', 'Papers'],
 ] as const;
 ---
 
-<Base title="Library" description="Books, papers, videos, courses and tools that shape how I think about AI, edge computing and robotics.">
+<Base title="Library" description="Books, streaming content, websites and tools I have used, recommend and reviewed.">
   <div class="wide">
     <p class="eyebrow">Library</p>
-    <h1>Library</h1>
-    <p class="lede">The books, papers, videos, courses and tools behind my thinking, each with a note on why it is here.</p>
+    <h1>Library <span class="muted" style="font-weight:400">(Resources &amp; Reviews)</span></h1>
+    <p class="lede">Learning materials and tools I have used, recommend and reviewed, including books, streaming content, websites and tools.</p>
     <p class="meta">
       {shelves.filter(([f]) => items.some((i) => i.data.format === f)).map(([f, label], i) => (
         <>{i > 0 && ' · '}<a href={`#${f}`}>{label}</a></>

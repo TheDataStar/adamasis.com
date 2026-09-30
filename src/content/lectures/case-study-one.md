@@ -1,13 +1,14 @@
 ---
 title: '[Case Study: Name the Achievement, Not the Client]'
 summary: '[One sentence describing the result, without client names or confidential figures.]'
-kind: case-study
-status: complete
+format: case-study
+forTheRoom: |
+  [Two or three sentences: the challenge, what you did and the result. This appears in the "In Brief" box at the top.]
+published: 2026-01-10
 role: '[Your role on this engagement]'
 period: YYYY – YYYY
 topics: [networking]
 tags: [placeholder]
-order: 4
 draft: false
 ---
 

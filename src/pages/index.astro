@@ -11,8 +11,6 @@ const [allLectures, allEntries, allLabs, allResearch, allPapers, library] = awai
 ]);
 const plural = (n: number, word: string) => `${n} ${word}${n === 1 ? '' : 's'}`;
 const pinned = allResearch.find((r) => r.data.pinned);
-const projects = allLabs.filter((l) => l.data.kind === 'project').length;
-const cases = allLabs.length - projects;
 
 const details: Record<string, { count?: string; latest?: { title: string; href: string; date?: Date } }> = {
   '/lectures': {
@@ -23,7 +21,7 @@ const details: Record<string, { count?: string; latest?: { title: string; href: 
     count: plural(allEntries.length, 'entry').replace('entrys', 'entries'),
     latest: allEntries[0] && { title: allEntries[0].data.title, href: `/journal/${allEntries[0].id}`, date: allEntries[0].data.date },
   },
-  '/labs': { count: `${plural(projects, 'project')} · ${plural(cases, 'case study').replace('studys', 'studies')}` },
+  '/labs': { count: plural(allLabs.length, 'project'), latest: allLabs[0] && { title: allLabs[0].data.title, href: `/labs/${allLabs[0].id}` } },
   '/research': {
     count: `${plural(allResearch.length, 'topic')}${allPapers.length ? ` · ${plural(allPapers.length, 'paper')}` : ''}`,
     latest: pinned && { title: pinned.data.title, href: `/research/${pinned.id}` },
@@ -41,7 +39,6 @@ const current = [
 <Base>
   <section class="hero wide with-portrait">
     <div>
-      <p class="eyebrow">Notebook</p>
       <h1>{site.headline}</h1>
       <p class="lede">{site.intro}</p>
       {site.thesis && <p class="thesis">{site.thesis}</p>}
@@ -62,14 +59,12 @@ const current = [
   )}
 
   <section class="wide">
-    <div class="section-head"><h2>How this notebook is organized</h2></div>
-    <div class="guide">
-      {sections.filter((s) => s.href !== '/contact').map((s, i) => {
+    <div class="guide" style="margin-top:3rem">
+      {sections.filter((s) => s.href !== '/contact').map((s) => {
         const d = details[s.href];
         return (
           <a class="panel guide-card" href={s.href}>
-            <span class="meta">{String(i + 1).padStart(2, '0')} · {s.plain}</span>
-            <h3>{s.name}</h3>
+            <h3>{s.name}{s.note && <span class="note"> ({s.note})</span>}</h3>
             <p class="blurb">{s.blurb}</p>
             {d && (
               <p class="meta guide-foot">

@@ -1,8 +1,8 @@
 export const site = {
   name: 'Adam J. Asis',
-  headline: 'I study, build and write about AI, edge computing and robotics.',
+  headline: 'AI, Robotics, and Edge Computing',
   intro:
-    'This site is my working notebook. It is where I publish what I am learning, building and researching, from short lab notes to long-form lectures, so the thinking happens in the open and anyone can follow along.',
+    'Welcome. This site is a personal composition of my professional portfolio, current research, opinion pieces and lectures, as well as general musings.',
   description: 'Lectures, notes, research and development on AI, edge computing, robotics and all things technology.',
   url: 'https://adamasis.com',
   email: 'hello@adamasis.com',
@@ -11,6 +11,7 @@ export const site = {
   links: {
     linkedin: 'https://www.linkedin.com/in/adamasis',
     github: 'https://github.com/TheDataStar',
+    x: '',
   },
   thesis: '',
   currently: {
@@ -22,13 +23,13 @@ export const site = {
 };
 
 export const sections = [
-  { name: 'Profile', href: '/profile', plain: 'About me', blurb: 'Who I am, what I have done and where I am headed: experience, skills and credentials in one place.' },
-  { name: 'Lectures', href: '/lectures', plain: 'Long-form essays', blurb: 'In-depth writing. For the Room pieces explain a technology for decision-makers; Teardowns take a product or claim apart to see how it really works.' },
-  { name: 'Lab Journal', href: '/journal', plain: 'Short notes', blurb: 'Brief, dated entries from whatever I am studying or building, each marked by how sure I am: hypothesis, testing or confirmed.' },
-  { name: 'Labs', href: '/labs', plain: 'Projects and case studies', blurb: 'The work behind the writing: projects I build and own, and case studies from my career.' },
-  { name: 'Research', href: '/research', plain: 'Long-term questions', blurb: 'The questions I plan to spend years on, each with its research questions, evidence and revision history.' },
-  { name: 'Library', href: '/library', plain: 'Recommended resources', blurb: 'Books, papers, videos, courses and tools that shaped my thinking, with a note on why each one is here.' },
-  { name: 'Contact', href: '/contact', plain: 'Get in touch', blurb: 'For speaking, advising, collaboration or a conversation about the work.' },
+  { name: 'Profile', note: 'About Me', href: '/profile', blurb: 'Who I am and what I have done. My experience, skills, credentials and more, all in one place.' },
+  { name: 'Labs', note: 'Projects', href: '/labs', blurb: 'Personal projects, each on its own page with its research and development artifacts: links, images, graphics, articles and more.' },
+  { name: 'Research', href: '/research', blurb: 'Thought experiments, with the data and artifacts that connect them to current Labs and Lectures.' },
+  { name: 'Journal', href: '/journal', blurb: 'Opinion pieces, briefs and general thoughts, organized by date and tag. Thought leadership, mental exercises or daily musings on the changing world of technology.' },
+  { name: 'Lectures', href: '/lectures', blurb: 'Professional essays, articles and white papers. For the Board Room pieces explain technology for decision-makers, In the Classroom pieces are written for students and new technologists, and much more.' },
+  { name: 'Library', note: 'Resources & Reviews', href: '/library', blurb: 'Learning materials and tools I have used, recommend and reviewed, including books, streaming content, websites and tools.' },
+  { name: 'Contact', href: '/contact', blurb: 'For speaking, advising, collaboration or a conversation about the work.' },
 ];
 
 export const topics = {

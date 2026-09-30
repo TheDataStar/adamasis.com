@@ -5,14 +5,14 @@ import { lectures, formatDate, formatLabel } from '../../lib/content';
 const all = await lectures();
 ---
 
-<Base title="Lectures" description="Long-form writing on AI, edge computing and robotics, for decision-makers and engineers alike.">
+<Base title="Lectures" description="Professional essays, articles, white papers and case studies on AI, robotics and edge computing.">
   <div class="wide">
     <p class="eyebrow">Lectures</p>
     <h1>Lectures</h1>
     <p class="lede">
-      Two kinds of long-form writing. <strong>For the Room</strong> explains one development for the people who have
-      to decide what to do about it. <strong>Teardowns</strong> take a system, a product or a claim apart to see how it
-      really works.
+      Professional essays, articles and white papers. <strong>For the Board Room</strong> pieces explain technology for
+      decision-makers, <strong>In the Classroom</strong> pieces are written for students and new technologists,
+      <strong>Teardowns</strong> take a product or claim apart, and <strong>Case Studies</strong> document work from my career.
     </p>
     {all.length === 0 ? <p class="muted">The first lecture is in progress.</p> : (
       <ul class="index">

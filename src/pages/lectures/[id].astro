@@ -17,6 +17,7 @@ const { entry } = Astro.props;
 const { Content } = await render(entry);
 const d = entry.data;
 const revision = d.changelog.length + 1;
+const roomLabel = d.format === 'for-the-room' ? 'For the Board Room' : 'In Brief';
 const schema = {
   '@context': 'https://schema.org',
   '@type': 'BlogPosting',
@@ -36,6 +37,8 @@ const schema = {
       <dl class="meta">
         <dt>Lecture</dt><dd>{formatLabel[d.format]}</dd>
         {d.series && <><dt>Series</dt><dd>{d.series}</dd></>}
+        {d.role && <><dt>Role</dt><dd>{d.role}</dd></>}
+        {d.period && <><dt>Period</dt><dd>{d.period}</dd></>}
         <dt>Published</dt><dd><time datetime={isoDate(d.published)}>{formatDate(d.published, 'short')}</time></dd>
         <dt>Revision</dt><dd>Rev. {revision}{d.revised && ` · ${formatDate(d.revised, 'short')}`}</dd>
         <Supports refs={d.research} />
@@ -45,8 +48,8 @@ const schema = {
       <h1>{d.title}</h1>
       <p class="lede">{d.summary}</p>
 
-      <section class="room panel" aria-label="For the Room">
-        <p class="label">For the Room</p>
+      <section class="room panel" aria-label={roomLabel}>
+        <p class="label">{roomLabel}</p>
         {d.forTheRoom.split(/\n\s*\n/).map((p) => <p>{p}</p>)}
         <a class="jump" href="#lecture">Read the full lecture ↓</a>
       </section>

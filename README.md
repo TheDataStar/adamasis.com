@@ -23,7 +23,7 @@ Start with `src/site.config.ts` (name, contact details, headline and thesis), th
 
 ## Admin dashboard
 
-Run `npm run dev` and open http://localhost:4321/keystatic. From there you can create, edit and delete Lectures, Lab Journal entries, Labs, Research topics, Papers and Library items with forms. Changes are saved straight into the files in `src/content/`; commit and push to publish them.
+Run `npm run dev` and open http://localhost:4321/keystatic. From there you can create, edit and delete Lectures, Journal entries, Labs, Research topics, Papers and Library items with forms. Changes are saved straight into the files in `src/content/`; commit and push to publish them.
 
 - **Margin notes:** select text in the editor and click the superscript button. The text moves into the margin on the live site.
 - **Figures:** use the image button. Images are saved under `public/images/<section>/<entry>/`, and the image's alt text becomes the numbered caption.
@@ -73,7 +73,7 @@ Every lecture, entry, lab and paper takes:
 
 Journal entries add `date`, `status` (`hypothesis`, `testing`, `confirmed`) and an optional `setup`. Entry numbers are assigned by date.
 
-Lectures add `format` (`for-the-room` or `teardown`), `forTheRoom` (the short summary for decision-makers), `published`, and an optional `revised`, `series` and `changelog`. Each changelog item raises the revision number.
+Lectures add `format` (`for-the-room`, `classroom`, `teardown` or `case-study`), `forTheRoom` (the summary box at the top), optional `role` and `period` for case studies, `published`, and an optional `revised`, `series` and `changelog`. Each changelog item raises the revision number.
 
 Research topics add `status` (`active`, `exploratory`, `concluded`), `pinned`, `version`, `started`, `questions` and `changelog`. The pinned topic is the primary research shown on the home page.
 

@@ -1,5 +1,5 @@
 ---
-title: '[For the Room Lecture Title: A Question a Decision-Maker Would Ask]'
+title: '[For the Board Room Lecture Title: A Question a Decision-Maker Would Ask]'
 summary: '[One sentence promising what the reader will understand by the end.]'
 format: for-the-room
 forTheRoom: |
@@ -37,5 +37,5 @@ draft: false
 
 [Close with the decision or action. Link to related work on the site, e.g. [your research](/research/primary-research).]
 
-> Tip: For the Room lectures are written for executives and decision-makers. Aim for 1,000 to 1,500 words, and make the summary box above stand on its own.
+> Tip: For the Board Room lectures are written for executives and decision-makers. Aim for 1,000 to 1,500 words, and make the summary box above stand on its own.
 

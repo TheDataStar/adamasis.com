@@ -30,7 +30,7 @@ const schema = {
   <article class="sheet">
     <aside class="rail">
       <dl class="meta">
-        <dt>{d.kind === 'project' ? 'Project' : 'Case study'}</dt><dd><span class={`status ${d.status}`}>{d.status}</span></dd>
+        <dt>Project</dt><dd><span class={`status ${d.status}`}>{d.status}</span></dd>
         <dt>Role</dt><dd>{d.role}</dd>
         <dt>Period</dt><dd>{d.period}</dd>
         {d.repo && <><dt>Source</dt><dd><a href={d.repo}>Repository</a></dd></>}

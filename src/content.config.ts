@@ -24,7 +24,9 @@ const lectures = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/lectures' }),
   schema: z.object({
     ...common,
-    format: z.enum(['for-the-room', 'teardown']),
+    format: z.enum(['for-the-room', 'classroom', 'teardown', 'case-study']),
+    role: opt(z.string()),
+    period: opt(z.string()),
     forTheRoom: z.string(),
     published: z.coerce.date(),
     revised: optDate(),
@@ -49,7 +51,7 @@ const labs = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/labs' }),
   schema: z.object({
     ...common,
-    kind: z.enum(['project', 'case-study']),
+    kind: z.enum(['project']).default('project'),
     status: z.enum(['active', 'shipped', 'paused', 'complete']),
     role: z.string(),
     period: z.string(),
@@ -95,7 +97,7 @@ const library = defineCollection({
   loader: glob({ pattern: '**/*.yaml', base: './src/content/library' }),
   schema: z.object({
     title: z.string(),
-    format: z.enum(['book', 'paper', 'video', 'tool', 'course']),
+    format: z.enum(['book', 'paper', 'video', 'website', 'tool', 'course']),
     creator: z.string(),
     year: opt(z.coerce.number()),
     url: opt(z.string().url()),
@@ -117,7 +119,7 @@ const experience = defineCollection({
     start: z.string(),
     end: z.string(),
     highlights: z.array(z.string()),
-    caseStudies: z.array(reference('labs')).default([]),
+    caseStudies: z.array(reference('lectures')).default([]),
   }),
 });
 

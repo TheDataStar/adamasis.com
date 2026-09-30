@@ -89,20 +89,24 @@ export default config({
         format: fields.select({
           label: 'Format',
           options: [
-            { label: 'For the Room (for decision-makers)', value: 'for-the-room' },
+            { label: 'For the Board Room (for decision-makers)', value: 'for-the-room' },
+            { label: 'In the Classroom (for students and new technologists)', value: 'classroom' },
             { label: 'Teardown (taking something apart)', value: 'teardown' },
+            { label: 'Case Study (career work, no client names)', value: 'case-study' },
           ],
           defaultValue: 'for-the-room',
         }),
         forTheRoom: fields.text({
-          label: 'For the Room summary',
-          description: 'Two or three short paragraphs shown in a box at the top. Separate paragraphs with a blank line.',
+          label: 'Summary box',
+          description: 'Two or three short paragraphs shown in a box at the top (titled For the Board Room or In Brief). Separate paragraphs with a blank line.',
           multiline: true,
           validation: { length: { min: 1 } },
         }),
         published: fields.date({ label: 'Published', defaultValue: { kind: 'today' }, validation: { isRequired: true } }),
         revised: fields.date({ label: 'Last revised' }),
         series: fields.text({ label: 'Series', description: 'Optional, for multi-part lectures.' }),
+        role: fields.text({ label: 'Your role', description: 'Case studies only.' }),
+        period: fields.text({ label: 'Period', description: 'Case studies only, e.g. 2022 – 2026.' }),
         topics: topicField,
         tags: tagsField,
         research: researchField,
@@ -113,7 +117,7 @@ export default config({
       },
     }),
     journal: collection({
-      label: 'Lab Journal',
+      label: 'Journal',
       slugField: 'title',
       path: 'src/content/journal/*',
       format: { contentField: 'content' },
@@ -147,18 +151,10 @@ export default config({
       path: 'src/content/labs/*',
       format: { contentField: 'content' },
       entryLayout: 'content',
-      columns: ['title', 'kind', 'status', 'draft'],
+      columns: ['title', 'status', 'draft'],
       schema: {
         title: fields.slug({ name: { label: 'Title' } }),
         summary: summaryField,
-        kind: fields.select({
-          label: 'Type',
-          options: [
-            { label: 'Project (work you own)', value: 'project' },
-            { label: 'Case study (career work, no client names)', value: 'case-study' },
-          ],
-          defaultValue: 'project',
-        }),
         status: fields.select({
           label: 'Status',
           options: [
@@ -251,7 +247,8 @@ export default config({
           options: [
             { label: 'Book', value: 'book' },
             { label: 'Paper', value: 'paper' },
-            { label: 'Video', value: 'video' },
+            { label: 'Streaming content (video, podcast)', value: 'video' },
+            { label: 'Website', value: 'website' },
             { label: 'Course', value: 'course' },
             { label: 'Tool', value: 'tool' },
           ],
@@ -260,7 +257,7 @@ export default config({
         creator: fields.text({ label: 'Author, speaker or maker', validation: { length: { min: 1 } } }),
         year: fields.integer({ label: 'Year' }),
         url: fields.url({ label: 'Link' }),
-        note: fields.text({ label: 'Why it is here', multiline: true, validation: { length: { min: 1 } } }),
+        note: fields.text({ label: 'Review or why it is here', multiline: true, validation: { length: { min: 1 } } }),
         cover: fields.image({
           label: 'Cover or thumbnail',
           description: 'Optional: a book cover, video still or tool logo.',

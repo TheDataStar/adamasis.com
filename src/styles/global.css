@@ -272,3 +272,13 @@ pre.cite { white-space: pre-wrap; font-family: var(--mono); font-size: 0.8rem; m
 .index > li.with-cover { grid-template-columns: 5rem 1fr; }
 .index .cover { width: 5rem; height: auto; border: 1px solid var(--rule); align-self: start; }
 @media print { .code-bar { display: none; } }
+
+.header-right { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1.5rem; }
+.social { display: flex; gap: 0.6rem; list-style: none; margin: 0; padding: 0; }
+.social a { display: inline-flex; color: var(--ink-2); padding: 0.15rem; border-radius: 3px; }
+.social a:hover { color: var(--accent); }
+header.site .social { padding-left: 1.25rem; border-left: 1px solid var(--rule); }
+@media (max-width: 720px) { header.site .social { padding-left: 0; border-left: 0; } }
+header.site .name[aria-current='page'] { color: var(--ink); }
+.guide-card .note { font-weight: 400; color: var(--ink-3); font-size: 0.9em; }
+@media (max-width: 819px) { .hero-portrait { width: 9rem; } }

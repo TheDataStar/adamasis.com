@@ -5,13 +5,13 @@ import { journal, formatDate } from '../../lib/content';
 const all = await journal();
 ---
 
-<Base title="Lab Journal" description="Short, dated, numbered entries from the bench: what I tried, what broke and what I learned.">
+<Base title="Journal" description="Opinion pieces, briefs and general thoughts on the changing world of technology.">
   <div class="wide">
-    <p class="eyebrow">Lab Journal</p>
-    <h1>Lab Journal</h1>
+    <p class="eyebrow">Journal</p>
+    <h1>Journal</h1>
     <p class="lede">
-      Short, dated entries from whatever I am studying or building. Each one is marked by how sure I am:
-      <span class="status meta hypothesis">hypothesis</span>, <span class="status meta testing">testing</span> or
+      Opinion pieces, briefs and general thoughts, organized by date and tag. Each entry is marked by how settled
+      the thinking is: <span class="status meta hypothesis">hypothesis</span>, <span class="status meta testing">testing</span> or
       <span class="status meta confirmed">confirmed</span>.
     </p>
     {all.length === 0 ? <p class="muted">Entry 001 is coming soon.</p> : (
