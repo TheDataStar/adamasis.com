@@ -36,7 +36,6 @@ research: []
   lab: `---
 title: ${JSON.stringify(title)}
 summary: ''
-kind: project
 status: active
 role: ''
 period: ''

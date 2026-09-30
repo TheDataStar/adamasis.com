@@ -61,6 +61,7 @@ const shareField = (defaults: string[]) =>
     options: [
       { label: 'LinkedIn', value: 'linkedin' },
       { label: 'Newsletter', value: 'newsletter' },
+      { label: 'DEV (dev.to)', value: 'devto' },
     ],
     defaultValue: defaults,
   });
@@ -171,6 +172,8 @@ export default config({
         url: fields.url({ label: 'Live link', description: 'Optional.' }),
         stack: fields.array(fields.text({ label: 'Technology' }), { label: 'Built with', itemLabel: (p) => p.value }),
         order: fields.integer({ label: 'Sort order', description: 'Lower numbers appear first.', defaultValue: 100 }),
+        published: fields.date({ label: 'Published', description: 'Needed for sharing to DEV.', defaultValue: { kind: 'today' } }),
+        shareTo: shareField([]),
         topics: topicField,
         tags: tagsField,
         research: researchField,
@@ -227,6 +230,7 @@ export default config({
         venue: fields.text({ label: 'Venue', description: 'Journal, conference or course.' }),
         pdf: fields.text({ label: 'PDF path', description: 'e.g. /papers/my-paper.pdf, with the file saved in public/papers/.' }),
         doi: fields.text({ label: 'DOI' }),
+        shareTo: shareField([]),
         topics: topicField,
         tags: tagsField,
         research: researchField,

@@ -1,7 +1,6 @@
 ---
 title: '[Second Project Name]'
 summary: '[One sentence: what it is and who it is for.]'
-kind: project
 status: shipped
 role: '[Your role]'
 period: YYYY – YYYY

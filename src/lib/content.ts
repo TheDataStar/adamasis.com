@@ -6,7 +6,7 @@ type Entry = CollectionEntry<Section>;
 const visible = ({ data }: { data: { draft?: boolean } }) => import.meta.env.DEV || !data.draft;
 
 export const dateOf = (e: Entry): Date =>
-  'published' in e.data ? e.data.published : 'date' in e.data ? e.data.date : 'started' in e.data ? e.data.started : new Date(0);
+  'published' in e.data && e.data.published ? e.data.published : 'date' in e.data ? e.data.date : 'started' in e.data ? e.data.started : new Date(0);
 
 const newestFirst = (a: Entry, b: Entry) => dateOf(b).getTime() - dateOf(a).getTime();
 

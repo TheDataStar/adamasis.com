@@ -1,7 +1,6 @@
 ---
 title: '[Project Name]'
 summary: '[One sentence: what it is and who it is for.]'
-kind: project
 status: active
 role: '[Your role, e.g. Creator or Lead developer]'
 period: YYYY – present

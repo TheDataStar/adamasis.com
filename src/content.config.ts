@@ -6,6 +6,7 @@ import { site, topicIds } from './site.config';
 const blank = (v: unknown) => (v === '' || v === null ? undefined : v);
 const opt = <T extends z.ZodType>(schema: T) => z.preprocess(blank, schema.optional());
 const optDate = () => opt(z.coerce.date());
+const shareTargets = ['linkedin', 'newsletter', 'devto'] as const;
 
 const common = {
   title: z.string(),
@@ -32,7 +33,7 @@ const lectures = defineCollection({
     revised: optDate(),
     changelog,
     series: opt(z.string()),
-    shareTo: z.array(z.enum(['linkedin', 'newsletter'])).default(['linkedin', 'newsletter']),
+    shareTo: z.array(z.enum(shareTargets)).default(['linkedin', 'newsletter']),
   }),
 });
 
@@ -43,7 +44,7 @@ const journal = defineCollection({
     date: z.coerce.date(),
     status: z.enum(['hypothesis', 'testing', 'confirmed']),
     setup: opt(z.string()),
-    shareTo: z.array(z.enum(['linkedin', 'newsletter'])).default(['newsletter']),
+    shareTo: z.array(z.enum(shareTargets)).default(['newsletter']),
   }),
 });
 
@@ -59,6 +60,8 @@ const labs = defineCollection({
     url: opt(z.string().url()),
     stack: z.array(z.string()).default([]),
     order: z.number().default(100),
+    published: optDate(),
+    shareTo: z.array(z.enum(shareTargets)).default([]),
   }),
 });
 
@@ -90,6 +93,7 @@ const papers = defineCollection({
     pdf: opt(z.string()),
     doi: opt(z.string()),
     venue: opt(z.string()),
+    shareTo: z.array(z.enum(shareTargets)).default([]),
   }),
 });
 
