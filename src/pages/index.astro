@@ -43,10 +43,10 @@ const current = [
   <section class="hero wide with-portrait">
     <div>
       <h1 class="typewriter" aria-label={headline}>
-        <span class="tw-ghost" aria-hidden="true">{lines.map((l, i) => <span class={`tw-line tw-line-${i}`}>{l}</span>)}</span>
+        <span class="tw-ghost">{lines.map((l, i) => <>{i > 0 && ' '}<span class={`tw-line tw-line-${i}`}>{l}</span></>)}</span>
         <span class="tw-out" aria-hidden="true" data-hero={JSON.stringify(hero)}>
           <span class="tw-line tw-line-0"><span class="tw-lead"></span><span class="tw-word"></span><span class="tw-rest"></span></span>
-          <span class="tw-line tw-line-1">{hero.tagline}</span>
+          <span class="tw-line tw-line-1"></span>
         </span>
       </h1>
       {site.thesis && <p class="thesis">{site.thesis}</p>}
@@ -109,6 +109,7 @@ const current = [
       word: out.querySelector<HTMLElement>('.tw-word')!,
       rest: out.querySelector<HTMLElement>('.tw-rest')!,
     };
+    out.querySelector<HTMLElement>('.tw-line-1')!.textContent = h.querySelector('.tw-ghost .tw-line-1')?.textContent ?? '';
     const caret = document.createElement('span');
     caret.className = 'tw-caret';
     const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
