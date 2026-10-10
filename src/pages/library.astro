@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import Tags from '../components/Tags.astro';
+import { blurb } from '../site.config';
 
 const items = (await getCollection('library')).sort((a, b) => b.data.added.getTime() - a.data.added.getTime());
 const shelves = [
@@ -18,7 +19,7 @@ const shelves = [
   <div class="wide">
     <p class="eyebrow">Library</p>
     <h1>Library <span class="muted" style="font-weight:400">(Resources &amp; Reviews)</span></h1>
-    <p class="lede">Learning materials and tools I have used, recommend and reviewed, including books, streaming content, websites and tools.</p>
+    <p class="lede">{blurb('/library')}</p>
     <p class="meta">
       {shelves.filter(([f]) => items.some((i) => i.data.format === f)).map(([f, label], i) => (
         <>{i > 0 && ' · '}<a href={`#${f}`}>{label}</a></>

@@ -1,8 +1,6 @@
 export const site = {
   name: 'Adam J. Asis',
   headline: 'AI, Robotics, and Edge Computing',
-  intro:
-    'Welcome. This site is a personal composition of my professional portfolio, current research, opinion pieces and lectures, as well as general musings.',
   description: 'Lectures, notes, research and development on AI, edge computing, robotics and all things technology.',
   url: 'https://adamasis.com',
   email: 'hello@adamasis.com',
@@ -22,13 +20,15 @@ export const site = {
   upcoming: [] as { date: string; title: string; url?: string }[],
 };
 
+export const blurb = (href: string) => sections.find((s) => s.href === href)?.blurb ?? '';
+
 export const sections = [
-  { name: 'Profile', note: 'About Me', href: '/profile', blurb: 'Who I am and what I have done. My experience, skills, credentials and more, all in one place.' },
-  { name: 'Labs', note: 'Projects', href: '/labs', blurb: 'Personal projects, each on its own page with its research and development artifacts: links, images, graphics, articles and more.' },
-  { name: 'Research', href: '/research', blurb: 'Thought experiments, with the data and artifacts that connect them to current Labs and Lectures.' },
-  { name: 'Journal', href: '/journal', blurb: 'Opinion pieces, briefs and general thoughts, organized by date and tag. Thought leadership, mental exercises or daily musings on the changing world of technology.' },
-  { name: 'Lectures', href: '/lectures', blurb: 'Professional essays, articles and white papers. For the Board Room pieces explain technology for decision-makers, In the Classroom pieces are written for students and new technologists, and much more.' },
-  { name: 'Library', note: 'Resources & Reviews', href: '/library', blurb: 'Learning materials and tools I have used, recommend and reviewed, including books, streaming content, websites and tools.' },
+  { name: 'Profile', note: 'About Me', href: '/profile', blurb: 'Professional CV, experience and credentials.' },
+  { name: 'Labs', note: 'Projects', href: '/labs', blurb: 'Personal projects with their development artifacts: links, images, graphics, resources and more.' },
+  { name: 'Research', href: '/research', blurb: 'Thought experiments and research, with the data and artifacts that connect them to current Labs and Lectures.' },
+  { name: 'Journal', href: '/journal', blurb: 'Opinion pieces, briefs and general thoughts. Mostly thought leadership, mental exercises and daily musings on the changing landscape of technology.' },
+  { name: 'Lectures', href: '/lectures', blurb: 'Professional essays, articles and white papers. For the Board Room pieces explain technology for decision-makers; In the Classroom pieces are written for students and new technologists.' },
+  { name: 'Library', note: 'Resources & Reviews', href: '/library', blurb: 'A curated list of learning materials, tools and content I have used, recommend or reviewed.' },
   { name: 'Contact', href: '/contact', blurb: 'For speaking, advising, collaboration or a conversation about the work.' },
 ];
 

@@ -37,10 +37,10 @@ const current = [
 ---
 
 <Base>
+  <div class="home">
   <section class="hero wide with-portrait">
     <div>
       <h1>{site.headline}</h1>
-      <p class="lede">{site.intro}</p>
       {site.thesis && <p class="thesis">{site.thesis}</p>}
     </div>
     {portrait ? (
@@ -59,7 +59,7 @@ const current = [
   )}
 
   <section class="wide">
-    <div class="guide" style="margin-top:3rem">
+    <div class="guide">
       {sections.filter((s) => s.href !== '/contact').map((s) => {
         const d = details[s.href];
         return (
@@ -88,4 +88,5 @@ const current = [
       </ul>
     </section>
   )}
+  </div>
 </Base>

@@ -282,3 +282,12 @@ header.site .social { padding-left: 1.25rem; border-left: 1px solid var(--rule);
 header.site .name[aria-current='page'] { color: var(--ink); }
 .guide-card .note { font-weight: 400; color: var(--ink-3); font-size: 0.9em; }
 @media (max-width: 819px) { .hero-portrait { width: 9rem; } }
+
+.hero { align-items: end; padding-bottom: 2.5rem; border-bottom: 1px solid var(--rule); margin-bottom: 2.5rem; }
+.hero h1 { font-size: clamp(2.4rem, 6vw, 4rem); line-height: 1.05; margin: 0; max-width: 18ch; }
+.home .wide { max-width: none; }
+.guide-card .blurb { font-size: 1rem; }
+@media (max-width: 819px) { .hero { align-items: start; } }
+.home .guide { grid-template-columns: 1fr; }
+@media (min-width: 640px) { .home .guide { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 960px) { .home .guide { grid-template-columns: repeat(3, 1fr); } }

@@ -1,6 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
 import { labs } from '../../lib/content';
+import { blurb } from '../../site.config';
 
 const all = await labs();
 ---
@@ -9,7 +10,8 @@ const all = await labs();
   <div class="wide">
     <p class="eyebrow">Labs</p>
     <h1>Labs</h1>
-    <p class="lede">Personal projects, each on its own page with its research and development artifacts: links, images, graphics, articles and more. Case studies from my career live in <a href="/lectures">Lectures</a>.</p>
+    <p class="lede">{blurb('/labs')}</p>
+    <p class="muted">Case studies from my career live in <a href="/lectures">Lectures</a>.</p>
     <div class="cards" style="margin-top:2rem">
       {all.map((lab) => (
         <a class="panel" href={`/labs/${lab.id}`}>

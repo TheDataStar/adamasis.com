@@ -1,6 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
 import { lectures, formatDate, formatLabel } from '../../lib/content';
+import { blurb } from '../../site.config';
 
 const all = await lectures();
 ---
@@ -9,11 +10,8 @@ const all = await lectures();
   <div class="wide">
     <p class="eyebrow">Lectures</p>
     <h1>Lectures</h1>
-    <p class="lede">
-      Professional essays, articles and white papers. <strong>For the Board Room</strong> pieces explain technology for
-      decision-makers, <strong>In the Classroom</strong> pieces are written for students and new technologists,
-      <strong>Teardowns</strong> take a product or claim apart, and <strong>Case Studies</strong> document work from my career.
-    </p>
+    <p class="lede">{blurb('/lectures')}</p>
+    <p class="muted">You will also find <strong>Teardowns</strong>, which take a product or claim apart, and <strong>Case Studies</strong> documenting work from my career.</p>
     {all.length === 0 ? <p class="muted">The first lecture is in progress.</p> : (
       <ul class="index">
         {all.map((l) => (

@@ -1,6 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
 import { research, formatDate } from '../../lib/content';
+import { blurb } from '../../site.config';
 
 const all = await research();
 const pinned = all.find((r) => r.data.pinned);
@@ -16,10 +17,7 @@ const groups = [
   <div class="wide">
     <p class="eyebrow">Research</p>
     <h1>Research</h1>
-    <p class="lede">
-      Questions I intend to work on for years. Each topic keeps its research questions, an evidence log of everything
-      I have written or built that bears on them, and a record of how my thinking has changed.
-    </p>
+    <p class="lede">{blurb('/research')}</p>
 
     {pinned && (
       <section>
