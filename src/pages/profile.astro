@@ -35,7 +35,7 @@ const schema = {
 };
 ---
 
-<Base title="Profile" description={`${site.name}: ${site.headline}`} schema={schema}>
+<Base title="Profile" description={`${site.name}: ${site.headline.replace('\n', ' ')}`} schema={schema}>
   <article class="sheet">
     <aside class="rail">
       {portrait ? (
@@ -54,7 +54,7 @@ const schema = {
     <div class="main">
       <p class="eyebrow">Profile</p>
       <h1>{site.name}</h1>
-      <p class="lede">{site.headline}</p>
+      <p class="lede">{site.headline.replace('\n', ' ')}</p>
 
       {Story && (
         <>

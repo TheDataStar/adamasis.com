@@ -1,6 +1,6 @@
 export const site = {
   name: 'Adam J. Asis',
-  headline: 'AI, Robotics, and Edge Computing',
+  headline: 'I Ideate, Architect, and Build AI, Robotics, and Edge Compute Solutions...\nThen teach others how to do the same.',
   description: 'Lectures, notes, research and development on AI, edge computing, robotics and all things technology.',
   url: 'https://adamasis.com',
   email: 'hello@adamasis.com',
