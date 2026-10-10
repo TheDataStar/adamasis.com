@@ -114,6 +114,7 @@ const current = [
     caret.className = 'tw-caret';
     const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
     const keystroke = () => 75 + Math.random() * 75;
+    let restTyped = false;
     const restText = () => (el.word.textContent && !el.word.textContent.endsWith(' ') ? ` ${end}` : end);
     const place = (after: HTMLElement) => after.after(caret);
 
@@ -121,7 +122,7 @@ const current = [
       place(target);
       for (const ch of text) {
         target.textContent += ch;
-        if (target === el.word) el.rest.textContent = restText();
+        if (target === el.word && restTyped) el.rest.textContent = restText();
         await sleep(ch === ' ' ? 140 : keystroke());
       }
     };
@@ -129,7 +130,7 @@ const current = [
       place(target);
       while (target.textContent) {
         target.textContent = target.textContent.slice(0, -1);
-        if (target === el.word) el.rest.textContent = restText();
+        if (target === el.word && restTyped) el.rest.textContent = restText();
         await sleep(85);
       }
     };
@@ -139,8 +140,8 @@ const current = [
       await sleep(600);
       await type(el.lead, `${lead} `);
       await type(el.word, words[0]);
-      el.rest.textContent = '';
       await type(el.rest, ` ${end}`);
+      restTyped = true;
       await sleep(1300);
       place(el.word);
       await sleep(700);
