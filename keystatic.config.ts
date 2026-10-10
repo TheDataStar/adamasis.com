@@ -1,5 +1,5 @@
 import { createElement } from 'react';
-import { config, fields, collection } from '@keystatic/core';
+import { config, fields, collection, singleton } from '@keystatic/core';
 import { mark } from '@keystatic/core/content-components';
 import { Icon } from '@keystar/ui/icon';
 import { superscriptIcon } from '@keystar/ui/icon/icons/superscriptIcon';
@@ -71,12 +71,125 @@ export default config({
   ui: {
     brand: { name: 'adamasis.com' },
     navigation: {
+      About: ['profile', 'experience', 'education'],
       Writing: ['lectures', 'journal'],
       Work: ['labs', 'research', 'papers'],
       Resources: ['library'],
     },
   },
+  singletons: {
+    profile: singleton({
+      label: 'Profile',
+      path: 'src/data/profile',
+      format: { data: 'yaml' },
+      schema: {
+        subtitle: fields.text({ label: 'Subtitle', description: 'The line under your name.', multiline: true, validation: { length: { min: 1 } } }),
+        based: fields.text({ label: 'Based in', validation: { length: { min: 1 } } }),
+        focusLabel: fields.text({ label: 'Expertise label', defaultValue: 'Areas of Expertise' }),
+        focus: fields.text({ label: 'Areas of expertise', validation: { length: { min: 1 } } }),
+        portrait: fields.image({
+          label: 'Headshot',
+          description: 'Used on the home and Profile pages. A 4:5 portrait works best.',
+          directory: 'public/images/profile',
+          publicPath: '/images/profile/',
+        }),
+        photos: fields.array(
+          fields.object({
+            image: fields.image({ label: 'Photo', directory: 'public/images/profile', publicPath: '/images/profile/' }),
+            caption: fields.text({ label: 'Caption' }),
+          }),
+          { label: 'Photos', itemLabel: (p) => p.fields.caption.value || 'Photo' },
+        ),
+        principles: fields.array(
+          fields.object({
+            title: fields.text({ label: 'Title' }),
+            text: fields.text({ label: 'Text', multiline: true }),
+          }),
+          { label: 'What I believe', itemLabel: (p) => p.fields.title.value || 'Principle' },
+        ),
+        skills: fields.array(
+          fields.object({
+            area: fields.text({ label: 'Area' }),
+            items: fields.array(fields.text({ label: 'Skill' }), { label: 'Skills', itemLabel: (p) => p.value }),
+          }),
+          { label: 'Skills', itemLabel: (p) => p.fields.area.value || 'Skill area' },
+        ),
+        recognition: fields.array(
+          fields.object({
+            year: fields.text({ label: 'Year' }),
+            title: fields.text({ label: 'Title' }),
+            detail: fields.text({ label: 'Detail', multiline: true }),
+          }),
+          { label: 'Recognition', itemLabel: (p) => `${p.fields.year.value} ${p.fields.title.value}`.trim() || 'Recognition' },
+        ),
+        community: fields.array(
+          fields.object({
+            title: fields.text({ label: 'Role, group or organization' }),
+            detail: fields.text({ label: 'Detail', multiline: true }),
+          }),
+          { label: 'Leadership & community', itemLabel: (p) => p.fields.title.value || 'Role' },
+        ),
+        next: fields.array(fields.text({ label: 'Step' }), { label: "What's next", itemLabel: (p) => p.value }),
+      },
+    }),
+  },
   collections: {
+    experience: collection({
+      label: 'Experience',
+      slugField: 'role',
+      path: 'src/content/experience/*',
+      format: { data: 'yaml' },
+      columns: ['role', 'organization', 'start', 'end'],
+      schema: {
+        role: fields.slug({ name: { label: 'Job title' } }),
+        organization: fields.text({ label: 'Organization', validation: { length: { min: 1 } } }),
+        location: fields.text({ label: 'Location' }),
+        start: fields.text({ label: 'Start', description: 'e.g. Jan 2024', validation: { length: { min: 1 } } }),
+        end: fields.text({ label: 'End', description: 'e.g. Mar 2026 or Present', defaultValue: 'Present', validation: { length: { min: 1 } } }),
+        order: fields.integer({ label: 'Sort order', description: 'Lower numbers appear first. Use 0 for your current role.', defaultValue: 100 }),
+        highlights: fields.array(fields.text({ label: 'Highlight', multiline: true }), {
+          label: 'Highlights',
+          description: 'Three to five results. Leave client names and confidential figures out.',
+          itemLabel: (p) => p.value,
+        }),
+        caseStudies: fields.array(fields.relationship({ label: 'Case study', collection: 'lectures' }), {
+          label: 'Case studies',
+          description: 'Lectures written as case studies for this role.',
+          itemLabel: (p) => p.value ?? 'Choose a lecture',
+        }),
+      },
+    }),
+    education: collection({
+      label: 'Education & Credentials',
+      slugField: 'title',
+      path: 'src/content/education/*',
+      format: { data: 'yaml' },
+      columns: ['title', 'issuer', 'year'],
+      schema: {
+        title: fields.slug({ name: { label: 'Title' } }),
+        kind: fields.select({
+          label: 'Type',
+          options: [
+            { label: 'Degree', value: 'degree' },
+            { label: 'Certificate', value: 'certificate' },
+            { label: 'Certification', value: 'certification' },
+          ],
+          defaultValue: 'certification',
+        }),
+        issuer: fields.text({ label: 'School or issuer', validation: { length: { min: 1 } } }),
+        year: fields.text({ label: 'Year', description: 'e.g. 2024 or 2026 – 2028', validation: { length: { min: 1 } } }),
+        status: fields.select({
+          label: 'Status',
+          options: [
+            { label: 'Complete', value: 'complete' },
+            { label: 'In progress', value: 'in-progress' },
+            { label: 'Coursework', value: 'coursework' },
+          ],
+          defaultValue: 'complete',
+        }),
+        note: fields.text({ label: 'Note', description: 'Honors, societies or relevant coursework.', multiline: true }),
+      },
+    }),
     lectures: collection({
       label: 'Lectures',
       slugField: 'title',

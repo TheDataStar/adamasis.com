@@ -1,8 +1,7 @@
 ---
-import { getCollection } from 'astro:content';
+import { getCollection, getEntry } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import { site, sections, hero } from '../site.config';
-import { profile } from '../data/profile';
 import { photo } from '../lib/photos';
 import { lectures, journal, labs, research, papers, formatDate } from '../lib/content';
 
@@ -28,7 +27,7 @@ const details: Record<string, { count?: string; latest?: { title: string; href: 
   },
   '/library': { count: plural(library.length, 'item') },
 };
-const portrait = photo(profile.portrait);
+const portrait = photo((await getEntry('profile', 'profile'))?.data.portrait);
 const lines = site.headline.split('\n');
 const headline = lines.join(' ');
 const current = [
@@ -54,7 +53,7 @@ const current = [
     {portrait ? (
       <img class="hero-portrait" src={portrait} alt={site.name} width="220" height="275" />
     ) : (
-      <div class="hero-portrait photo-placeholder"><span>[Professional headshot]</span><small>public/images/profile/portrait.jpg</small></div>
+      <div class="hero-portrait photo-placeholder"><span>[Professional headshot]</span></div>
     )}
   </section>
 

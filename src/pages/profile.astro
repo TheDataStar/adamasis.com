@@ -1,24 +1,22 @@
 ---
-import { getCollection, getEntries } from 'astro:content';
+import { getCollection, getEntries, getEntry } from 'astro:content';
 import Base from '../layouts/Base.astro';
-import { profile } from '../data/profile';
 import { site, topics } from '../site.config';
 import { research } from '../lib/content';
 import { photo } from '../lib/photos';
 
-const started = (s: string) => new Date(`1 ${s}`).getTime();
+const profile = (await getEntry('profile', 'profile'))!.data;
 const roles = await Promise.all(
   (await getCollection('experience'))
-    .sort((a, b) => started(b.data.start) - started(a.data.start))
+    .sort((a, b) => a.data.order - b.data.order)
     .map(async (r) => ({ ...r, cases: await getEntries(r.data.caseStudies) })),
 );
 const credentials = (await getCollection('education')).sort(
   (a, b) => Number(b.data.kind === 'degree') - Number(a.data.kind === 'degree') || b.data.year.localeCompare(a.data.year),
 );
 const pinned = (await research()).find((r) => r.data.pinned);
-const Story = (Object.values(import.meta.glob('../data/profile.md', { eager: true }))[0] as any)?.Content;
 const portrait = photo(profile.portrait);
-const photos = profile.photos.map((p) => ({ ...p, src: photo(p.file) }));
+const photos = profile.photos.map((p) => ({ ...p, src: photo(p.image) }));
 const statusLabel = { complete: '', 'in-progress': ' · in progress', coursework: ' · coursework' };
 
 const schema = {
@@ -35,7 +33,7 @@ const schema = {
 };
 ---
 
-<Base title="Profile" description={`${site.name}: ${site.headline.replace('\n', ' ')}`} schema={schema}>
+<Base title="Profile" description={`${site.name}: ${profile.subtitle}`} schema={schema}>
   <article class="sheet">
     <aside class="rail">
       {portrait ? (
@@ -45,7 +43,7 @@ const schema = {
       )}
       <dl class="meta">
         <dt>Based in</dt><dd>{profile.based}</dd>
-        <dt>Focus</dt><dd>{profile.focus}</dd>
+        <dt>{profile.focusLabel}</dt><dd>{profile.focus}</dd>
         {site.currently.studying && <><dt>Studying</dt><dd>{site.currently.studying}</dd></>}
         <dt>Contact</dt><dd><a href="/contact">Get in touch</a></dd>
       </dl>
@@ -54,14 +52,7 @@ const schema = {
     <div class="main">
       <p class="eyebrow">Profile</p>
       <h1>{site.name}</h1>
-      <p class="lede">{site.headline.replace('\n', ' ')}</p>
-
-      {Story && (
-        <>
-          <h2 id="story">My story</h2>
-          <div class="prose"><Story /></div>
-        </>
-      )}
+      <p class="lede">{profile.subtitle}</p>
 
       {photos.length > 0 && (
         <>
@@ -69,7 +60,7 @@ const schema = {
           <div class="photos">
             {photos.map((p) => (
               <figure>
-                {p.src ? <img src={p.src} alt={p.caption} loading="lazy" /> : <div class="photo-placeholder"><span>[Professional photo]</span><small>public/images/profile/{p.file}</small></div>}
+                {p.src ? <img src={p.src} alt={p.caption} loading="lazy" /> : <div class="photo-placeholder"><span>[Professional photo]</span></div>}
                 <figcaption>{p.caption}</figcaption>
               </figure>
             ))}

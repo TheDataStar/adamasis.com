@@ -3,8 +3,7 @@ import { existsSync } from 'node:fs';
 import { getCollection, getEntries } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 
-const started = (s: string) => new Date(`1 ${s}`).getTime();
-const roles = (await getCollection('experience')).sort((a, b) => started(b.data.start) - started(a.data.start));
+const roles = (await getCollection('experience')).sort((a, b) => a.data.order - b.data.order);
 const withCases = await Promise.all(roles.map(async (r) => ({ ...r, cases: await getEntries(r.data.caseStudies) })));
 ---
 

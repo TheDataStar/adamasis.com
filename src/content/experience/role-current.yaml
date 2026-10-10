@@ -1,0 +1,14 @@
+role: '[Most recent job title]'
+organization: '[Company name]'
+location: '[City, State or Remote]'
+start: Jan 2024
+end: Present
+highlights:
+- '[Your biggest result in this role. Start with a strong verb and include a number if you can.]'
+- '[A project you led, described by its outcome rather than its tasks.]'
+- '[A leadership, teaching or community contribution.]'
+- '[Tip: three to five bullets per role. Leave client names and confidential figures out.]'
+caseStudies:
+- case-study-one
+- case-study-two
+order: 0

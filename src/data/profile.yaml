@@ -1,0 +1,53 @@
+subtitle: I architect and build innovative solutions for AI, Robotics, and Edge Computing. Then I teach others to do the same. :)
+based: Portland, Oregon Metro Area
+focusLabel: Areas of Expertise
+focus: AI, Edge Compute, Robotics and Mobile Networking
+photos:
+- caption: '[Where and when this was taken, e.g. Speaking at a conference, 2025]'
+- caption: '[Caption]'
+principles:
+- title: Repeatable, Teachable Frameworks & Processes
+  text: Great solutions architecture is a product of requirements and approach. For any solution to succeed, you need to identify ALL of the failed or aging processes currently deployed, whether they involve people, networks or computational systems, and LEARN why. Without that comprehension you cannot truly understand the requirements, or introduce "better" processes without unnecessary failure or friction.
+- title: Communicate Often AND Effectively
+  text: Understanding the best way to converse and communicate with others, regardless of intent or purpose, is foundational to true success. How people like to communicate, the best tools or medium to do so, and how often are all necessary discoveries when bringing solutions and projects to fruition.
+- title: Honesty & Openness Create Stronger Bonds
+  text: Not much else to say about this, as it's pretty self-explanatory. Be brave with openness and have the courage to be honest. Few great feats have ever been accomplished by half measures, and even fewer alone.
+skills:
+- area: '[Skill area 1]'
+  items:
+  - '[Skill]'
+  - '[Skill]'
+  - '[Skill]'
+  - '[Skill]'
+- area: '[Skill area 2]'
+  items:
+  - '[Skill]'
+  - '[Skill]'
+  - '[Skill]'
+- area: '[Skill area 3]'
+  items:
+  - '[Skill]'
+  - '[Skill]'
+  - '[Skill]'
+recognition:
+- year: YYYY
+  title: '[Award name]'
+  detail: '[What it was for, in one line]'
+- year: YYYY
+  title: '[Press feature or publication]'
+  detail: '[Where it appeared and what it covered]'
+- year: YYYY – YYYY
+  title: '[Ongoing honor, e.g. a repeated performance award]'
+  detail: '[What earned it]'
+community:
+- title: '[Role, Group or organization]'
+  detail: '[What you did and who it helped]'
+- title: '[Role, Group or organization]'
+  detail: '[Councils, mentoring, volunteering or employee groups all belong here]'
+- title: '[Conferences or events]'
+  detail: '[Where you have spoken or represented your organization]'
+next:
+- '[Your next step]'
+- '[The step after that]'
+- '[Your longer-term goal]'
+- '[Your ultimate goal]'

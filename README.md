@@ -23,7 +23,7 @@ Start with `src/site.config.ts` (name, contact details, headline and thesis), th
 
 ## Admin dashboard
 
-Run `npm run dev` and open http://localhost:4321/keystatic. From there you can create, edit and delete Lectures, Journal entries, Labs, Research topics, Papers and Library items with forms. Changes are saved straight into the files in `src/content/`; commit and push to publish them.
+Run `npm run dev` and open http://localhost:4321/keystatic. From there you can edit your Profile, Experience and Education, and create, edit and delete Lectures, Journal entries, Labs, Research topics, Papers and Library items with forms. Changes are saved straight into the project files; commit and push to publish them.
 
 - **Margin notes:** select text in the editor and click the superscript button. The text moves into the margin on the live site.
 - **Figures:** use the image button. Images are saved under `public/images/<section>/<entry>/`, and the image's alt text becomes the numbered caption.
@@ -52,10 +52,10 @@ Each command creates a Markdown file in `src/content/` with the fields filled in
 | Field rules for every content type | `src/content.config.ts` |
 | Lectures, journal, labs, research, papers | `src/content/<section>/` |
 | Library items | `src/content/library/*.yaml` |
-| Experience, education | `src/data/*.yaml` |
-| Profile story | `src/data/profile.md` |
-| Profile details: principles, skills, recognition, community, next steps | `src/data/profile.ts` |
-| Portrait (optional, shown on the Profile if present) | `public/images/portrait.jpg` |
+| Experience | `src/content/experience/*.yaml` |
+| Education and credentials | `src/content/education/*.yaml` |
+| Profile: subtitle, expertise, photos, principles, skills, recognition, community, next steps | `src/data/profile.yaml` |
+| Portrait and profile photos | `public/images/profile/` |
 | Colophon | `src/pages/reference/colophon.md` |
 | Styles | `src/styles/global.css` |
 | Images | `public/images/` |

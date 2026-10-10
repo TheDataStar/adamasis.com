@@ -1,5 +1,5 @@
 import { defineCollection, reference } from 'astro:content';
-import { glob, file } from 'astro/loaders';
+import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
 import { site, topicIds } from './site.config';
 
@@ -115,11 +115,12 @@ const library = defineCollection({
 });
 
 const experience = defineCollection({
-  loader: file('src/data/experience.yaml'),
+  loader: glob({ pattern: '**/*.yaml', base: './src/content/experience' }),
   schema: z.object({
+    order: z.number().default(100),
     role: z.string(),
     organization: z.string(),
-    location: z.string().optional(),
+    location: opt(z.string()),
     start: z.string(),
     end: z.string(),
     highlights: z.array(z.string()),
@@ -128,15 +129,32 @@ const experience = defineCollection({
 });
 
 const education = defineCollection({
-  loader: file('src/data/education.yaml'),
+  loader: glob({ pattern: '**/*.yaml', base: './src/content/education' }),
   schema: z.object({
     kind: z.enum(['degree', 'certificate', 'certification']),
     title: z.string(),
     issuer: z.string(),
     year: z.string(),
     status: z.enum(['complete', 'in-progress', 'coursework']).default('complete'),
-    note: z.string().optional(),
+    note: opt(z.string()),
   }),
 });
 
-export const collections = { lectures, journal, labs, research, papers, library, experience, education };
+const profile = defineCollection({
+  loader: glob({ pattern: 'profile.yaml', base: './src/data' }),
+  schema: z.object({
+    subtitle: z.string(),
+    based: z.string(),
+    focusLabel: z.string().default('Areas of Expertise'),
+    focus: z.string(),
+    portrait: opt(z.string()),
+    photos: z.array(z.object({ image: opt(z.string()), caption: z.string() })).default([]),
+    principles: z.array(z.object({ title: z.string(), text: z.string() })).default([]),
+    skills: z.array(z.object({ area: z.string(), items: z.array(z.string()) })).default([]),
+    recognition: z.array(z.object({ year: z.string(), title: z.string(), detail: z.string() })).default([]),
+    community: z.array(z.object({ title: z.string(), detail: z.string() })).default([]),
+    next: z.array(z.string()).default([]),
+  }),
+});
+
+export const collections = { lectures, journal, labs, research, papers, library, experience, education, profile };
