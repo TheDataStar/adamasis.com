@@ -300,10 +300,12 @@ header.site .name[aria-current='page'] { color: var(--ink); }
 .tw-out { position: absolute; inset: 0; }
 .typewriter:not(.tw-run) .tw-out { display: none; }
 .tw-run .tw-ghost { visibility: hidden; }
-.tw-out .tw-active::after {
-  content: ''; display: inline-block; width: 0.08em; height: 0.95em; margin-left: 0.06em;
+.tw-caret {
+  display: inline-block; width: 0.08em; height: 0.95em; margin: 0 0.02em;
   vertical-align: -0.12em; background: var(--accent); animation: tw-blink 1s steps(1) infinite;
 }
-.tw-done .tw-out .tw-active::after { animation: tw-blink 1s steps(1) 4 forwards; }
+.tw-done .tw-caret { animation: tw-blink 1s steps(1) 3 forwards; }
+.tw-run .tw-out .tw-line-1 { opacity: 0; transform: translateY(0.3em); transition: opacity 0.9s ease, transform 0.9s ease; }
+.tw-done .tw-out .tw-line-1 { opacity: 1; transform: none; transition-delay: 0.4s; }
 @keyframes tw-blink { 50% { opacity: 0; } 100% { opacity: 0; } }
 @media (max-width: 819px) { .hero { align-items: start; } }

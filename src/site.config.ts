@@ -1,6 +1,13 @@
+export const hero = {
+  lead: 'I Architect and Build',
+  words: ['Edge Compute', 'Robotics', 'AI', 'Innovative'],
+  end: 'Solutions',
+  tagline: 'Then teach others how to do the same.',
+};
+
 export const site = {
   name: 'Adam J. Asis',
-  headline: 'I Ideate, Architect, and Build AI, Robotics, and Edge Compute Solutions...\nThen teach others how to do the same.',
+  headline: `${hero.lead} ${hero.words.at(-1)} ${hero.end}\n${hero.tagline}`,
   description: 'Lectures, notes, research and development on AI, edge computing, robotics and all things technology.',
   url: 'https://adamasis.com',
   email: 'hello@adamasis.com',

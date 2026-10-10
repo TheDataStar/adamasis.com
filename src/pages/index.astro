@@ -1,7 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
-import { site, sections } from '../site.config';
+import { site, sections, hero } from '../site.config';
 import { profile } from '../data/profile';
 import { photo } from '../lib/photos';
 import { lectures, journal, labs, research, papers, formatDate } from '../lib/content';
@@ -44,7 +44,10 @@ const current = [
     <div>
       <h1 class="typewriter" aria-label={headline}>
         <span class="tw-ghost" aria-hidden="true">{lines.map((l, i) => <span class={`tw-line tw-line-${i}`}>{l}</span>)}</span>
-        <span class="tw-out" aria-hidden="true">{lines.map((_, i) => <span class={`tw-line tw-line-${i}`}></span>)}</span>
+        <span class="tw-out" aria-hidden="true" data-hero={JSON.stringify(hero)}>
+          <span class="tw-line tw-line-0"><span class="tw-lead"></span><span class="tw-word"></span><span class="tw-rest"></span></span>
+          <span class="tw-line tw-line-1">{hero.tagline}</span>
+        </span>
       </h1>
       {site.thesis && <p class="thesis">{site.thesis}</p>}
     </div>
@@ -98,28 +101,53 @@ const current = [
 
 <script>
   const h = document.querySelector<HTMLElement>('.typewriter');
-  if (h && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    const lines = [...h.querySelectorAll('.tw-ghost .tw-line')].map((el) => el.textContent ?? '');
-    const targets = [...h.querySelectorAll<HTMLElement>('.tw-out .tw-line')];
-    h.classList.add('tw-run');
-    let line = 0;
-    let i = 0;
-    const step = () => {
-      const text = lines[line];
-      i++;
-      targets[line].textContent = text.slice(0, i);
-      targets.forEach((t, n) => t.classList.toggle('tw-active', n === line));
-      if (i < text.length) {
-        const prev = text[i - 1];
-        setTimeout(step, prev === '.' || prev === ',' ? 260 : 24 + Math.random() * 46);
-      } else if (line < lines.length - 1) {
-        line++;
-        i = 0;
-        setTimeout(step, 650);
-      } else {
-        h.classList.add('tw-done');
+  const out = h?.querySelector<HTMLElement>('.tw-out');
+  if (h && out && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const { lead, words, end } = JSON.parse(out.dataset.hero ?? '{}') as { lead: string; words: string[]; end: string };
+    const el = {
+      lead: out.querySelector<HTMLElement>('.tw-lead')!,
+      word: out.querySelector<HTMLElement>('.tw-word')!,
+      rest: out.querySelector<HTMLElement>('.tw-rest')!,
+    };
+    const caret = document.createElement('span');
+    caret.className = 'tw-caret';
+    const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+    const keystroke = () => 30 + Math.random() * 55;
+    const place = (after: HTMLElement) => after.after(caret);
+
+    const type = async (target: HTMLElement, text: string) => {
+      place(target);
+      for (const ch of text) {
+        target.textContent += ch;
+        await sleep(ch === ' ' ? 60 : keystroke());
       }
     };
-    setTimeout(step, 350);
+    const erase = async (target: HTMLElement) => {
+      place(target);
+      while (target.textContent) {
+        target.textContent = target.textContent.slice(0, -1);
+        await sleep(38);
+      }
+    };
+
+    const run = async () => {
+      h.classList.add('tw-run');
+      await sleep(350);
+      await type(el.lead, `${lead} `);
+      await type(el.word, words[0]);
+      await type(el.rest, ` ${end}`);
+      await sleep(700);
+      place(el.word);
+      await sleep(450);
+      for (const next of words.slice(1)) {
+        await erase(el.word);
+        await sleep(250);
+        await type(el.word, next);
+        await sleep(next === words.at(-1) ? 300 : 800);
+      }
+      h.classList.add('tw-done');
+      setTimeout(() => caret.remove(), 3100);
+    };
+    run();
   }
 </script>
