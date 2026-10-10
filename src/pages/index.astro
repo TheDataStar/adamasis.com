@@ -113,38 +113,42 @@ const current = [
     const caret = document.createElement('span');
     caret.className = 'tw-caret';
     const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
-    const keystroke = () => 30 + Math.random() * 55;
+    const keystroke = () => 75 + Math.random() * 75;
+    const restText = () => (el.word.textContent && !el.word.textContent.endsWith(' ') ? ` ${end}` : end);
     const place = (after: HTMLElement) => after.after(caret);
 
     const type = async (target: HTMLElement, text: string) => {
       place(target);
       for (const ch of text) {
         target.textContent += ch;
-        await sleep(ch === ' ' ? 60 : keystroke());
+        if (target === el.word) el.rest.textContent = restText();
+        await sleep(ch === ' ' ? 140 : keystroke());
       }
     };
     const erase = async (target: HTMLElement) => {
       place(target);
       while (target.textContent) {
         target.textContent = target.textContent.slice(0, -1);
-        await sleep(38);
+        if (target === el.word) el.rest.textContent = restText();
+        await sleep(85);
       }
     };
 
     const run = async () => {
       h.classList.add('tw-run');
-      await sleep(350);
+      await sleep(600);
       await type(el.lead, `${lead} `);
       await type(el.word, words[0]);
+      el.rest.textContent = '';
       await type(el.rest, ` ${end}`);
-      await sleep(700);
+      await sleep(1300);
       place(el.word);
-      await sleep(450);
+      await sleep(700);
       for (const next of words.slice(1)) {
         await erase(el.word);
-        await sleep(250);
+        await sleep(450);
         await type(el.word, next);
-        await sleep(next === words.at(-1) ? 300 : 800);
+        await sleep(next === words.at(-1) ? 600 : 1400);
       }
       h.classList.add('tw-done');
       setTimeout(() => caret.remove(), 3100);
