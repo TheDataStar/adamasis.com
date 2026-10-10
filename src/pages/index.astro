@@ -112,7 +112,8 @@ const current = [
     out.querySelector<HTMLElement>('.tw-line-1')!.textContent = h.querySelector('.tw-ghost .tw-line-1')?.textContent ?? '';
     const caret = document.createElement('span');
     caret.className = 'tw-caret';
-    const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+    const pace = 0.9;
+    const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms * pace));
     const keystroke = () => 75 + Math.random() * 75;
     let restTyped = false;
     const restText = () => (el.word.textContent && !el.word.textContent.endsWith(' ') ? ` ${end}` : end);

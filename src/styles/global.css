@@ -306,7 +306,7 @@ header.site .name[aria-current='page'] { color: var(--ink); }
 }
 .tw-caret::before { content: ''; position: absolute; left: 0.02em; top: 0; width: 0.07em; height: 100%; background: var(--accent); }
 .tw-done .tw-caret { animation: tw-blink 1s steps(1) 3 forwards; }
-.tw-run .tw-out .tw-line-1 { opacity: 0; transform: translateY(0.3em); transition: opacity 0.9s ease, transform 0.9s ease; }
-.tw-done .tw-out .tw-line-1 { opacity: 1; transform: none; transition-delay: 0.4s; }
+.tw-run .tw-out .tw-line-1 { opacity: 0; transform: translateY(0.3em); transition: opacity 0.8s ease, transform 0.8s ease; }
+.tw-done .tw-out .tw-line-1 { opacity: 1; transform: none; transition-delay: 0.35s; }
 @keyframes tw-blink { 50% { opacity: 0; } 100% { opacity: 0; } }
 @media (max-width: 819px) { .hero { align-items: start; } }
