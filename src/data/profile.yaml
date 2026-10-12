@@ -7,11 +7,11 @@ photos:
 - caption: '[Caption]'
 principles:
 - title: Repeatable, Teachable Frameworks & Processes
-  text: Great solutions architecture is a product of requirements and approach. For any solution to succeed, you need to identify ALL of the failed or aging processes currently deployed, whether they involve people, networks or computational systems, and LEARN why. Without that comprehension you cannot truly understand the requirements, or introduce "better" processes without unnecessary failure or friction.
+  text: 'Great solutions architecture is a product of requirements and approach, and the approach should be one you can repeat and teach. I start projects the same way every time: find ALL of the pre-existing failed or aging processes already in place, whether they involve people, networks or computational systems, and LEARN why they are failing or in need of replacement. Skip this step and you never truly understand the requirements, and every "better" solution you try and introduce brings unnecessary failure and friction.'
 - title: Communicate Often AND Effectively
-  text: Understanding the best way to converse and communicate with others, regardless of intent or purpose, is foundational to true success. How people like to communicate, the best tools or medium to do so, and how often are all necessary discoveries when bringing solutions and projects to fruition.
+  text: 'Knowing how to communicate with people is foundational to success. Learn how each person prefers to communicate, which tools or medium work best, and how often to check in. Those discoveries are what carry a project from idea to delivery.'
 - title: Honesty & Openness Create Stronger Bonds
-  text: Not much else to say about this, as it's pretty self-explanatory. Be brave with openness and have the courage to be honest. Few great feats have ever been accomplished by half measures, and even fewer alone.
+  text: 'Be brave with openness and have the courage to be honest. Few great feats have ever been accomplished by half measures, and even fewer alone.'
 skills:
 - area: '[Skill area 1]'
   items:
