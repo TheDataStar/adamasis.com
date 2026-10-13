@@ -12,7 +12,10 @@ const roles = await Promise.all(
     .map(async (r) => ({ ...r, cases: await getEntries(r.data.caseStudies) })),
 );
 const credentials = (await getCollection('education')).sort(
-  (a, b) => Number(b.data.kind === 'degree') - Number(a.data.kind === 'degree') || b.data.year.localeCompare(a.data.year),
+  (a, b) =>
+    Number(b.data.kind === 'degree') - Number(a.data.kind === 'degree') ||
+    Number(b.data.status === 'in-progress') - Number(a.data.status === 'in-progress') ||
+    b.data.year.localeCompare(a.data.year, undefined, { numeric: true }),
 );
 const pinned = (await research()).find((r) => r.data.pinned);
 const portrait = photo(profile.portrait);

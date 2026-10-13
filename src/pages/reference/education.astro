@@ -2,7 +2,11 @@
 import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 
-const all = (await getCollection('education')).sort((a, b) => b.data.year.localeCompare(a.data.year));
+const all = (await getCollection('education')).sort(
+  (a, b) =>
+    Number(b.data.status === 'in-progress') - Number(a.data.status === 'in-progress') ||
+    b.data.year.localeCompare(a.data.year, undefined, { numeric: true }),
+);
 const groups = [
   ['degree', 'Education'],
   ['certificate', 'Certificates'],

@@ -9,45 +9,71 @@ principles:
 - title: Repeatable, Teachable Frameworks & Processes
   text: 'Great solutions architecture is a product of requirements and approach, and the approach should be one you can repeat and teach. I start projects the same way every time: find ALL of the pre-existing failed or aging processes already in place, whether they involve people, networks or computational systems, and LEARN why they are failing or in need of replacement. Skip this step and you never truly understand the requirements, and every "better" solution you try and introduce brings unnecessary failure and friction.'
 - title: Communicate Often AND Effectively
-  text: 'Knowing how to communicate with people is foundational to success. Learn how each person prefers to communicate, which tools or medium work best, and how often to check in. Those discoveries are what carry a project from idea to delivery.'
+  text: Knowing how to communicate with people is foundational to success. Learn how each person prefers to communicate, which tools or medium work best, and how often to check in. Those discoveries are what carry a project from idea to delivery.
 - title: Honesty & Openness Create Stronger Bonds
-  text: 'Be brave with openness and have the courage to be honest. Few great feats have ever been accomplished by half measures, and even fewer alone.'
+  text: Be brave with openness and have the courage to be honest. Few great feats have ever been accomplished by half measures, and even fewer alone.
 skills:
-- area: '[Skill area 1]'
+- area: AI & ML
   items:
-  - '[Skill]'
-  - '[Skill]'
-  - '[Skill]'
-  - '[Skill]'
-- area: '[Skill area 2]'
+  - Enterprise AI strategy
+  - Generative AI and LLM APIs (Gemini, Claude, OpenAI)
+  - Vertex AI
+  - Agentic workflows
+  - Prompt engineering
+  - MLOps
+  - Edge AI
+- area: Cloud
   items:
-  - '[Skill]'
-  - '[Skill]'
-  - '[Skill]'
-- area: '[Skill area 3]'
+  - GCP (Vertex AI, Cloud Run, Cloud Functions, Firebase, IAM)
+  - AWS
+  - Azure
+  - Multi-cloud architecture
+  - VMware vSphere
+- area: Networks & Edge
   items:
-  - '[Skill]'
-  - '[Skill]'
-  - '[Skill]'
+  - 5G advanced networking
+  - Private 5G networks
+  - SASE
+  - ZTNA
+  - SD-WAN
+  - IoT
+  - Edge computing
+- area: Data
+  items:
+  - Data architecture
+  - Data engineering
+  - SQL
+  - Python
+  - R
+- area: Solutions
+  items:
+  - Discovery and requirements
+  - Solution design
+  - RFP/RFI response
+  - Executive presentations
+  - Technical enablement
 recognition:
-- year: YYYY
-  title: '[Award name]'
-  detail: '[What it was for, in one line]'
-- year: YYYY
-  title: '[Press feature or publication]'
-  detail: '[Where it appeared and what it covered]'
-- year: YYYY – YYYY
-  title: '[Ongoing honor, e.g. a repeated performance award]'
-  detail: '[What earned it]'
+- year: '2024'
+  title: “Dare to Innovate” Award
+  detail: T-Mobile for Business.
+- year: Q3 2024
+  title: “Inspire” Award
+  detail: T-Mobile for Business.
+- year: Multiple quarters
+  title: Winners Circle
+  detail: For sustained results above 300% of quarterly targets.
+- year: '2023'
+  title: Featured technologist
+  detail: T-Mobile corporate publications and national industry press, for the first 5G hybrid network in U.S. healthcare.
 community:
-- title: '[Role, Group or organization]'
-  detail: '[What you did and who it helped]'
-- title: '[Role, Group or organization]'
-  detail: '[Councils, mentoring, volunteering or employee groups all belong here]'
-- title: '[Conferences or events]'
-  detail: '[Where you have spoken or represented your organization]'
+- title: Founder & Lead, Solutions Engineering AI Working Group
+  detail: Led an 8-person group that built T-Mobile for Business’s first AI training program, adopted by 700+ engineers and sellers.
+- title: Field Advisory Council of Engineers
+  detail: Nominated by directors and VPs to advise on solutions engineering practice; built the knowledge base adopted as the organization standard.
+- title: Industry events
+  detail: Represented T-Mobile at HIMSS, HLTH, Becker’s Healthcare and Gartner IT Symposium.
 next:
-- '[Your next step]'
-- '[The step after that]'
-- '[Your longer-term goal]'
-- '[Your ultimate goal]'
+- Lead AI solutions architecture where AI meets networks and the edge
+- Publish my sovereign edge research and the AI-across-the-stack series
+- Finish my B.S. in Computer Science, then a master’s and a doctorate
+- Teach the next generation of engineers and architects

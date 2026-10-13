@@ -7,13 +7,14 @@ const roles = (await getCollection('experience')).sort((a, b) => a.data.order - 
 const withCases = await Promise.all(roles.map(async (r) => ({ ...r, cases: await getEntries(r.data.caseStudies) })));
 ---
 
-<Base title="Experience" description="Fifteen years across technology, enterprise solutions engineering and consulting.">
+<Base title="Experience" description="Seventeen years in telecom and technology, including eight in enterprise solutions engineering, architecture and consulting.">
   <article class="sheet">
     <aside class="rail"><span class="meta">Reference</span></aside>
     <div class="main">
       <h1>Experience</h1>
       <p class="lede">
-        Fifteen years across technology, enterprise solutions engineering and consulting, serving Fortune 500
+        Seventeen years in telecom and technology, including eight in enterprise solutions engineering, architecture
+        and consulting, serving Fortune 500
         companies and major institutions in healthcare, manufacturing, financial services and higher education.
       </p>
       {existsSync('public/cv.pdf') && <p class="meta"><a href="/cv.pdf">Download CV</a></p>}
