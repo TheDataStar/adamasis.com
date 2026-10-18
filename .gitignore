@@ -4,3 +4,4 @@ dist/
 .DS_Store
 .env
 .obsidian/workspace*.json
+keystatic-secret.txt

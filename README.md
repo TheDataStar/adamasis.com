@@ -29,6 +29,17 @@ Run `npm run dev` and open http://localhost:4321/keystatic. From there you can e
 - **Figures:** use the image button. Images are saved under `public/images/<section>/<entry>/`, and the image's alt text becomes the numbered caption.
 - New entries start as drafts. Uncheck **Draft** to publish.
 
+### Online
+
+With the four variables below set in Vercel, the dashboard also runs at https://adamasis.com/keystatic. You sign in with GitHub and each save is committed to the repository, which triggers a deploy. Only the GitHub account listed in `src/middleware.ts` is let in, and saving also requires write access to the repository.
+
+| Variable | Value |
+| --- | --- |
+| `PUBLIC_KEYSTATIC_GITHUB_APP_SLUG` | The GitHub App's name as it appears in its URL |
+| `KEYSTATIC_GITHUB_CLIENT_ID` | The app's Client ID |
+| `KEYSTATIC_GITHUB_CLIENT_SECRET` | A client secret generated on the app's page |
+| `KEYSTATIC_SECRET` | Any long random string |
+
 ## Write something
 
 ```sh
