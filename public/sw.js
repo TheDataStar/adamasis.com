@@ -1,4 +1,4 @@
-const CACHE = 'notebook-v2';
+const CACHE = 'notebook-v3';
 const OFFLINE = '/offline';
 
 self.addEventListener('install', (event) => {
@@ -14,15 +14,22 @@ self.addEventListener('activate', (event) => {
 
 self.addEventListener('fetch', (event) => {
   const { request } = event;
-  if (request.method !== 'GET' || new URL(request.url).origin !== location.origin) return;
+  const url = new URL(request.url);
+  if (request.method !== 'GET' || url.origin !== location.origin) return;
+  if (url.pathname.startsWith('/keystatic') || url.pathname.startsWith('/api/')) return;
+
+  const keep = (res) => {
+    if (res.ok && !res.redirected && res.type === 'basic') {
+      const copy = res.clone();
+      caches.open(CACHE).then((c) => c.put(request, copy));
+    }
+    return res;
+  };
 
   if (request.mode === 'navigate') {
     event.respondWith(
       fetch(request)
-        .then((res) => {
-          caches.open(CACHE).then((c) => c.put(request, res.clone()));
-          return res;
-        })
+        .then(keep)
         .catch(() => caches.match(request).then((hit) => hit || caches.match(OFFLINE))),
     );
     return;
@@ -32,10 +39,7 @@ self.addEventListener('fetch', (event) => {
     caches.match(request).then(
       (hit) =>
         hit ||
-        fetch(request).then((res) => {
-          if (res.ok) caches.open(CACHE).then((c) => c.put(request, res.clone()));
-          return res;
-        }),
+        fetch(request).then(keep),
     ),
   );
 });
