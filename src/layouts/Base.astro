@@ -10,9 +10,11 @@ interface Props {
   type?: 'website' | 'article';
   schema?: Record<string, unknown>;
   noindex?: boolean;
+  /** Full-screen sections that snap into place. Mark sections with .snap-section (the first with .snap-intro). */
+  snap?: boolean;
 }
 
-const { title, description = site.description, image, type = 'website', schema, noindex = false } = Astro.props;
+const { title, description = site.description, image, type = 'website', schema, noindex = false, snap = false } = Astro.props;
 const fullTitle = title ? `${title} · ${site.name}` : `${site.name} · Notebook`;
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
 const ogImage = new URL(image ?? '/og/default.png', Astro.site).href;
@@ -31,7 +33,7 @@ const person = {
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" class={snap ? 'snap' : undefined}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -66,6 +68,7 @@ const person = {
   </head>
   <body>
     <a class="skip" href="#content">Skip to content</a>
+    {snap && <div class="snap-lead" aria-hidden="true"></div>}
     <div class="frame">
       <header class="site">
         <a class="name" href="/" aria-current={path === '/' ? 'page' : undefined}>{site.name}</a>
@@ -114,6 +117,26 @@ const person = {
         </div>
       </footer>
     </div>
+    {snap && (
+      <script is:inline>
+        (() => {
+          // The first screen holds the header and the intro section together. --snap-offset lets
+          // the intro fill whatever height the header (and, on narrow screens, the rail) leaves;
+          // --snap-lead sizes one snap area over both, so an intro taller than the screen
+          // scrolls freely instead of being skipped.
+          const first = document.querySelector('.snap-intro');
+          if (!first) return;
+          const root = document.documentElement;
+          const set = () => {
+            const box = first.getBoundingClientRect();
+            root.style.setProperty('--snap-offset', `${Math.round(box.top + scrollY)}px`);
+            root.style.setProperty('--snap-lead', `${Math.round(box.bottom + scrollY)}px`);
+          };
+          set();
+          new ResizeObserver(set).observe(document.body);
+        })();
+      </script>
+    )}
     <script is:inline>
       const toggle = document.getElementById('theme-toggle');
       const label = () => (toggle.textContent = document.documentElement.dataset.theme === 'dark' ? 'Paper mode' : 'Night mode');

@@ -36,7 +36,7 @@ const schema = {
 };
 ---
 
-<Base title="Profile" description={`${site.name}: ${profile.subtitle}`} schema={schema}>
+<Base title="Profile" description={`${site.name}: ${profile.subtitle}`} schema={schema} snap>
   <article class="sheet">
     <aside class="rail">
       {portrait ? (
@@ -53,6 +53,7 @@ const schema = {
     </aside>
 
     <div class="main">
+      <section class="snap-section snap-intro">
       <p class="eyebrow">Profile</p>
       <h1>{site.name}</h1>
       <p class="lede">{profile.subtitle}</p>
@@ -71,6 +72,9 @@ const schema = {
         </>
       )}
 
+      </section>
+
+      <section class="snap-section">
       <h2 id="principles">What I believe</h2>
       <ol class="index">
         {profile.principles.map((p, i) => (
@@ -78,6 +82,9 @@ const schema = {
         ))}
       </ol>
 
+      </section>
+
+      <section class="snap-section">
       <h2 id="work">What I work on</h2>
       {pinned && (
         <p>
@@ -103,6 +110,9 @@ const schema = {
         ))}
       </ol>
 
+      </section>
+
+      <section class="snap-section">
       <h2 id="skills">Skills</h2>
       <ul class="index">
         {profile.skills.map((s) => (
@@ -120,6 +130,9 @@ const schema = {
         ))}
       </ul>
 
+      </section>
+
+      <section class="snap-section">
       <h2 id="recognition">Recognition</h2>
       <ul class="index">
         {profile.recognition.map((r) => (
@@ -134,6 +147,9 @@ const schema = {
         ))}
       </ul>
 
+      </section>
+
+      <section class="snap-section">
       <h2 id="next">What's next</h2>
       <ol class="index">
         {profile.next.map((n, i) => <li><span class="meta">Step {i + 1}</span><span>{n}</span></li>)}
@@ -144,6 +160,7 @@ const schema = {
           Working on similar questions, or want me to speak, teach or advise? <a href="/contact">Get in touch</a>.
         </p>
       </div>
+      </section>
     </div>
   </article>
 </Base>

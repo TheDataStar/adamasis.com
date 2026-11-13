@@ -325,3 +325,49 @@ header.site .name[aria-current='page'] { color: var(--ink); }
 .tw-done .tw-out .tw-line-1 { opacity: 1; transform: none; transition-delay: 0.35s; }
 @keyframes tw-blink { 50% { opacity: 0; } 100% { opacity: 0; } }
 @media (max-width: 819px) { .hero { align-items: start; } }
+
+/* Section snapping (Home and Profile opt in with <Base snap>).
+   Native CSS scroll snapping: no scroll hijacking, so keyboard, trackpad, find-in-page and
+   screen readers behave as usual. Each section is at least one screen tall, measured in svh
+   (the height with mobile browser toolbars showing) so snap points don't shift as toolbars
+   hide. A section taller than the screen scrolls freely and snaps only at its top.
+   Short screens (phones held sideways) and print get the normal flowing page. */
+@media screen and (min-height: 560px) {
+  .snap .snap-section {
+    min-height: 100svh; display: flex; flex-direction: column; justify-content: center;
+    padding-block: 3rem;
+  }
+  /* The first screen is the header plus the intro; --snap-offset is the header's height. */
+  .snap .snap-intro { min-height: calc(100svh - var(--snap-offset, 0px)); padding-top: 0; }
+  .snap .snap-section > :first-child, .snap .snap-section > .section-head:first-child { margin-top: 0; }
+  .snap .sheet .snap-section { justify-content: flex-start; }
+  .snap .sheet .snap-section:not(.snap-intro) { padding-top: 4rem; }
+  .snap header.site { margin-bottom: 0; }
+  .snap .sheet { padding-top: 3rem; }
+  .snap footer.site { margin-top: 0; }
+
+  /* Home: a full first screen earns a bigger hero. */
+  .snap .home .hero { border-bottom: 0; padding-bottom: 0; margin-bottom: 0; }
+  .snap .home .hero h1 { font-size: clamp(2.1rem, 4.8vw, 3.5rem); }
+  @media (min-width: 820px) {
+    .snap .home .hero.with-portrait { grid-template-columns: 1fr 16rem; gap: 3rem; }
+    .snap .home .hero-portrait { width: 16rem; }
+  }
+  .snap .home .guide { gap: 1.25rem; }
+  .snap .home .guide-card { padding: 1.75rem 1.75rem 1.5rem; }
+  @media (min-width: 640px) { .snap .home .guide-card { min-height: 12rem; } }
+  /* Profile: keep the portrait and key facts in view beside every section. */
+  @media (min-width: 820px) { .snap .sheet > .rail { position: sticky; top: 3rem; align-self: start; } }
+}
+.snap-lead { display: none; }
+
+@media screen and (min-height: 560px) and (prefers-reduced-motion: no-preference) {
+  html.snap { scroll-snap-type: y mandatory; }
+  body:has(> .snap-lead) { position: relative; }
+  .snap-lead {
+    display: block; position: absolute; top: 0; left: 0; width: 1px; height: var(--snap-lead, 1px);
+    pointer-events: none; scroll-snap-align: start;
+  }
+  .snap .snap-section:not(.snap-intro) { scroll-snap-align: start; scroll-snap-stop: always; }
+  .snap footer.site { scroll-snap-align: end; }
+}

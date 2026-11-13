@@ -37,8 +37,9 @@ const current = [
 ].filter(([, value]) => value);
 ---
 
-<Base>
+<Base snap>
   <div class="home">
+  <div class="snap-section snap-intro">
   <section class="hero wide with-portrait">
     <div>
       <h1 class="typewriter" aria-label={headline}>
@@ -64,8 +65,9 @@ const current = [
       </div>
     </section>
   )}
+  </div>
 
-  <section class="wide">
+  <section class="wide snap-section">
     <div class="guide">
       {sections.filter((s) => s.href !== '/contact').map((s) => {
         const d = details[s.href];
@@ -86,7 +88,7 @@ const current = [
   </section>
 
   {site.upcoming.length > 0 && (
-    <section class="wide">
+    <section class="wide snap-section">
       <div class="section-head"><h2>Upcoming</h2></div>
       <ul class="index">
         {site.upcoming.map((u) => (
