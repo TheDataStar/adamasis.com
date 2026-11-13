@@ -1,10 +1,10 @@
 ---
-title: '[Journal entry title: what you now know]'
+title: '[Confirmed, e.g. Inventory Is the First Control at the Edge]'
 summary: '[One sentence stating the conclusion.]'
 date: 2026-01-19
 status: confirmed
 setup: '[Hardware, software or course]'
-topics: [data]
+topics: [edge, security]
 tags: [placeholder]
 draft: false
 ---

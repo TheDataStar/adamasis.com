@@ -1,5 +1,5 @@
 ---
-title: '[For the Board Room Lecture Title: A Question a Decision-Maker Would Ask]'
+title: '[For the Board Room, e.g. What Zero Trust Means for Your AI Rollout]'
 summary: '[One sentence promising what the reader will understand by the end.]'
 format: for-the-room
 forTheRoom: |
@@ -9,7 +9,7 @@ forTheRoom: |
 
   [Paragraph 3: what to do about it. One concrete next step a leader could take this week.]
 published: 2026-01-15
-topics: [ai]
+topics: [security, ai]
 tags: [placeholder]
 research: [primary-research]
 changelog:

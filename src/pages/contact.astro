@@ -3,28 +3,28 @@ import Base from '../layouts/Base.astro';
 import { site } from '../site.config';
 ---
 
-<Base title="Contact" description={`Get in touch with ${site.name}.`}>
+<Base title="Contact" description={`Get in touch with ${site.name} about AI and edge security, speaking, advising or mentoring.`}>
   <article class="sheet">
     <aside class="rail"><span class="meta">Contact</span></aside>
     <div class="main">
       <h1>Contact</h1>
-      <p class="lede">[One or two welcoming sentences. Say who you would most like to hear from.]</p>
+      <p class="lede">I would most like to hear from teams securing AI or edge deployments, and from people breaking into security who want a peer to compare notes with.</p>
       <div class="prose">
         <p>Good reasons to write:</p>
         <ul>
-          <li>[Speaking or teaching: the subjects you will talk about]</li>
-          <li>[Advising: the kinds of teams or decisions you can help with]</li>
-          <li>[Collaboration: the research or projects you want partners on]</li>
-          <li>[Mentoring: who you are glad to help, and how]</li>
+          <li><strong>Speaking or teaching</strong> on securing AI and agents, zero trust for the edge and private 5G, and explaining security risk to executives.</li>
+          <li><strong>Advising</strong> teams deciding how to secure AI workloads, IoT fleets or private networks.</li>
+          <li><strong>Collaboration</strong> on security research and open-source labs for AI and edge systems.</li>
+          <li><strong>Mentoring</strong> career changers, especially from telecom, sales or support, moving into technical and security roles.</li>
         </ul>
-        <blockquote>Tip: Specific reasons get better messages. "Teams deciding whether to run AI on their own hardware" beats "AI consulting".</blockquote>
+        <p>Specific questions get better answers. "How do we keep an on-prem LLM from leaking customer data?" is a great first message.</p>
       </div>
       <div class="cards" style="margin-top:2rem">
         <a class="panel" href={`mailto:${site.email}`}><span class="meta">Email</span><h3>{site.email}</h3><p>The best way to reach me.</p></a>
         {site.phone && <a class="panel" href={`tel:${site.phone.replace(/[^0-9+]/g, '')}`}><span class="meta">Phone</span><h3>{site.phone}</h3><p>[When you are reachable, e.g. weekdays 9–5 Pacific]</p></a>}
         {site.bookingUrl && <a class="panel" href={site.bookingUrl}><span class="meta">Calendar</span><h3>Book a time</h3><p>Pick a slot that works for you.</p></a>}
-        <a class="panel" href={site.links.linkedin}><span class="meta">LinkedIn</span><h3>Connect</h3><p>Where I share new lectures.</p></a>
-        <a class="panel" href={site.links.github}><span class="meta">GitHub</span><h3>Source</h3><p>Code behind the labs.</p></a>
+        <a class="panel" href={site.links.linkedin}><span class="meta">LinkedIn</span><h3>Connect</h3><p>Where I share what I am learning each week.</p></a>
+        <a class="panel" href={site.links.github}><span class="meta">GitHub</span><h3>Source</h3><p>Code behind the security labs.</p></a>
       </div>
     </div>
   </article>

@@ -1,11 +1,11 @@
 ---
-title: '[Teardown Title: Taking Apart a Product, System or Claim]'
+title: '[Teardown, e.g. Taking Apart an “AI-Powered” Security Product]'
 summary: '[One sentence on what you took apart and what you found inside.]'
 format: teardown
 forTheRoom: |
   [The short version: what it is, how it actually works, and whether the claims hold up.]
 published: 2026-02-01
-topics: [edge]
+topics: [security, ai]
 tags: [placeholder]
 draft: false
 ---

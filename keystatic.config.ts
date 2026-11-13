@@ -85,8 +85,9 @@ export default config({
       schema: {
         subtitle: fields.text({ label: 'Subtitle', description: 'The line under your name.', multiline: true, validation: { length: { min: 1 } } }),
         based: fields.text({ label: 'Based in', validation: { length: { min: 1 } } }),
-        focusLabel: fields.text({ label: 'Expertise label', defaultValue: 'Areas of Expertise' }),
-        focus: fields.text({ label: 'Areas of expertise', validation: { length: { min: 1 } } }),
+        focusLabel: fields.text({ label: 'Focus label', defaultValue: 'Focus' }),
+        focus: fields.text({ label: 'Focus areas', validation: { length: { min: 1 } } }),
+        hobby: fields.text({ label: 'Hobby R&D', description: 'Optional. Personal research outside your main focus.' }),
         portrait: fields.image({
           label: 'Headshot',
           description: 'Used on the home and Profile pages. A 4:5 portrait works best.',
@@ -278,6 +279,15 @@ export default config({
             { label: 'Complete', value: 'complete' },
           ],
           defaultValue: 'active',
+        }),
+        track: fields.select({
+          label: 'Track',
+          description: 'Security labs are listed first; hobby R&D (e.g. robotics) is listed separately.',
+          options: [
+            { label: 'Security', value: 'security' },
+            { label: 'Hobby R&D', value: 'hobby' },
+          ],
+          defaultValue: 'security',
         }),
         role: fields.text({ label: 'Your role', validation: { length: { min: 1 } } }),
         period: fields.text({ label: 'Period', description: 'e.g. 2025 – present', validation: { length: { min: 1 } } }),
