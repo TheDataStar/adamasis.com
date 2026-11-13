@@ -28,7 +28,6 @@ const details: Record<string, { count?: string; latest?: { title: string; href: 
   '/library': { count: plural(library.length, 'item') },
 };
 const portrait = photo((await getEntry('profile', 'profile'))?.data.portrait);
-const headline = site.headline.split('\n').join(' ');
 const current = [
   ['Studying', site.currently.studying],
   ['Reading', site.currently.reading],
@@ -40,15 +39,9 @@ const current = [
   <div class="home">
   <section class="hero wide with-portrait">
     <div>
-      <h1 class="typewriter" aria-label={headline}>
-        <span class="tw-ghost">
-          <span class="tw-line tw-line-0">{hero.lead} <span class="ed-struck">{hero.struck}</span> <span class="ed-word">{hero.word}</span> {hero.rest}</span>
-          <span class="tw-line tw-line-1">{hero.tagline}</span>
-        </span>
-        <span class="tw-out" aria-hidden="true" data-hero={JSON.stringify(hero)}>
-          <span class="tw-line tw-line-0"><span class="tw-a"></span><span class="ed-struck"><span class="tw-b"></span></span><span class="ed-word tw-c"></span><span class="tw-d"></span></span>
-          <span class="tw-line tw-line-1"></span>
-        </span>
+      <h1>
+        <span class="tw-line">{hero.headline}</span>
+        <span class="tw-line tw-line-1">{hero.tagline}</span>
       </h1>
       {site.thesis && <p class="thesis">{site.thesis}</p>}
     </div>
@@ -100,49 +93,3 @@ const current = [
   </div>
 </Base>
 
-<script>
-  const h = document.querySelector<HTMLElement>('.typewriter');
-  const out = h?.querySelector<HTMLElement>('.tw-out');
-  if (h && out && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    const { lead, struck, word, rest, tagline } = JSON.parse(out.dataset.hero ?? '{}') as Record<string, string>;
-    const el = {
-      a: out.querySelector<HTMLElement>('.tw-a')!,
-      b: out.querySelector<HTMLElement>('.tw-b')!,
-      c: out.querySelector<HTMLElement>('.tw-c')!,
-      d: out.querySelector<HTMLElement>('.tw-d')!,
-    };
-    out.querySelector<HTMLElement>('.tw-line-1')!.textContent = tagline;
-    const caret = document.createElement('span');
-    caret.className = 'tw-caret';
-    const pace = 0.9;
-    const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms * pace));
-    const keystroke = () => 70 + Math.random() * 70;
-
-    const type = async (target: HTMLElement, text: string, speed = keystroke) => {
-      target.after(caret);
-      for (const ch of text) {
-        target.textContent += ch;
-        await sleep(ch === ' ' ? 130 : speed());
-      }
-    };
-
-    const run = async () => {
-      h.classList.add('tw-run');
-      await sleep(600);
-      await type(el.a, `${lead} `);
-      await type(el.b, struck);
-      await type(el.d, ` ${rest}`);
-      await sleep(1100);
-      // The edit: strike the old verb, then write the new one beside it.
-      el.b.parentElement!.after(caret);
-      await sleep(500);
-      h.classList.add('ed-strike-on');
-      await sleep(650);
-      await type(el.c, ` ${word}`, () => 95 + Math.random() * 60);
-      el.d.after(caret);
-      h.classList.add('tw-done');
-      setTimeout(() => caret.remove(), 3100);
-    };
-    run();
-  }
-</script>

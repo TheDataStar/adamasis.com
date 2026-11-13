@@ -309,28 +309,6 @@ header.site .name[aria-current='page'] { color: var(--ink); }
 
 .hero { align-items: center; }
 .hero h1 { font-size: clamp(1.9rem, 4.2vw, 3rem); line-height: 1.12; max-width: 24ch; }
-.typewriter { position: relative; }
 .tw-line { display: block; }
 .tw-line-1 { margin-top: 0.6em; font-size: 0.62em; font-weight: 400; font-style: italic; color: var(--ink-2); line-height: 1.3; }
-.tw-out { position: absolute; inset: 0; }
-.typewriter:not(.tw-run) .tw-out { display: none; }
-.tw-run .tw-ghost { visibility: hidden; }
-.tw-caret {
-  display: inline-block; position: relative; width: 0; height: 0.95em; vertical-align: -0.12em;
-  animation: tw-blink 1s steps(1) infinite;
-}
-.tw-caret::before { content: ''; position: absolute; left: 0.02em; top: 0; width: 0.07em; height: 100%; background: var(--accent); }
-.tw-done .tw-caret { animation: tw-blink 1s steps(1) 3 forwards; }
-.tw-run .tw-out .tw-line-1 { opacity: 0; transform: translateY(0.3em); transition: opacity 0.8s ease, transform 0.8s ease; }
-.tw-done .tw-out .tw-line-1 { opacity: 1; transform: none; transition-delay: 0.35s; }
-.ed-struck { position: relative; display: inline-block; transition: color 0.4s ease; }
-.ed-struck::after {
-  content: ''; position: absolute; left: -0.06em; right: -0.06em; top: 54%; height: 0.075em;
-  background: var(--accent); border-radius: 0.04em; transform: scaleX(0) rotate(-1.5deg); transform-origin: left center;
-  transition: transform 0.45s cubic-bezier(0.6, 0, 0.3, 1);
-}
-.tw-ghost .ed-struck, .ed-strike-on .ed-struck { color: var(--ink-3); }
-.tw-ghost .ed-struck::after, .ed-strike-on .ed-struck::after { transform: scaleX(1) rotate(-1.5deg); }
-.ed-word { color: var(--accent); font-style: italic; }
-@keyframes tw-blink { 50% { opacity: 0; } 100% { opacity: 0; } }
 @media (max-width: 819px) { .hero { align-items: start; } }

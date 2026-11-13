@@ -1,16 +1,12 @@
-// Home hero: types the original line, strikes through `struck`, then writes `word` beside it.
-// Visitors who prefer reduced motion (and search engines) see the finished edit.
+// Home hero. Static placeholder until a new hero concept is chosen.
 export const hero = {
-  lead: 'I',
-  struck: 'build',
-  word: 'secure',
-  rest: 'the systems AI runs on.',
+  headline: 'I architect secure systems.',
   tagline: 'Then I teach others to do the same.',
 };
 
 export const site = {
   name: 'Adam J. Asis',
-  headline: `${hero.lead} ${hero.word} ${hero.rest}\n${hero.tagline}`,
+  headline: `${hero.headline}\n${hero.tagline}`,
   description: 'Lectures, notes, research and labs on cybersecurity, with a focus on securing AI and edge computing.',
   url: 'https://adamasis.com',
   email: 'hello@adamasis.com',
