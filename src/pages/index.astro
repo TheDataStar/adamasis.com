@@ -44,6 +44,10 @@ const current = [
         <span class="tw-line tw-line-1">{hero.tagline}</span>
       </h1>
       {site.thesis && <p class="thesis">{site.thesis}</p>}
+      <p class="actions">
+        <a class="btn btn-primary" href="/contact">Get in touch</a>
+        <a class="btn" href="/profile">View profile</a>
+      </p>
     </div>
     {portrait ? (
       <img class="hero-portrait" src={portrait} alt={site.name} width="220" height="275" />
@@ -53,20 +57,22 @@ const current = [
   </section>
 
   {current.length > 0 && (
-    <section class="wide" style="margin:2rem 0">
-      <div class="cards">
-        {current.map(([label, value]) => <div class="panel"><span class="label meta">{label}</span><p>{value}</p></div>)}
-      </div>
+    <section class="wide now" aria-labelledby="now-title">
+      <h2 class="label" id="now-title">Right now</h2>
+      <dl>
+        {current.map(([label, value]) => <div><dt class="label">{label}</dt><dd>{value}</dd></div>)}
+      </dl>
     </section>
   )}
 
-  <section class="wide">
+  <section class="wide" aria-labelledby="explore-title">
+    <div class="section-head"><h2 id="explore-title">Explore</h2></div>
     <div class="guide">
       {sections.filter((s) => s.href !== '/contact').map((s) => {
         const d = details[s.href];
         return (
           <a class="panel guide-card" href={s.href}>
-            <h3>{s.name}{s.note && <span class="note"> ({s.note})</span>}</h3>
+            <h3>{s.name}{s.note && <span class="note"> ({s.note})</span>}<span class="arrow" aria-hidden="true">→</span></h3>
             <p class="blurb">{s.blurb}</p>
             {d && (
               <p class="meta guide-foot">

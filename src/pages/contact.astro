@@ -19,7 +19,7 @@ import { site } from '../site.config';
         </ul>
         <p>Specific questions get better answers. "How do we keep an on-prem LLM from leaking customer data?" is a great first message.</p>
       </div>
-      <div class="cards" style="margin-top:2rem">
+      <div class="cards contact-cards">
         <a class="panel" href={`mailto:${site.email}`}><span class="meta">Email</span><h3>{site.email}</h3><p>The best way to reach me.</p></a>
         {site.phone && <a class="panel" href={`tel:${site.phone.replace(/[^0-9+]/g, '')}`}><span class="meta">Phone</span><h3>{site.phone}</h3><p>[When you are reachable, e.g. weekdays 9–5 Pacific]</p></a>}
         {site.bookingUrl && <a class="panel" href={site.bookingUrl}><span class="meta">Calendar</span><h3>Book a time</h3><p>Pick a slot that works for you.</p></a>}
