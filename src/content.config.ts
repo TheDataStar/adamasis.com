@@ -53,6 +53,7 @@ const labs = defineCollection({
   schema: z.object({
     ...common,
     kind: z.enum(['project']).default('project'),
+    track: z.enum(['security', 'hobby']).default('security'),
     status: z.enum(['active', 'shipped', 'paused', 'complete']),
     role: z.string(),
     period: z.string(),
@@ -145,8 +146,9 @@ const profile = defineCollection({
   schema: z.object({
     subtitle: z.string(),
     based: z.string(),
-    focusLabel: z.string().default('Areas of Expertise'),
+    focusLabel: z.string().default('Focus'),
     focus: z.string(),
+    hobby: z.string().optional(),
     portrait: opt(z.string()),
     photos: z.array(z.object({ image: opt(z.string()), caption: z.string() })).default([]),
     principles: z.array(z.object({ title: z.string(), text: z.string() })).default([]),

@@ -4,22 +4,32 @@ import { labs } from '../../lib/content';
 import { blurb } from '../../site.config';
 
 const all = await labs();
+const groups = [
+  { id: 'security', title: 'Security Labs', items: all.filter((l) => l.data.track === 'security') },
+  { id: 'hobby', title: 'Hobby R&D', note: 'Personal research outside my main focus, mostly robotics.', items: all.filter((l) => l.data.track === 'hobby') },
+].filter((g) => g.items.length > 0);
 ---
 
-<Base title="Labs" description="Personal projects in AI, robotics and edge computing, with their research and development artifacts.">
+<Base title="Labs" description="Security labs, tools and home-lab builds, plus hobby robotics R&D, with their research artifacts.">
   <div class="wide">
     <p class="eyebrow">Labs</p>
     <h1>Labs</h1>
     <p class="lede">{blurb('/labs')}</p>
     <p class="muted">Case studies from my career live in <a href="/lectures">Lectures</a>.</p>
-    <div class="cards" style="margin-top:2rem">
-      {all.map((lab) => (
-        <a class="panel" href={`/labs/${lab.id}`}>
-          <span class="meta"><span class={`status ${lab.data.status}`}>{lab.data.status}</span> · {lab.data.period}</span>
-          <h3>{lab.data.title}</h3>
-          <p>{lab.data.summary}</p>
-        </a>
-      ))}
-    </div>
+    {groups.map((g) => (
+      <section aria-labelledby={`track-${g.id}`}>
+        {groups.length > 1 && <div class="section-head"><h2 id={`track-${g.id}`}>{g.title}</h2></div>}
+        {groups.length > 1 && g.note && <p class="muted">{g.note}</p>}
+        <div class="cards" style="margin-top:1.5rem">
+          {g.items.map((lab) => (
+            <a class="panel" href={`/labs/${lab.id}`}>
+              <span class="meta"><span class={`status ${lab.data.status}`}>{lab.data.status}</span> · {lab.data.period}</span>
+              <h3>{lab.data.title}</h3>
+              <p>{lab.data.summary}</p>
+            </a>
+          ))}
+        </div>
+      </section>
+    ))}
   </div>
 </Base>

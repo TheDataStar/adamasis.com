@@ -47,6 +47,7 @@ const schema = {
       <dl class="meta">
         <dt>Based in</dt><dd>{profile.based}</dd>
         <dt>{profile.focusLabel}</dt><dd>{profile.focus}</dd>
+        {profile.hobby && <><dt>Hobby R&amp;D</dt><dd>{profile.hobby}</dd></>}
         {site.currently.studying && <><dt>Studying</dt><dd>{site.currently.studying}</dd></>}
         <dt>Contact</dt><dd><a href="/contact">Get in touch</a></dd>
       </dl>

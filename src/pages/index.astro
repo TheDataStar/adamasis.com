@@ -28,8 +28,6 @@ const details: Record<string, { count?: string; latest?: { title: string; href: 
   '/library': { count: plural(library.length, 'item') },
 };
 const portrait = photo((await getEntry('profile', 'profile'))?.data.portrait);
-const lines = site.headline.split('\n');
-const headline = lines.join(' ');
 const current = [
   ['Studying', site.currently.studying],
   ['Reading', site.currently.reading],
@@ -41,12 +39,9 @@ const current = [
   <div class="home">
   <section class="hero wide with-portrait">
     <div>
-      <h1 class="typewriter" aria-label={headline}>
-        <span class="tw-ghost">{lines.map((l, i) => <>{i > 0 && ' '}<span class={`tw-line tw-line-${i}`}>{l}</span></>)}</span>
-        <span class="tw-out" aria-hidden="true" data-hero={JSON.stringify(hero)}>
-          <span class="tw-line tw-line-0"><span class="tw-lead"></span><span class="tw-word"></span><span class="tw-rest"></span></span>
-          <span class="tw-line tw-line-1"></span>
-        </span>
+      <h1>
+        <span class="tw-line">{hero.headline}</span>
+        <span class="tw-line tw-line-1">{hero.tagline}</span>
       </h1>
       {site.thesis && <p class="thesis">{site.thesis}</p>}
     </div>
@@ -58,7 +53,7 @@ const current = [
   </section>
 
   {current.length > 0 && (
-    <section class="wide" style="margin-top:2rem">
+    <section class="wide" style="margin:2rem 0">
       <div class="cards">
         {current.map(([label, value]) => <div class="panel"><span class="label meta">{label}</span><p>{value}</p></div>)}
       </div>
@@ -98,62 +93,3 @@ const current = [
   </div>
 </Base>
 
-<script>
-  const h = document.querySelector<HTMLElement>('.typewriter');
-  const out = h?.querySelector<HTMLElement>('.tw-out');
-  if (h && out && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    const { lead, words, end } = JSON.parse(out.dataset.hero ?? '{}') as { lead: string; words: string[]; end: string };
-    const el = {
-      lead: out.querySelector<HTMLElement>('.tw-lead')!,
-      word: out.querySelector<HTMLElement>('.tw-word')!,
-      rest: out.querySelector<HTMLElement>('.tw-rest')!,
-    };
-    out.querySelector<HTMLElement>('.tw-line-1')!.textContent = h.querySelector('.tw-ghost .tw-line-1')?.textContent ?? '';
-    const caret = document.createElement('span');
-    caret.className = 'tw-caret';
-    const pace = 0.9;
-    const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms * pace));
-    const keystroke = () => 75 + Math.random() * 75;
-    let restTyped = false;
-    const restText = () => (el.word.textContent && !el.word.textContent.endsWith(' ') ? ` ${end}` : end);
-    const place = (after: HTMLElement) => after.after(caret);
-
-    const type = async (target: HTMLElement, text: string) => {
-      place(target);
-      for (const ch of text) {
-        target.textContent += ch;
-        if (target === el.word && restTyped) el.rest.textContent = restText();
-        await sleep(ch === ' ' ? 140 : keystroke());
-      }
-    };
-    const erase = async (target: HTMLElement) => {
-      place(target);
-      while (target.textContent) {
-        target.textContent = target.textContent.slice(0, -1);
-        if (target === el.word && restTyped) el.rest.textContent = restText();
-        await sleep(85);
-      }
-    };
-
-    const run = async () => {
-      h.classList.add('tw-run');
-      await sleep(600);
-      await type(el.lead, `${lead} `);
-      await type(el.word, words[0]);
-      await type(el.rest, ` ${end}`);
-      restTyped = true;
-      await sleep(1300);
-      place(el.word);
-      await sleep(700);
-      for (const next of words.slice(1)) {
-        await erase(el.word);
-        await sleep(450);
-        await type(el.word, next);
-        await sleep(next === words.at(-1) ? 600 : 1400);
-      }
-      h.classList.add('tw-done');
-      setTimeout(() => caret.remove(), 3100);
-    };
-    run();
-  }
-</script>

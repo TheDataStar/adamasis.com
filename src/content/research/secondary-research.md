@@ -1,12 +1,12 @@
 ---
-title: '[Secondary Research Topic]'
+title: '[Secondary research, e.g. Zero Trust for Private 5G]'
 summary: '[An exploratory topic you are starting to investigate.]'
 status: exploratory
 version: '0.1'
 started: 2026-01-01
 questions:
   - '[An early question you want to test]'
-topics: [leadership]
+topics: [networking, security]
 tags: [placeholder]
 ---
 
