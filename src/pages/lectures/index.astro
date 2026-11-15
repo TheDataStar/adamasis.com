@@ -12,7 +12,7 @@ const all = await lectures();
     <h1>Lectures</h1>
     <p class="lede">{blurb('/lectures')}</p>
     <p class="muted">You will also find <strong>Teardowns</strong>, which take a product or claim apart, and <strong>Case Studies</strong> documenting work from my career.</p>
-    {all.length === 0 ? <p class="muted">The first lecture is in progress.</p> : (
+    {all.length === 0 ? <p class="empty">The first lecture is in progress.</p> : (
       <ul class="index">
         {all.map((l) => (
           <li>

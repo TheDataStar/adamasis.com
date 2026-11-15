@@ -397,3 +397,9 @@ header.site .name[aria-current='page'] { color: var(--ink); }
 .profile .main h2[id] { scroll-margin-top: var(--s3); }
 html { scroll-behavior: smooth; }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+/* Empty state: a section with nothing published yet still looks deliberate */
+.empty {
+  margin: var(--s3) 0 0; padding: var(--s3); border: 1px dashed var(--rule); border-radius: 4px;
+  color: var(--ink-2); font-style: italic; max-width: var(--measure);
+}

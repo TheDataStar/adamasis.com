@@ -16,6 +16,7 @@ const groups = [
     <h1>Labs</h1>
     <p class="lede">{blurb('/labs')}</p>
     <p class="muted">Case studies from my career live in <a href="/lectures">Lectures</a>.</p>
+    {groups.length === 0 && <p class="empty">The first lab write-up is on the way.</p>}
     {groups.map((g) => (
       <section aria-labelledby={`track-${g.id}`}>
         {groups.length > 1 && <div class="section-head"><h2 id={`track-${g.id}`}>{g.title}</h2></div>}

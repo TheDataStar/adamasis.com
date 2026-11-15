@@ -19,9 +19,9 @@ export const site = {
   },
   thesis: 'Every AI model and edge device is only as trustworthy as the system around it. I study how to secure the systems that think and act outside the data center.',
   currently: {
-    studying: '[Security certification you are studying for, e.g. CompTIA Security+]',
-    reading: '[Security book you are reading now]',
-    building: '[Home security lab, e.g. a home SOC with Wazuh]',
+    studying: '',
+    reading: '',
+    building: '',
   },
   upcoming: [] as { date: string; title: string; url?: string }[],
 };
