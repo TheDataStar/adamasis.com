@@ -26,7 +26,7 @@ const person = {
   '@type': 'Person',
   name: site.name,
   url: site.url,
-  sameAs: Object.values(site.links),
+  sameAs: Object.values(site.links).filter(Boolean),
 };
 ---
 

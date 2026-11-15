@@ -60,6 +60,9 @@ const labs = defineCollection({
     repo: opt(z.string().url()),
     url: opt(z.string().url()),
     stack: z.array(z.string()).default([]),
+    artifacts: z
+      .array(z.object({ label: z.string(), kind: opt(z.string()), url: opt(z.string()), file: opt(z.string()) }))
+      .default([]),
     order: z.number().default(100),
     published: optDate(),
     shareTo: z.array(z.enum(shareTargets)).default([]),
@@ -88,7 +91,8 @@ const papers = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/papers' }),
   schema: z.object({
     ...common,
-    authors: z.array(z.string()).default([site.name]),
+    // An empty list (the admin's default) means a solo paper.
+    authors: z.array(z.string()).default([]).transform((a) => (a.length ? a : [site.name])),
     published: z.coerce.date(),
     version: z.string().default('1.0'),
     pdf: opt(z.string()),
@@ -138,6 +142,7 @@ const education = defineCollection({
     year: z.string(),
     status: z.enum(['complete', 'in-progress', 'coursework']).default('complete'),
     note: opt(z.string()),
+    url: opt(z.string().url()),
   }),
 });
 
@@ -156,6 +161,7 @@ const profile = defineCollection({
     recognition: z.array(z.object({ year: z.string(), title: z.string(), detail: z.string() })).default([]),
     community: z.array(z.object({ title: z.string(), detail: z.string() })).default([]),
     next: z.array(z.string()).default([]),
+    experienceIntro: opt(z.string()),
   }),
 });
 

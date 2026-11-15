@@ -1,53 +1,86 @@
-// Home hero. Static placeholder until a new hero concept is chosen.
+// Site-wide settings. The values live in src/data/site.json, which is edited in the
+// admin dashboard under Site → Site settings. This file adds the fixed structure
+// (URLs, nav order, topic ids) and fallbacks, so a blank field never breaks a page.
+import data from './data/site.json';
+
+type Text = string | null | undefined;
+type Settings = {
+  name?: Text; headline?: Text; tagline?: Text; thesis?: Text; description?: Text;
+  email?: Text; phone?: Text; phoneHours?: Text; bookingUrl?: Text; cv?: Text;
+  links?: { linkedin?: Text; github?: Text; x?: Text };
+  currently?: { studying?: Text; reading?: Text; building?: Text };
+  upcoming?: { date?: Text; title?: Text; url?: Text }[];
+  sections?: Record<string, { blurb?: Text; card?: Text }>;
+  topics?: Record<string, { name?: Text; blurb?: Text }>;
+};
+const s = data as Settings;
+const str = (v: Text, fallback = '') => (v ?? '').trim() || fallback;
+
 export const hero = {
-  headline: 'I architect secure systems.',
-  tagline: 'Then I teach others to do the same.',
+  headline: str(s.headline, 'I architect secure systems.'),
+  tagline: str(s.tagline),
 };
 
 export const site = {
-  name: 'Adam J. Asis',
-  headline: `${hero.headline}\n${hero.tagline}`,
-  description: 'Lectures, notes, research and labs on cybersecurity, with a focus on securing AI and edge computing.',
+  name: str(s.name, 'Adam J. Asis'),
+  headline: [hero.headline, hero.tagline].filter(Boolean).join('\n'),
+  description: str(s.description),
   url: 'https://adamasis.com',
-  email: 'hello@adamasis.com',
-  phone: '',
-  bookingUrl: '',
+  email: str(s.email),
+  phone: str(s.phone),
+  phoneHours: str(s.phoneHours),
+  bookingUrl: str(s.bookingUrl),
+  cv: str(s.cv),
   links: {
-    linkedin: 'https://www.linkedin.com/in/adamasis',
-    github: 'https://github.com/TheDataStar',
-    x: '',
+    linkedin: str(s.links?.linkedin),
+    github: str(s.links?.github),
+    x: str(s.links?.x),
   },
-  thesis: 'Every AI model and edge device is only as trustworthy as the system around it. I study how to secure the systems that think and act outside the data center.',
+  thesis: str(s.thesis),
   currently: {
-    studying: '',
-    reading: '',
-    building: '',
+    studying: str(s.currently?.studying),
+    reading: str(s.currently?.reading),
+    building: str(s.currently?.building),
   },
-  upcoming: [] as { date: string; title: string; url?: string }[],
+  upcoming: (s.upcoming ?? [])
+    .filter((u) => str(u.title))
+    .map((u) => ({ date: str(u.date), title: str(u.title), url: str(u.url) || undefined })),
 };
 
-export const blurb = (href: string) => sections.find((s) => s.href === href)?.blurb ?? '';
+const nav = [
+  { key: 'profile', name: 'Profile', note: 'About Me', href: '/profile' },
+  { key: 'labs', name: 'Labs', note: 'Projects', href: '/labs' },
+  { key: 'research', name: 'Research', href: '/research' },
+  { key: 'journal', name: 'Journal', href: '/journal' },
+  { key: 'lectures', name: 'Lectures', href: '/lectures' },
+  { key: 'library', name: 'Library', note: 'Resources & Reviews', href: '/library' },
+  { key: 'contact', name: 'Contact', href: '/contact' },
+] as const;
 
-export const sections = [
-  { name: 'Profile', note: 'About Me', href: '/profile', blurb: 'Professional CV, experience and credentials.' },
-  { name: 'Labs', note: 'Projects', href: '/labs', blurb: 'Security labs, home-lab builds and tools, plus hobby robotics R&D, each with its artifacts and write-up.', card: 'Personal projects with their development artifacts: links, images, graphics, resources and more.' },
-  { name: 'Research', href: '/research', blurb: 'Long-running security research on AI and the edge, with the evidence and artifacts that connect it to Labs and Lectures.', card: 'Thought experiments and research, with the data and artifacts that connect them to current Labs and Lectures.' },
-  { name: 'Journal', href: '/journal', blurb: 'Learning in public: short notes on what I am studying, testing and breaking in security, AI and edge, plus opinions on where the field is heading.', card: 'Opinion pieces, briefs and general thoughts. Mostly thought leadership, mental exercises and daily musings on the changing landscape of technology.' },
-  { name: 'Lectures', href: '/lectures', blurb: 'Essays, white papers and case studies. For the Board Room pieces translate security risk for decision-makers; In the Classroom pieces are for students and career changers entering security.', card: 'Professional essays, articles and white papers. For the Board Room pieces explain technology for decision-makers; In the Classroom pieces are written for students and new technologists.' },
-  { name: 'Library', note: 'Resources & Reviews', href: '/library', blurb: 'The courses, books, tools and labs I am using to learn security, with honest reviews of what was worth the time.', card: 'A curated list of learning materials, tools and content I have used, recommend or reviewed.' },
-  { name: 'Contact', href: '/contact', blurb: 'For speaking, advising, collaboration or a conversation about the work.' },
-];
+export const sections: { name: string; note?: string; href: string; blurb: string; card?: string }[] = nav.map(
+  ({ key, ...n }) => ({
+    ...n,
+    blurb: str(s.sections?.[key]?.blurb),
+    card: str(s.sections?.[key]?.card) || undefined,
+  }),
+);
 
-export const topics = {
-  security: { name: 'Cybersecurity', blurb: 'Threats, defenses and the architecture decisions that decide which one wins.' },
-  ai: { name: 'AI & AI Security', blurb: 'Securing models and agents, and putting AI to work for defenders.' },
-  edge: { name: 'Edge & IoT Security', blurb: 'Protecting compute where the data is born, from devices to private 5G.' },
-  networking: { name: 'Networks & Zero Trust', blurb: 'SASE, ZTNA, 5G and how trust gets built into the connection.' },
-  data: { name: 'Data Engineering', blurb: 'Pipelines, platforms and the plumbing underneath every model.' },
-  leadership: { name: 'Leadership & Career', blurb: 'Teams, teaching and building a career without a straight path.' },
-  access: { name: 'Education & Access', blurb: 'Getting knowledge to people and places that are usually left out.' },
-  robotics: { name: 'Robotics (Hobby R&D)', blurb: 'Personal experiments with machines that sense and act in the physical world.' },
+export const blurb = (href: string) => sections.find((x) => x.href === href)?.blurb ?? '';
+
+// Topic ids are fixed because every entry stores them; names and blurbs are editable.
+const topicDefaults = {
+  security: 'Cybersecurity',
+  ai: 'AI & AI Security',
+  edge: 'Edge & IoT Security',
+  networking: 'Networks & Zero Trust',
+  data: 'Data Engineering',
+  leadership: 'Leadership & Career',
+  access: 'Education & Access',
+  robotics: 'Robotics (Hobby R&D)',
 } as const;
 
-export type TopicId = keyof typeof topics;
-export const topicIds = Object.keys(topics) as [TopicId, ...TopicId[]];
+export type TopicId = keyof typeof topicDefaults;
+export const topicIds = Object.keys(topicDefaults) as [TopicId, ...TopicId[]];
+export const topics = Object.fromEntries(
+  topicIds.map((id) => [id, { name: str(s.topics?.[id]?.name, topicDefaults[id]), blurb: str(s.topics?.[id]?.blurb) }]),
+) as Record<TopicId, { name: string; blurb: string }>;

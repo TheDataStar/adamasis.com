@@ -3,7 +3,7 @@ import { config, fields, collection, singleton } from '@keystatic/core';
 import { mark } from '@keystatic/core/content-components';
 import { Icon } from '@keystar/ui/icon';
 import { superscriptIcon } from '@keystar/ui/icon/icons/superscriptIcon';
-import { topics } from './src/site.config';
+import { topics, topicIds } from './src/site.config';
 
 const onGitHub = Boolean(import.meta.env.PUBLIC_KEYSTATIC_GITHUB_APP_SLUG);
 
@@ -13,8 +13,9 @@ const topicField = fields.multiselect({
 });
 const tagsField = fields.array(fields.text({ label: 'Tag' }), {
   label: 'Tags',
-  description: 'Up to five short tags, e.g. jetson, 5g, offline-first.',
+  description: 'Up to five short tags, e.g. zero-trust, llm, jetson.',
   itemLabel: (p) => p.value,
+  validation: { length: { max: 5 } },
 });
 const researchField = fields.array(fields.relationship({ label: 'Research topic', collection: 'research' }), {
   label: 'Supports research',
@@ -40,6 +41,8 @@ const changelogField = fields.array(
   { label: 'Revision history', itemLabel: (p) => p.fields.note.value || 'Revision' },
 );
 const noteIcon = createElement(Icon, { src: superscriptIcon });
+// The site's notebook favicon, used as the dashboard logo.
+const BrandMark = () => createElement('img', { src: '/favicon.svg', width: 24, height: 24, alt: '', style: { borderRadius: 4 } });
 const body = (label: string, section: string) =>
   fields.mdx({
     label,
@@ -69,8 +72,9 @@ const shareField = (defaults: string[]) =>
 export default config({
   storage: onGitHub ? { kind: 'github', repo: { owner: 'TheDataStar', name: 'adamasis.com' } } : { kind: 'local' },
   ui: {
-    brand: { name: 'adamasis.com' },
+    brand: { name: 'adamasis.com', mark: BrandMark },
     navigation: {
+      Site: ['settings', 'contact', 'colophon'],
       About: ['profile', 'experience', 'education'],
       Writing: ['lectures', 'journal'],
       Work: ['labs', 'research', 'papers'],
@@ -78,10 +82,147 @@ export default config({
     },
   },
   singletons: {
+    settings: singleton({
+      label: 'Site settings',
+      path: 'src/data/site',
+      format: { data: 'json' },
+      previewUrl: '/',
+      schema: {
+        name: fields.text({ label: 'Your name', validation: { length: { min: 1 } } }),
+        headline: fields.text({ label: 'Home headline', description: 'The large first line on the home page.', validation: { length: { min: 1 } } }),
+        tagline: fields.text({ label: 'Home tagline', description: 'The second line under the headline.' }),
+        thesis: fields.text({
+          label: 'Thesis',
+          description: 'One or two sentences under the headline. Also the footer line and the default link-preview image.',
+          multiline: true,
+        }),
+        description: fields.text({
+          label: 'Site description',
+          description: 'Used by search engines, feeds and link previews when a page has no summary of its own.',
+          multiline: true,
+          validation: { length: { min: 1, max: 200 } },
+        }),
+        email: fields.text({ label: 'Email', validation: { length: { min: 1 } } }),
+        phone: fields.text({ label: 'Phone', description: 'Optional. Leave blank to hide it.' }),
+        phoneHours: fields.text({ label: 'When you can be reached by phone', description: 'e.g. Weekdays 9–5 Pacific.' }),
+        bookingUrl: fields.url({ label: 'Booking link', description: 'Optional. A Calendly or Cal.com link adds a "Book a time" card.' }),
+        links: fields.object(
+          {
+            linkedin: fields.url({ label: 'LinkedIn' }),
+            github: fields.url({ label: 'GitHub' }),
+            x: fields.url({ label: 'X (Twitter)' }),
+          },
+          { label: 'Social links', description: 'Blank links are hidden everywhere on the site.' },
+        ),
+        cv: fields.file({
+          label: 'CV (PDF)',
+          description: 'Upload a PDF to add Download CV links to the Experience and Reference pages. Remove it to hide them.',
+          directory: 'public',
+          publicPath: '/',
+        }),
+        currently: fields.object(
+          {
+            studying: fields.text({ label: 'Studying' }),
+            reading: fields.text({ label: 'Reading' }),
+            building: fields.text({ label: 'Building' }),
+          },
+          { label: 'Right now', description: 'Shown on Home and Profile. Blank lines are hidden; leave all three blank to hide the strip.' },
+        ),
+        upcoming: fields.array(
+          fields.object({
+            date: fields.text({ label: 'Date', description: 'e.g. Mar 12, 2027' }),
+            title: fields.text({ label: 'Event' }),
+            url: fields.url({ label: 'Link' }),
+          }),
+          { label: 'Upcoming talks and events', description: 'Shown on the home page. Remove items once they pass.', itemLabel: (p) => [p.fields.date.value, p.fields.title.value].filter(Boolean).join(' · ') || 'Event' },
+        ),
+        sections: fields.object(
+          Object.fromEntries(
+            (
+              [
+                ['profile', 'Profile'],
+                ['labs', 'Labs'],
+                ['research', 'Research'],
+                ['journal', 'Journal'],
+                ['lectures', 'Lectures'],
+                ['library', 'Library'],
+                ['contact', 'Contact'],
+              ] as const
+            ).map(([key, label]) => [
+              key,
+              fields.object(
+                {
+                  blurb: fields.text({ label: 'Page intro', description: 'The lede at the top of the section page.', multiline: true }),
+                  card: fields.text({ label: 'Home card text', description: 'Optional. Shown on the Explore card on Home; falls back to the page intro.', multiline: true }),
+                },
+                { label },
+              ),
+            ]),
+          ),
+          { label: 'Section text', description: 'The intro for each section page and its card on the home page.' },
+        ),
+        topics: fields.object(
+          Object.fromEntries(
+            topicIds.map((id) => [
+              id,
+              fields.object(
+                {
+                  name: fields.text({ label: 'Name', validation: { length: { min: 1 } } }),
+                  blurb: fields.text({ label: 'Description', multiline: true }),
+                },
+                { label: topics[id].name },
+              ),
+            ]),
+          ),
+          { label: 'Topics', description: 'Rename a topic or change its description. Topics themselves are fixed because every entry points to them.' },
+        ),
+      },
+    }),
+    contact: singleton({
+      label: 'Contact page',
+      path: 'src/data/contact',
+      format: { data: 'json' },
+      previewUrl: '/contact',
+      schema: {
+        lede: fields.text({ label: 'Intro', description: 'The first, larger paragraph.', multiline: true }),
+        intro: fields.text({ label: 'Lead-in to the list', defaultValue: 'Good reasons to write:' }),
+        reasons: fields.array(
+          fields.object({
+            title: fields.text({ label: 'Reason', description: 'Shown in bold, e.g. Speaking or teaching.' }),
+            text: fields.text({ label: 'Detail', multiline: true }),
+          }),
+          { label: 'Reasons to get in touch', itemLabel: (p) => p.fields.title.value || 'Reason' },
+        ),
+        closing: fields.text({ label: 'Closing paragraph', multiline: true }),
+        cards: fields.object(
+          {
+            email: fields.text({ label: 'Email card' }),
+            booking: fields.text({ label: 'Booking card', description: 'Shown when a booking link is set in Site settings.' }),
+            linkedin: fields.text({ label: 'LinkedIn card' }),
+            github: fields.text({ label: 'GitHub card' }),
+          },
+          { label: 'Contact card text', description: 'The addresses and links themselves are set in Site settings.' },
+        ),
+      },
+    }),
+    colophon: singleton({
+      label: 'Colophon',
+      path: 'src/pages/reference/colophon',
+      format: { contentField: 'content' },
+      entryLayout: 'content',
+      previewUrl: '/reference/colophon',
+      schema: {
+        layout: fields.ignored(),
+        title: fields.text({ label: 'Title', validation: { length: { min: 1 } } }),
+        description: fields.text({ label: 'Intro', multiline: true }),
+        content: fields.mdx({ label: 'Page', extension: 'md' }),
+      },
+    }),
     profile: singleton({
       label: 'Profile',
       path: 'src/data/profile',
       format: { data: 'yaml' },
+      previewUrl: '/profile',
       schema: {
         subtitle: fields.text({ label: 'Subtitle', description: 'The line under your name.', multiline: true, validation: { length: { min: 1 } } }),
         based: fields.text({ label: 'Based in', validation: { length: { min: 1 } } }),
@@ -131,6 +272,11 @@ export default config({
           { label: 'Leadership & community', itemLabel: (p) => p.fields.title.value || 'Role' },
         ),
         next: fields.array(fields.text({ label: 'Step' }), { label: "What's next", itemLabel: (p) => p.value }),
+        experienceIntro: fields.text({
+          label: 'Experience page intro',
+          description: 'The summary paragraph at the top of the Experience page.',
+          multiline: true,
+        }),
       },
     }),
   },
@@ -165,7 +311,7 @@ export default config({
       slugField: 'title',
       path: 'src/content/education/*',
       format: { data: 'yaml' },
-      columns: ['title', 'issuer', 'year'],
+      columns: ['title', 'issuer', 'year', 'status'],
       schema: {
         title: fields.slug({ name: { label: 'Title' } }),
         kind: fields.select({
@@ -189,6 +335,7 @@ export default config({
           defaultValue: 'complete',
         }),
         note: fields.text({ label: 'Note', description: 'Honors, societies or relevant coursework.', multiline: true }),
+        url: fields.url({ label: 'Verification link', description: 'Optional. A Credly badge or issuer verification page; the title becomes a link.' }),
       },
     }),
     lectures: collection({
@@ -196,6 +343,7 @@ export default config({
       slugField: 'title',
       path: 'src/content/lectures/*',
       format: { contentField: 'content' },
+      previewUrl: '/lectures/{slug}',
       entryLayout: 'content',
       columns: ['title', 'published', 'draft'],
       schema: {
@@ -236,6 +384,7 @@ export default config({
       slugField: 'title',
       path: 'src/content/journal/*',
       format: { contentField: 'content' },
+      previewUrl: '/journal/{slug}',
       entryLayout: 'content',
       columns: ['title', 'date', 'status', 'draft'],
       schema: {
@@ -265,8 +414,9 @@ export default config({
       slugField: 'title',
       path: 'src/content/labs/*',
       format: { contentField: 'content' },
+      previewUrl: '/labs/{slug}',
       entryLayout: 'content',
-      columns: ['title', 'status', 'draft'],
+      columns: ['title', 'track', 'status', 'draft'],
       schema: {
         title: fields.slug({ name: { label: 'Title' } }),
         summary: summaryField,
@@ -294,6 +444,19 @@ export default config({
         repo: fields.url({ label: 'GitHub repository', description: 'Optional. Shows the date of the latest commit.' }),
         url: fields.url({ label: 'Live link', description: 'Optional.' }),
         stack: fields.array(fields.text({ label: 'Technology' }), { label: 'Built with', itemLabel: (p) => p.value }),
+        artifacts: fields.array(
+          fields.object({
+            label: fields.text({ label: 'Label', description: 'e.g. Architecture diagram, Detection rules, Demo video.', validation: { length: { min: 1 } } }),
+            kind: fields.text({ label: 'Type', description: 'Optional short tag shown beside it, e.g. PDF, Video, Dataset.' }),
+            file: fields.file({ label: 'File', description: 'Upload a file, or use a link below instead.', directory: 'public/files/labs', publicPath: '/files/labs/' }),
+            url: fields.url({ label: 'Link', description: 'Used when no file is uploaded.' }),
+          }),
+          {
+            label: 'Artifacts',
+            description: 'Downloads and links listed under the write-up: diagrams, configs, slides, datasets, videos.',
+            itemLabel: (p) => p.fields.label.value || 'Artifact',
+          },
+        ),
         order: fields.integer({ label: 'Sort order', description: 'Lower numbers appear first.', defaultValue: 100 }),
         published: fields.date({ label: 'Published', description: 'Needed for sharing to DEV.', defaultValue: { kind: 'today' } }),
         shareTo: shareField([]),
@@ -309,6 +472,7 @@ export default config({
       slugField: 'title',
       path: 'src/content/research/*',
       format: { contentField: 'content' },
+      previewUrl: '/research/{slug}',
       entryLayout: 'content',
       columns: ['title', 'status', 'version'],
       schema: {
@@ -343,15 +507,26 @@ export default config({
       slugField: 'title',
       path: 'src/content/papers/*',
       format: { contentField: 'content' },
+      previewUrl: '/research/papers/{slug}',
       entryLayout: 'content',
+      columns: ['title', 'published', 'draft'],
       schema: {
         title: fields.slug({ name: { label: 'Title' } }),
         summary: summaryField,
-        authors: fields.array(fields.text({ label: 'Author' }), { label: 'Authors', itemLabel: (p) => p.value }),
+        authors: fields.array(fields.text({ label: 'Author' }), {
+          label: 'Authors',
+          description: 'Leave empty for a paper you wrote alone. For co-authored papers, list everyone in order, including yourself.',
+          itemLabel: (p) => p.value,
+        }),
         published: fields.date({ label: 'Published', defaultValue: { kind: 'today' }, validation: { isRequired: true } }),
         version: fields.text({ label: 'Version', defaultValue: '1.0' }),
         venue: fields.text({ label: 'Venue', description: 'Journal, conference or course.' }),
-        pdf: fields.text({ label: 'PDF path', description: 'e.g. /papers/my-paper.pdf, with the file saved in public/papers/.' }),
+        pdf: fields.file({
+          label: 'PDF',
+          description: 'Upload the paper. Readers get a Download link and search engines get a citation link.',
+          directory: 'public/papers',
+          publicPath: '/papers/',
+        }),
         doi: fields.text({ label: 'DOI' }),
         shareTo: shareField([]),
         topics: topicField,
@@ -366,7 +541,7 @@ export default config({
       slugField: 'title',
       path: 'src/content/library/*',
       format: { data: 'yaml' },
-      columns: ['title', 'format', 'creator'],
+      columns: ['title', 'format', 'creator', 'added'],
       schema: {
         title: fields.slug({ name: { label: 'Title' } }),
         format: fields.select({

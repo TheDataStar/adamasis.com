@@ -19,15 +19,28 @@ Every piece of personal content starts as a placeholder in `[square brackets]`, 
 npm run placeholders
 ```
 
-Start with `src/site.config.ts` (name, contact details, headline and thesis), then `src/data/` (profile, experience, education, library), then the example pages in `src/content/`. Rename or delete the example files as you replace them. If you rename a research file, update the `research:` lists that point to it.
+Start with **Site settings** in the admin dashboard (name, contact details, headline and thesis), then Profile, Experience and Education, then add Lectures, Journal entries, Labs and Library items. Rename or delete the example files as you replace them. If you rename a research file, update the `research:` lists that point to it.
 
 ## Admin dashboard
 
-Run `npm run dev` and open http://localhost:4321/keystatic. From there you can edit your Profile, Experience and Education, and create, edit and delete Lectures, Journal entries, Labs, Research topics, Papers and Library items with forms. Changes are saved straight into the project files; commit and push to publish them.
+Run `npm run dev` and open http://localhost:4321/keystatic (or use https://adamasis.com/keystatic, below). Everything the site shows can be edited there with forms:
 
+| Dashboard group | What you manage |
+| --- | --- |
+| **Site** | **Site settings**: name, home headline and tagline, thesis, site description, email, phone, booking link, social links, CV upload, the "Right now" strip, upcoming talks, each section's intro and home-card text, and topic names. **Contact page**: intro, reasons to write, closing line and card text. **Colophon**. |
+| **About** | Profile (headshot, photos, principles, skills, recognition, community, what's next, Experience page intro), Experience roles, Education & credentials (with optional verification links). |
+| **Writing** | Lectures and Journal entries. |
+| **Work** | Labs (with uploadable artifacts: diagrams, configs, slides, datasets), Research topics, Papers (with PDF upload). |
+| **Resources** | Library items (with cover images). |
+
+- **Create** with the + on any dashboard card. New Lectures, Journal entries, Labs and Papers start as drafts; uncheck **Draft** to publish.
+- **Edit** by opening an entry and pressing **Save**. The arrow icon in the top bar opens the page on the site (drafts show only in local dev).
+- **Duplicate** an entry with the copy icon to reuse its structure for a new one.
+- **Delete** with the bin icon. Deleting an entry also deletes the files uploaded to it.
+- **Uploads:** images in the editor go to `public/images/<section>/<entry>/`; lab artifacts to `public/files/labs/`; paper PDFs to `public/papers/`; the CV to `public/cv.pdf`. Remove an upload in its field and save to delete the file.
 - **Margin notes:** select text in the editor and click the superscript button. The text moves into the margin on the live site.
-- **Figures:** use the image button. Images are saved under `public/images/<section>/<entry>/`, and the image's alt text becomes the numbered caption.
-- New entries start as drafts. Uncheck **Draft** to publish.
+- **Figures:** use the image button. The image's alt text becomes the numbered caption.
+- A new entry created in local dev may need a dev-server restart before its page appears on the site.
 
 ### Online
 
@@ -58,8 +71,9 @@ Each command creates a Markdown file in `src/content/` with the fields filled in
 
 | What | Where |
 | --- | --- |
-| Name, email, links, thesis, "currently" and upcoming events | `src/site.config.ts` |
-| The seven topics | `src/site.config.ts` |
+| Name, email, links, thesis, "currently", upcoming events, section intros, topic names | `src/data/site.json` (Site settings) |
+| Contact page copy | `src/data/contact.json` (Contact page) |
+| Nav order, topic ids and fallbacks | `src/site.config.ts` |
 | Field rules for every content type | `src/content.config.ts` |
 | Lectures, journal, labs, research, papers | `src/content/<section>/` |
 | Library items | `src/content/library/*.yaml` |
@@ -70,14 +84,14 @@ Each command creates a Markdown file in `src/content/` with the fields filled in
 | Colophon | `src/pages/reference/colophon.md` |
 | Styles | `src/styles/global.css` |
 | Images | `public/images/` |
-| CV (optional, linked automatically if present) | `public/cv.pdf` |
+| CV (optional, uploaded in Site settings) | `public/cv.pdf` |
 
 ## Fields
 
 Every lecture, entry, lab and paper takes:
 
 - `title`, `summary` (one sentence, shown in search results and link previews)
-- `topics`: any of `ai`, `edge`, `robotics`, `data`, `networking`, `access`, `leadership`
+- `topics`: any of `security`, `ai`, `edge`, `robotics`, `data`, `networking`, `access`, `leadership`
 - `tags`: up to five freeform tags
 - `research`: ids of the research topics it supports, which builds each topic's evidence log
 - `draft`

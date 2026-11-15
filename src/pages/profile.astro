@@ -31,7 +31,7 @@ const schema = {
     url: site.url,
     homeLocation: profile.based,
     knowsAbout: Object.values(topics).map((t) => t.name),
-    sameAs: Object.values(site.links),
+    sameAs: Object.values(site.links).filter(Boolean),
   },
 };
 const toc = [

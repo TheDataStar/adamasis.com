@@ -403,3 +403,4 @@ html { scroll-behavior: smooth; }
   margin: var(--s3) 0 0; padding: var(--s3); border: 1px dashed var(--rule); border-radius: 4px;
   color: var(--ink-2); font-style: italic; max-width: var(--measure);
 }
+.artifacts { margin-top: 2.5rem; }
