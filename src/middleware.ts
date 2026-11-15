@@ -5,7 +5,7 @@ const owners = ['thedatastar'];
 // The GitHub App's Client ID. It is public (it appears in every sign-in URL), so it is
 // safe to keep here. It is used when the KEYSTATIC_GITHUB_CLIENT_ID variable holds
 // something else, such as the client secret.
-const knownClientId = '';
+const knownClientId = 'Iv23limHswDvhJwfpGBn';
 
 // Repair swapped or misfiled GitHub App credentials before Keystatic reads them.
 // A Client ID starts with "Iv"; a client secret is 40 hex characters.
