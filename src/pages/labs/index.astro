@@ -20,7 +20,7 @@ const groups = [
       <section aria-labelledby={`track-${g.id}`}>
         {groups.length > 1 && <div class="section-head"><h2 id={`track-${g.id}`}>{g.title}</h2></div>}
         {groups.length > 1 && g.note && <p class="muted">{g.note}</p>}
-        <div class="cards" style="margin-top:1.5rem">
+        <div class="cards">
           {g.items.map((lab) => (
             <a class="panel" href={`/labs/${lab.id}`}>
               <span class="meta"><span class={`status ${lab.data.status}`}>{lab.data.status}</span> · {lab.data.period}</span>

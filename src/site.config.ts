@@ -30,11 +30,11 @@ export const blurb = (href: string) => sections.find((s) => s.href === href)?.bl
 
 export const sections = [
   { name: 'Profile', note: 'About Me', href: '/profile', blurb: 'Professional CV, experience and credentials.' },
-  { name: 'Labs', note: 'Projects', href: '/labs', blurb: 'Security labs, home-lab builds and tools, plus hobby robotics R&D, each with its artifacts and write-up.' },
-  { name: 'Research', href: '/research', blurb: 'Long-running security research on AI and the edge, with the evidence and artifacts that connect it to Labs and Lectures.' },
-  { name: 'Journal', href: '/journal', blurb: 'Learning in public: short notes on what I am studying, testing and breaking in security, AI and edge, plus opinions on where the field is heading.' },
-  { name: 'Lectures', href: '/lectures', blurb: 'Essays, white papers and case studies. For the Board Room pieces translate security risk for decision-makers; In the Classroom pieces are for students and career changers entering security.' },
-  { name: 'Library', note: 'Resources & Reviews', href: '/library', blurb: 'The courses, books, tools and labs I am using to learn security, with honest reviews of what was worth the time.' },
+  { name: 'Labs', note: 'Projects', href: '/labs', blurb: 'Security labs, home-lab builds and tools, plus hobby robotics R&D, each with its artifacts and write-up.', card: 'Personal projects with their development artifacts: links, images, graphics, resources and more.' },
+  { name: 'Research', href: '/research', blurb: 'Long-running security research on AI and the edge, with the evidence and artifacts that connect it to Labs and Lectures.', card: 'Thought experiments and research, with the data and artifacts that connect them to current Labs and Lectures.' },
+  { name: 'Journal', href: '/journal', blurb: 'Learning in public: short notes on what I am studying, testing and breaking in security, AI and edge, plus opinions on where the field is heading.', card: 'Opinion pieces, briefs and general thoughts. Mostly thought leadership, mental exercises and daily musings on the changing landscape of technology.' },
+  { name: 'Lectures', href: '/lectures', blurb: 'Essays, white papers and case studies. For the Board Room pieces translate security risk for decision-makers; In the Classroom pieces are for students and career changers entering security.', card: 'Professional essays, articles and white papers. For the Board Room pieces explain technology for decision-makers; In the Classroom pieces are written for students and new technologists.' },
+  { name: 'Library', note: 'Resources & Reviews', href: '/library', blurb: 'The courses, books, tools and labs I am using to learn security, with honest reviews of what was worth the time.', card: 'A curated list of learning materials, tools and content I have used, recommend or reviewed.' },
   { name: 'Contact', href: '/contact', blurb: 'For speaking, advising, collaboration or a conversation about the work.' },
 ];
 
