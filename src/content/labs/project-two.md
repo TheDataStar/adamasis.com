@@ -1,11 +1,12 @@
 ---
-title: '[Second Project Name]'
-summary: '[One sentence: what it is and who it is for.]'
+title: '[Hobby R&D, e.g. Securing a Robot’s Control Channel]'
+summary: '[One sentence: the robotics experiment and the question it explores.]'
 status: shipped
+track: hobby
 role: '[Your role]'
 period: YYYY – YYYY
 url: https://example.com
-topics: [data]
+topics: [robotics, security]
 tags: [placeholder]
 order: 2
 draft: false

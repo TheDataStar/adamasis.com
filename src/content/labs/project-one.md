@@ -1,12 +1,13 @@
 ---
-title: '[Project Name]'
-summary: '[One sentence: what it is and who it is for.]'
+title: '[Security lab, e.g. Building a Home SOC]'
+summary: '[One sentence: what you built to learn or test, and what it detects or protects.]'
 status: active
+track: security
 role: '[Your role, e.g. Creator or Lead developer]'
 period: YYYY – present
 repo: https://github.com/your-handle/your-repo
 stack: ['[Language]', '[Framework]', '[Platform]']
-topics: [edge, access]
+topics: [security, edge]
 tags: [placeholder]
 research: [primary-research]
 order: 1

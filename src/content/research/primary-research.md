@@ -1,6 +1,6 @@
 ---
-title: '[Primary Research Title: A Clear Claim, Not Just a Topic]'
-summary: '[One or two sentences stating what this research is about and why it matters. Keep it under 200 characters.]'
+title: '[Primary research, e.g. Securing AI at the Edge: Keeping Models and Data Trustworthy Outside the Data Center]'
+summary: '[One or two sentences: the security problem with AI at the edge and why it matters now. Under 200 characters.]'
 status: active
 pinned: true
 version: '0.1'
@@ -10,7 +10,7 @@ questions:
   - '[Research question 2: phrase it so evidence could change your answer]'
   - '[Research question 3: include at least one about who benefits]'
   - '[Research question 4: optional]'
-topics: [ai, edge]
+topics: [security, ai, edge]
 tags: [placeholder]
 changelog:
   - date: 2026-01-01

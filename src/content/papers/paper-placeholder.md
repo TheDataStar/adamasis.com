@@ -5,7 +5,7 @@ authors: ['Your Name', '[Co-author]']
 published: 2026-03-01
 version: '1.0'
 venue: '[Journal, conference or course where it was published]'
-topics: [ai]
+topics: [security, ai]
 tags: [placeholder]
 research: [primary-research]
 draft: false

@@ -1,10 +1,10 @@
 ---
-title: '[Journal entry title: the idea in a few words]'
+title: '[Hypothesis, e.g. Most AI Security Failures Are Old Security Failures]'
 summary: '[One sentence on the idea you want to test.]'
 date: 2026-01-05
 status: hypothesis
 setup: '[Where you worked on it, e.g. your hardware, a course or a book]'
-topics: [ai]
+topics: [ai, security]
 tags: [placeholder]
 research: [primary-research]
 draft: false

@@ -1,7 +1,8 @@
-subtitle: I architect and build innovative solutions for AI, Robotics, and Edge Computing. Then I teach others to do the same. :)
+subtitle: I architect and secure the systems AI runs on, from the cloud to the edge. Then I teach others to do the same.
 based: Portland, Oregon Metro Area
-focusLabel: Areas of Expertise
-focus: AI, Edge Compute, Robotics and Mobile Networking
+focusLabel: Focus
+focus: Cybersecurity, AI and Edge Compute
+hobby: Robotics
 photos:
 - caption: '[Where and when this was taken, e.g. Speaking at a conference, 2025]'
 - caption: '[Caption]'
@@ -12,7 +13,17 @@ principles:
   text: Knowing how to communicate with people is foundational to success. Learn how each person prefers to communicate, which tools or medium work best, and how often to check in. Those discoveries are what carry a project from idea to delivery.
 - title: Honesty & Openness Create Stronger Bonds
   text: Be brave with openness and have the courage to be honest. Few great feats have ever been accomplished by half measures, and even fewer alone.
+- title: Security Is a Requirement, Not a Feature
+  text: Security belongs in discovery, not in the last review before launch. The cheapest control is the one designed in from the first conversation, when you are still learning how people, networks and systems actually behave.
 skills:
+- area: Security
+  items:
+  - Zero trust (ZTNA)
+  - SASE
+  - Network security
+  - Cloud IAM
+  - Secure solution design
+  - '[Security skills you confirm]'
 - area: AI & ML
   items:
   - Enterprise AI strategy
@@ -73,7 +84,8 @@ community:
 - title: Industry events
   detail: Represented T-Mobile at HIMSS, HLTH, Becker’s Healthcare and Gartner IT Symposium.
 next:
-- Lead AI solutions architecture where AI meets networks and the edge
-- Publish my sovereign edge research and the AI-across-the-stack series
+- Lead security architecture for AI and edge systems
+- Earn [your security certification path, e.g. Security+ then CySA+]
+- Publish my research on securing AI at the edge
 - Finish my B.S. in Computer Science, then a master’s and a doctorate
-- Teach the next generation of engineers and architects
+- Teach people changing careers into security
