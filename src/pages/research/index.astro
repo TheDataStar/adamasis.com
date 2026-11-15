@@ -19,6 +19,7 @@ const groups = [
     <h1>Research</h1>
     <p class="lede">{blurb('/research')}</p>
 
+    {all.length === 0 && <p class="empty">The first research topic is being written up.</p>}
     {pinned && (
       <section>
         <div class="section-head"><h2>Primary research</h2></div>

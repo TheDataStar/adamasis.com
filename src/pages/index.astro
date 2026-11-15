@@ -37,7 +37,7 @@ const current = [
 
 <Base>
   <div class="home">
-  <section class="hero wide with-portrait">
+  <section class={`hero wide${portrait ? ' with-portrait' : ''}`}>
     <div>
       <h1>
         <span class="tw-line">{hero.headline}</span>
@@ -49,11 +49,7 @@ const current = [
         <a class="btn" href="/profile">View profile</a>
       </p>
     </div>
-    {portrait ? (
-      <img class="hero-portrait" src={portrait} alt={site.name} width="220" height="275" />
-    ) : (
-      <div class="hero-portrait photo-placeholder"><span>[Professional headshot]</span></div>
-    )}
+    {portrait && <img class="hero-portrait" src={portrait} alt={site.name} width="220" height="275" />}
   </section>
 
   {current.length > 0 && (
@@ -74,12 +70,13 @@ const current = [
           <a class="panel guide-card" href={s.href}>
             <h3>{s.name}{s.note && <span class="note"> ({s.note})</span>}<span class="arrow" aria-hidden="true">→</span></h3>
             <p class="blurb">{s.card ?? s.blurb}</p>
-            {d && (
+            {d && d.count && !d.count.startsWith('0 ') && (
               <p class="meta guide-foot">
                 {d.count}
                 {d.latest && <><br />Latest: <span class="latest">{d.latest.title}</span>{d.latest.date && ` · ${formatDate(d.latest.date, 'short')}`}</>}
               </p>
             )}
+            {d && d.count?.startsWith('0 ') && <p class="meta guide-foot">Coming soon</p>}
           </a>
         );
       })}

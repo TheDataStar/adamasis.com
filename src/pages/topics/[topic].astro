@@ -21,7 +21,7 @@ const reading = (await getCollection('library')).filter((l) => l.data.topics.inc
     <p class="eyebrow">Topic</p>
     <h1>{t.name}</h1>
     <p class="lede">{t.blurb}</p>
-    {items.length === 0 ? <p class="muted">Nothing here yet.</p> : (
+    {items.length === 0 ? <p class="empty">Nothing published on this topic yet.</p> : (
       <ul class="index">
         {items.map((e) => (
           <li>

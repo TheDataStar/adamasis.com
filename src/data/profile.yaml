@@ -3,9 +3,7 @@ based: Portland, Oregon Metro Area
 focusLabel: Focus
 focus: Cybersecurity, AI and Edge Compute
 hobby: Robotics
-photos:
-- caption: '[Where and when this was taken, e.g. Speaking at a conference, 2025]'
-- caption: '[Caption]'
+photos: []
 principles:
 - title: Repeatable, Teachable Frameworks & Processes
   text: 'Great solutions architecture is a product of requirements and approach, and the approach should be one you can repeat and teach. I start projects the same way every time: find ALL of the pre-existing failed or aging processes already in place, whether they involve people, networks or computational systems, and LEARN why they are failing or in need of replacement. Skip this step and you never truly understand the requirements, and every "better" solution you try and introduce brings unnecessary failure and friction.'
@@ -23,7 +21,6 @@ skills:
   - Network security
   - Cloud IAM
   - Secure solution design
-  - '[Security skills you confirm]'
 - area: AI & ML
   items:
   - Enterprise AI strategy
@@ -85,7 +82,6 @@ community:
   detail: Represented T-Mobile at HIMSS, HLTH, Becker’s Healthcare and Gartner IT Symposium.
 next:
 - Lead security architecture for AI and edge systems
-- Earn [your security certification path, e.g. Security+ then CySA+]
 - Publish my research on securing AI at the edge
 - Finish my B.S. in Computer Science, then a master’s and a doctorate
 - Teach people changing careers into security

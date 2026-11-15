@@ -21,7 +21,7 @@ import { site } from '../site.config';
       </div>
       <div class="cards contact-cards">
         <a class="panel" href={`mailto:${site.email}`}><span class="meta">Email</span><h3>{site.email}</h3><p>The best way to reach me.</p></a>
-        {site.phone && <a class="panel" href={`tel:${site.phone.replace(/[^0-9+]/g, '')}`}><span class="meta">Phone</span><h3>{site.phone}</h3><p>[When you are reachable, e.g. weekdays 9–5 Pacific]</p></a>}
+        {site.phone && <a class="panel" href={`tel:${site.phone.replace(/[^0-9+]/g, '')}`}><span class="meta">Phone</span><h3>{site.phone}</h3><p>Call or text.</p></a>}
         {site.bookingUrl && <a class="panel" href={site.bookingUrl}><span class="meta">Calendar</span><h3>Book a time</h3><p>Pick a slot that works for you.</p></a>}
         <a class="panel" href={site.links.linkedin}><span class="meta">LinkedIn</span><h3>Connect</h3><p>Where I share what I am learning each week.</p></a>
         <a class="panel" href={site.links.github}><span class="meta">GitHub</span><h3>Source</h3><p>Code behind the security labs.</p></a>

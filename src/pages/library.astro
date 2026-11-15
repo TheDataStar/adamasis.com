@@ -26,6 +26,7 @@ const shelves = [
       ))}
     </p>
 
+    {items.length === 0 && <p class="empty">Reviews of the books, courses and tools I am using are on the way.</p>}
     {shelves.map(([format, label]) => {
       const shelf = items.filter((i) => i.data.format === format);
       return shelf.length > 0 && (

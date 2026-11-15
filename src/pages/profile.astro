@@ -19,7 +19,7 @@ const credentials = (await getCollection('education')).sort(
 );
 const pinned = (await research()).find((r) => r.data.pinned);
 const portrait = photo(profile.portrait);
-const photos = profile.photos.map((p) => ({ ...p, src: photo(p.image) }));
+const photos = profile.photos.map((p) => ({ ...p, src: photo(p.image) })).filter((p) => p.src);
 const statusLabel = { complete: '', 'in-progress': ' · in progress', coursework: ' · coursework' };
 
 const schema = {
@@ -49,11 +49,7 @@ const toc = [
 <Base title="Profile" description={`${site.name}: ${profile.subtitle}`} schema={schema}>
   <article class="sheet profile">
     <aside class="rail">
-      {portrait ? (
-        <img class="portrait" src={portrait} alt={site.name} width="144" height="180" />
-      ) : (
-        <div class="portrait photo-placeholder"><span>[Headshot]</span></div>
-      )}
+      {portrait && <img class="portrait" src={portrait} alt={site.name} width="144" height="180" />}
       <dl class="meta">
         <dt>Based in</dt><dd>{profile.based}</dd>
         <dt>{profile.focusLabel}</dt><dd>{profile.focus}</dd>
@@ -80,7 +76,7 @@ const toc = [
           <div class="photos">
             {photos.map((p) => (
               <figure>
-                {p.src ? <img src={p.src} alt={p.caption} loading="lazy" /> : <div class="photo-placeholder"><span>[Professional photo]</span></div>}
+                <img src={p.src} alt={p.caption} loading="lazy" />
                 <figcaption>{p.caption}</figcaption>
               </figure>
             ))}

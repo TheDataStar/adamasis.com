@@ -12,7 +12,7 @@ const all = await journal();
     <h1>Journal</h1>
     <p class="lede">{blurb('/journal')}</p>
     <p class="muted">Each entry is marked by how settled the thinking is: <span class="status meta hypothesis">hypothesis</span>, <span class="status meta testing">testing</span> or <span class="status meta confirmed">confirmed</span>.</p>
-    {all.length === 0 ? <p class="muted">Entry 001 is coming soon.</p> : (
+    {all.length === 0 ? <p class="empty">Entry 001 is coming soon.</p> : (
       <ul class="index">
         {all.map((e) => (
           <li>
