@@ -1,0 +1,87 @@
+{
+  "name": "Adam J. Asis",
+  "headline": "I architect secure systems.",
+  "tagline": "Then I teach others to do the same.",
+  "thesis": "Every AI model and edge device is only as trustworthy as the system around it. I study how to secure the systems that think and act outside the data center.",
+  "description": "Lectures, notes, research and labs on cybersecurity, with a focus on securing AI and edge computing.",
+  "email": "hello@adamasis.com",
+  "phone": "",
+  "phoneHours": "",
+  "bookingUrl": "",
+  "links": {
+    "linkedin": "https://www.linkedin.com/in/adamasis",
+    "github": "https://github.com/TheDataStar",
+    "x": ""
+  },
+  "cv": null,
+  "currently": {
+    "studying": "",
+    "reading": "",
+    "building": ""
+  },
+  "upcoming": [],
+  "sections": {
+    "profile": {
+      "blurb": "Professional CV, experience and credentials.",
+      "card": ""
+    },
+    "labs": {
+      "blurb": "Security labs, home-lab builds and tools, plus hobby robotics R&D, each with its artifacts and write-up.",
+      "card": "Personal projects with their development artifacts: links, images, graphics, resources and more."
+    },
+    "research": {
+      "blurb": "Long-running security research on AI and the edge, with the evidence and artifacts that connect it to Labs and Lectures.",
+      "card": "Thought experiments and research, with the data and artifacts that connect them to current Labs and Lectures."
+    },
+    "journal": {
+      "blurb": "Learning in public: short notes on what I am studying, testing and breaking in security, AI and edge, plus opinions on where the field is heading.",
+      "card": "Opinion pieces, briefs and general thoughts. Mostly thought leadership, mental exercises and daily musings on the changing landscape of technology."
+    },
+    "lectures": {
+      "blurb": "Essays, white papers and case studies. For the Board Room pieces translate security risk for decision-makers; In the Classroom pieces are for students and career changers entering security.",
+      "card": "Professional essays, articles and white papers. For the Board Room pieces explain technology for decision-makers; In the Classroom pieces are written for students and new technologists."
+    },
+    "library": {
+      "blurb": "The courses, books, tools and labs I am using to learn security, with honest reviews of what was worth the time.",
+      "card": "A curated list of learning materials, tools and content I have used, recommend or reviewed."
+    },
+    "contact": {
+      "blurb": "For speaking, advising, collaboration or a conversation about the work.",
+      "card": ""
+    }
+  },
+  "topics": {
+    "security": {
+      "name": "Cybersecurity",
+      "blurb": "Threats, defenses and the architecture decisions that decide which one wins."
+    },
+    "ai": {
+      "name": "AI & AI Security",
+      "blurb": "Securing models and agents, and putting AI to work for defenders."
+    },
+    "edge": {
+      "name": "Edge & IoT Security",
+      "blurb": "Protecting compute where the data is born, from devices to private 5G."
+    },
+    "networking": {
+      "name": "Networks & Zero Trust",
+      "blurb": "SASE, ZTNA, 5G and how trust gets built into the connection."
+    },
+    "data": {
+      "name": "Data Engineering",
+      "blurb": "Pipelines, platforms and the plumbing underneath every model."
+    },
+    "leadership": {
+      "name": "Leadership & Career",
+      "blurb": "Teams, teaching and building a career without a straight path."
+    },
+    "access": {
+      "name": "Education & Access",
+      "blurb": "Getting knowledge to people and places that are usually left out."
+    },
+    "robotics": {
+      "name": "Robotics (Hobby R&D)",
+      "blurb": "Personal experiments with machines that sense and act in the physical world."
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "lede": "I would most like to hear from teams securing AI or edge deployments, and from people breaking into security who want a peer to compare notes with.",
+  "intro": "Good reasons to write:",
+  "reasons": [
+    { "title": "Speaking or teaching", "text": "on securing AI and agents, zero trust for the edge and private 5G, and explaining security risk to executives." },
+    { "title": "Advising", "text": "teams deciding how to secure AI workloads, IoT fleets or private networks." },
+    { "title": "Collaboration", "text": "on security research and open-source labs for AI and edge systems." },
+    { "title": "Mentoring", "text": "career changers, especially from telecom, sales or support, moving into technical and security roles." }
+  ],
+  "closing": "Specific questions get better answers. \"How do we keep an on-prem LLM from leaking customer data?\" is a great first message.",
+  "cards": {
+    "email": "The best way to reach me.",
+    "booking": "Pick a slot that works for you.",
+    "linkedin": "Where I share what I am learning each week.",
+    "github": "Code behind the security labs."
+  }
+}

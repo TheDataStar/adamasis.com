@@ -1,6 +1,16 @@
 ---
 import Base from '../layouts/Base.astro';
 import { site } from '../site.config';
+import contact from '../data/contact.json';
+
+// Copy is edited in the admin dashboard under Site → Contact page.
+type Text = string | null | undefined;
+const c = contact as {
+  lede?: Text; intro?: Text; closing?: Text;
+  reasons?: { title?: Text; text?: Text }[];
+  cards?: { email?: Text; booking?: Text; linkedin?: Text; github?: Text };
+};
+const reasons = (c.reasons ?? []).filter((r) => r.title || r.text);
 ---
 
 <Base title="Contact" description={`Get in touch with ${site.name} about AI and edge security, speaking, advising or mentoring.`}>
@@ -8,23 +18,22 @@ import { site } from '../site.config';
     <aside class="rail"><span class="meta">Contact</span></aside>
     <div class="main">
       <h1>Contact</h1>
-      <p class="lede">I would most like to hear from teams securing AI or edge deployments, and from people breaking into security who want a peer to compare notes with.</p>
+      {c.lede && <p class="lede">{c.lede}</p>}
       <div class="prose">
-        <p>Good reasons to write:</p>
-        <ul>
-          <li><strong>Speaking or teaching</strong> on securing AI and agents, zero trust for the edge and private 5G, and explaining security risk to executives.</li>
-          <li><strong>Advising</strong> teams deciding how to secure AI workloads, IoT fleets or private networks.</li>
-          <li><strong>Collaboration</strong> on security research and open-source labs for AI and edge systems.</li>
-          <li><strong>Mentoring</strong> career changers, especially from telecom, sales or support, moving into technical and security roles.</li>
-        </ul>
-        <p>Specific questions get better answers. "How do we keep an on-prem LLM from leaking customer data?" is a great first message.</p>
+        {c.intro && <p>{c.intro}</p>}
+        {reasons.length > 0 && (
+          <ul>
+            {reasons.map((r) => <li>{r.title && <strong>{r.title}</strong>}{r.title && r.text && ' '}{r.text}</li>)}
+          </ul>
+        )}
+        {c.closing && <p>{c.closing}</p>}
       </div>
       <div class="cards contact-cards">
-        <a class="panel" href={`mailto:${site.email}`}><span class="meta">Email</span><h3>{site.email}</h3><p>The best way to reach me.</p></a>
-        {site.phone && <a class="panel" href={`tel:${site.phone.replace(/[^0-9+]/g, '')}`}><span class="meta">Phone</span><h3>{site.phone}</h3><p>Call or text.</p></a>}
-        {site.bookingUrl && <a class="panel" href={site.bookingUrl}><span class="meta">Calendar</span><h3>Book a time</h3><p>Pick a slot that works for you.</p></a>}
-        <a class="panel" href={site.links.linkedin}><span class="meta">LinkedIn</span><h3>Connect</h3><p>Where I share what I am learning each week.</p></a>
-        <a class="panel" href={site.links.github}><span class="meta">GitHub</span><h3>Source</h3><p>Code behind the security labs.</p></a>
+        {site.email && <a class="panel" href={`mailto:${site.email}`}><span class="meta">Email</span><h3>{site.email}</h3><p>{c.cards?.email}</p></a>}
+        {site.phone && <a class="panel" href={`tel:${site.phone.replace(/[^0-9+]/g, '')}`}><span class="meta">Phone</span><h3>{site.phone}</h3><p>{site.phoneHours || 'Call or text.'}</p></a>}
+        {site.bookingUrl && <a class="panel" href={site.bookingUrl}><span class="meta">Calendar</span><h3>Book a time</h3><p>{c.cards?.booking}</p></a>}
+        {site.links.linkedin && <a class="panel" href={site.links.linkedin}><span class="meta">LinkedIn</span><h3>Connect</h3><p>{c.cards?.linkedin}</p></a>}
+        {site.links.github && <a class="panel" href={site.links.github}><span class="meta">GitHub</span><h3>Source</h3><p>{c.cards?.github}</p></a>}
       </div>
     </div>
   </article>

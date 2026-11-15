@@ -1,23 +1,23 @@
 ---
-import { existsSync } from 'node:fs';
-import { getCollection, getEntries } from 'astro:content';
+import { cvPath } from '../../lib/cv';
+import { getCollection, getEntries, getEntry } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 
+const cv = cvPath();
+const fallback =
+  'Seventeen years in telecom and technology, including eight in enterprise solutions engineering, architecture and consulting, serving Fortune 500 companies and major institutions in healthcare, manufacturing, financial services and higher education.';
+const intro = (await getEntry('profile', 'profile'))?.data.experienceIntro || fallback;
 const roles = (await getCollection('experience')).sort((a, b) => a.data.order - b.data.order);
 const withCases = await Promise.all(roles.map(async (r) => ({ ...r, cases: await getEntries(r.data.caseStudies) })));
 ---
 
-<Base title="Experience" description="Seventeen years in telecom and technology, including eight in enterprise solutions engineering, architecture and consulting.">
+<Base title="Experience" description="Roles, responsibilities and results across seventeen years in telecom and technology.">
   <article class="sheet">
     <aside class="rail"><span class="meta">Reference</span></aside>
     <div class="main">
       <h1>Experience</h1>
-      <p class="lede">
-        Seventeen years in telecom and technology, including eight in enterprise solutions engineering, architecture
-        and consulting, serving Fortune 500
-        companies and major institutions in healthcare, manufacturing, financial services and higher education.
-      </p>
-      {existsSync('public/cv.pdf') && <p class="meta"><a href="/cv.pdf">Download CV</a></p>}
+      <p class="lede">{intro}</p>
+      {cv && <p class="meta"><a href={cv}>Download CV</a></p>}
       <ol class="index">
         {withCases.map((r) => (
           <li>

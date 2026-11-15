@@ -15,6 +15,14 @@ export async function getStaticPaths() {
 const { entry } = Astro.props;
 const { Content } = await render(entry);
 const d = entry.data;
+const artifacts = d.artifacts
+  .map((a) => ({
+    ...a,
+    href: a.file || a.url,
+    // Uploaded files are stored as file.<ext>; download them under the artifact's label instead.
+    download: a.file ? `${a.label.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')}${a.file.match(/\.[a-z0-9]+$/i)?.[0] ?? ''}` : undefined,
+  }))
+  .filter((a) => a.href);
 const activity = d.repo ? await repoActivity(d.repo) : null;
 const schema = {
   '@context': 'https://schema.org',
@@ -44,6 +52,19 @@ const schema = {
       <p class="lede">{d.summary}</p>
       {d.stack.length > 0 && <p class="meta">Built with: {d.stack.join(' · ')}</p>}
       <div class="prose"><Content /></div>
+      {artifacts.length > 0 && (
+        <section class="artifacts" aria-labelledby="artifacts-title">
+          <div class="section-head"><h2 id="artifacts-title">Artifacts</h2></div>
+          <ul class="index">
+            {artifacts.map((a) => (
+              <li>
+                <span class="meta">{a.kind || (a.file ? 'Download' : 'Link')}</span>
+                <a class="title" href={a.href} {...(a.download ? { download: a.download } : { rel: 'noopener' })}>{a.label}</a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
       <div class="after">
         <Tags topics={d.topics} tags={d.tags} />
         <div style="height:1.5rem"></div>

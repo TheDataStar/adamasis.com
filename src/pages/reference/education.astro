@@ -29,7 +29,7 @@ const statusLabel = { complete: '', 'in-progress': 'In progress', coursework: 'C
               {items.map((e) => (
                 <li>
                   <span class="meta">{e.data.year}{statusLabel[e.data.status] && <><br />{statusLabel[e.data.status]}</>}</span>
-                  <div><span class="title">{e.data.title}</span><p>{e.data.issuer}{e.data.note && ` · ${e.data.note}`}</p></div>
+                  <div>{e.data.url ? <a class="title" href={e.data.url} rel="noopener">{e.data.title}</a> : <span class="title">{e.data.title}</span>}<p>{e.data.issuer}{e.data.note && ` · ${e.data.note}`}</p></div>
                 </li>
               ))}
             </ul>
