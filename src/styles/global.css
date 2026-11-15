@@ -271,7 +271,7 @@ pre.cite { white-space: pre-wrap; font-family: var(--mono); font-size: 0.8rem; m
 .thesis { font-size: clamp(1.35rem, 3vw, 1.75rem); line-height: 1.4; font-style: italic; margin: 0.5rem 0 0; }
 
 @media print {
-  :root { --paper: #fff; --ink: #000; --ink-2: #333; --ink-3: #555; --rule: #bbb; }
+  :root, :root[data-theme='dark'] { --paper: #fff; --paper-2: #f4f4f4; --ink: #000; --ink-2: #333; --ink-3: #555; --rule: #bbb; --accent: #b0392e; --link: #000; color-scheme: light; }
   body { background: #fff; font-size: 11pt; }
   header.site nav, header.site .header-right, .header-tools, footer.site, .after .copy, .jump, .no-print { display: none !important; }
   header.site { margin-bottom: 1.5rem; }

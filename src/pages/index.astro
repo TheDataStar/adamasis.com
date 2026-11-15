@@ -73,7 +73,7 @@ const current = [
         return (
           <a class="panel guide-card" href={s.href}>
             <h3>{s.name}{s.note && <span class="note"> ({s.note})</span>}<span class="arrow" aria-hidden="true">→</span></h3>
-            <p class="blurb">{s.blurb}</p>
+            <p class="blurb">{s.card ?? s.blurb}</p>
             {d && (
               <p class="meta guide-foot">
                 {d.count}
