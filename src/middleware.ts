@@ -1,6 +1,23 @@
 import { defineMiddleware } from 'astro:middleware';
 
 const owners = ['thedatastar'];
+
+// The GitHub App's Client ID. It is public (it appears in every sign-in URL), so it is
+// safe to keep here. It is used when the KEYSTATIC_GITHUB_CLIENT_ID variable holds
+// something else, such as the client secret.
+const knownClientId = '';
+
+// Repair swapped or misfiled GitHub App credentials before Keystatic reads them.
+// A Client ID starts with "Iv"; a client secret is 40 hex characters.
+function repairGitHubCredentials() {
+  const env = process.env;
+  const values = [env.KEYSTATIC_GITHUB_CLIENT_ID, env.KEYSTATIC_GITHUB_CLIENT_SECRET].map((v) => v?.trim() ?? '');
+  const id = values.find((v) => v.startsWith('Iv')) || knownClientId;
+  const secret = values.find((v) => /^[0-9a-f]{40}$/i.test(v));
+  if (id && id !== env.KEYSTATIC_GITHUB_CLIENT_ID) env.KEYSTATIC_GITHUB_CLIENT_ID = id;
+  if (secret && secret !== env.KEYSTATIC_GITHUB_CLIENT_SECRET) env.KEYSTATIC_GITHUB_CLIENT_SECRET = secret;
+}
+repairGitHubCredentials();
 const open = ['login', 'oauth/callback', 'refresh-token', 'logout', 'created-app', 'repo-not-found'].map(
   (p) => `/api/keystatic/github/${p}`,
 );
